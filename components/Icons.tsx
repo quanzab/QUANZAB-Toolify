@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 
 const Icon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
@@ -146,4 +148,16 @@ export const ZipIcon: React.FC<{ className?: string }> = (props) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2z" />
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h4a2 2 0 002-2V8a2 2 0 00-2-2h-1m-1 8v-1m0-2v-1m0-2v-1" />
   </Icon>
+);
+
+export const PencilIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L13.196 7.196z" />
+  </Icon>
+);
+
+export const TypeIcon: React.FC<{ className?: string }> = (props) => (
+    <Icon {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7V6a1 1 0 011-1h14a1 1 0 011 1v1M7 12h10M9 12V6m6 6V6" />
+    </Icon>
 );

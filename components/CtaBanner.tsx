@@ -1,9 +1,10 @@
 
+
 import React from 'react';
 
 const CtaBanner: React.FC = () => {
   return (
-    <section className="py-20 sm:py-24">
+    <section className="bg-white dark:bg-gray-800 py-20 sm:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-brand-primary to-blue-600 rounded-xl p-8 md:p-12 text-center text-white relative overflow-hidden">
           <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full"></div>

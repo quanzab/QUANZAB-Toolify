@@ -1,3 +1,4 @@
+
 import React, { Suspense, lazy, ComponentType } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -10,6 +11,7 @@ const PdfMergePage = lazy(() => import('./pages/PdfMergePage'));
 const PdfConverterPage = lazy(() => import('./pages/PdfConverterPage'));
 const PdfSplitPage = lazy(() => import('./pages/PdfSplitPage'));
 const PdfCompressPage = lazy(() => import('./pages/PdfCompressPage'));
+const PdfSignPage = lazy(() => import('./pages/PdfSignPage'));
 const ToolComingSoonPage = lazy(() => import('./pages/ToolComingSoonPage'));
 
 // A map of implemented tool paths to their components
@@ -19,6 +21,7 @@ const implementedTools: { [key: string]: React.LazyExoticComponent<ComponentType
   '/pdf-converter': PdfConverterPage,
   '/pdf-split': PdfSplitPage,
   '/pdf-compress': PdfCompressPage,
+  '/pdf-sign': PdfSignPage,
 };
 
 

@@ -16,7 +16,7 @@ const ToolGrid: React.FC = () => {
   const categories: (Category | 'all')[] = ['all', ...Object.values(Category)];
 
   return (
-    <section id="tools" className="py-20 sm:py-24 bg-white dark:bg-gray-900">
+    <section id="tools" className="py-20 sm:py-24 bg-white dark:bg-gray-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-brand-dark dark:text-white">Our Powerful Suite of Tools</h2>

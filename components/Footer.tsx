@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-1 mb-8 md:mb-0">
              <a href="#" className="flex items-center space-x-2">
-                <img src="https://www.quanzab.com/media/quanzab.png" alt="QUANZAB Toolify Logo" className="h-8 w-auto bg-white rounded-full p-1" />
+                <img src="https://www.quanzab.com/media/quanzab1.png" alt="QUANZAB Toolify Logo" className="h-8 w-auto bg-white rounded-full p-1" />
                 <span className="text-2xl font-bold font-heading">QUANZAB Toolify</span>
             </a>
             <p className="mt-4 text-gray-400">Your all-in-one productivity suite.</p>

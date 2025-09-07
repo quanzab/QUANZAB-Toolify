@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
@@ -156,7 +157,6 @@ const PdfMergePage: React.FC = () => {
         canvas.width = viewport.width;
 
         if (context) {
-            // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
             await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
             thumbnails.push(canvas.toDataURL());
         }
@@ -257,7 +257,7 @@ const PdfMergePage: React.FC = () => {
   const handleRenameOriginals = (type: 'prefix' | 'suffix' | 'sequential', value: string) => {
     if (!mergeResult) return;
   
-    const sourceFiles = mergeResult.originalFiles;
+    const sourceFiles = renamedOriginalFiles;
     let newFiles: File[] = [];
   
     if (type === 'prefix') {
@@ -452,14 +452,14 @@ const PdfMergePage: React.FC = () => {
             <DownloadIcon className="w-6 h-6" />
             Download Merged PDF
           </button>
-          <div className="relative w-full sm:w-auto">
-             <button onClick={handleDownloadZip} className="w-full inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-brand-primary bg-white dark:bg-gray-700 dark:text-white border-2 border-brand-primary dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-600 transition-colors duration-300">
+          <div className="flex items-center gap-2">
+            <button onClick={handleDownloadZip} className="inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-brand-primary bg-white dark:bg-gray-700 dark:text-white border-2 border-brand-primary dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-600 transition-colors duration-300">
                 <ZipIcon className="w-6 h-6" />
                 Download as ZIP
             </button>
             <button 
               onClick={() => setIsRenamePanelOpen(!isRenamePanelOpen)}
-              className="absolute -top-2 -right-2 p-1.5 bg-brand-accent text-white rounded-full hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              className="p-3 bg-brand-accent text-white rounded-full hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               aria-label="Rename original files"
             >
               <ChevronDownIcon className={`w-5 h-5 transition-transform ${isRenamePanelOpen ? 'rotate-180' : ''}`} />
