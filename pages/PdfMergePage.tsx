@@ -23,48 +23,48 @@ const RenamePanel: React.FC<{
   const [sequentialName, setSequentialName] = useState('document');
 
   return (
-    <div className="mt-6 p-6 border-t-2 border-dashed border-gray-300 dark:border-gray-600">
-      <h4 className="text-lg font-semibold text-brand-dark dark:text-gray-200 mb-4">Batch Rename Original Files</h4>
+    <div className="mt-6 p-6 border-t-2 border-dashed border-slate-600">
+      <h4 className="text-lg font-semibold text-gray-200 mb-4">Batch Rename Original Files</h4>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Renaming Controls */}
         <div className="space-y-4">
           {/* Prefix */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Add Prefix</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Add Prefix</label>
             <div className="flex">
-              <input type="text" value={prefix} onChange={(e) => setPrefix(e.target.value)} placeholder="e.g., ProjectA_" className="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md bg-white dark:bg-gray-700 focus:ring-1 focus:ring-brand-primary" />
-              <button onClick={() => { onRename('prefix', prefix); setPrefix(''); }} disabled={!prefix} className="px-4 py-2 bg-brand-primary text-white font-semibold rounded-r-md hover:bg-blue-800 disabled:bg-gray-400">Apply</button>
+              <input type="text" value={prefix} onChange={(e) => setPrefix(e.target.value)} placeholder="e.g., ProjectA_" className="flex-grow px-3 py-2 border border-slate-600 rounded-l-md bg-slate-700 focus:ring-1 focus:ring-primary" />
+              <button onClick={() => { onRename('prefix', prefix); setPrefix(''); }} disabled={!prefix} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-r-md hover:bg-opacity-90 disabled:bg-gray-400">Apply</button>
             </div>
           </div>
           {/* Suffix */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Add Suffix</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Add Suffix</label>
             <div className="flex">
-              <input type="text" value={suffix} onChange={(e) => setSuffix(e.target.value)} placeholder="e.g., _final" className="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md bg-white dark:bg-gray-700 focus:ring-1 focus:ring-brand-primary" />
-              <button onClick={() => { onRename('suffix', suffix); setSuffix(''); }} disabled={!suffix} className="px-4 py-2 bg-brand-primary text-white font-semibold rounded-r-md hover:bg-blue-800 disabled:bg-gray-400">Apply</button>
+              <input type="text" value={suffix} onChange={(e) => setSuffix(e.target.value)} placeholder="e.g., _final" className="flex-grow px-3 py-2 border border-slate-600 rounded-l-md bg-slate-700 focus:ring-1 focus:ring-primary" />
+              <button onClick={() => { onRename('suffix', suffix); setSuffix(''); }} disabled={!suffix} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-r-md hover:bg-opacity-90 disabled:bg-gray-400">Apply</button>
             </div>
           </div>
           {/* Sequential */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sequential Rename</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Sequential Rename</label>
             <div className="flex">
-              <input type="text" value={sequentialName} onChange={(e) => setSequentialName(e.target.value)} className="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md bg-white dark:bg-gray-700 focus:ring-1 focus:ring-brand-primary" />
-              <button onClick={() => onRename('sequential', sequentialName)} disabled={!sequentialName} className="px-4 py-2 bg-brand-primary text-white font-semibold rounded-r-md hover:bg-blue-800 disabled:bg-gray-400">Apply</button>
+              <input type="text" value={sequentialName} onChange={(e) => setSequentialName(e.target.value)} className="flex-grow px-3 py-2 border border-slate-600 rounded-l-md bg-slate-700 focus:ring-1 focus:ring-primary" />
+              <button onClick={() => onRename('sequential', sequentialName)} disabled={!sequentialName} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-r-md hover:bg-opacity-90 disabled:bg-gray-400">Apply</button>
             </div>
           </div>
-           <button onClick={onReset} className="text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-brand-primary dark:hover:text-white transition-colors">
+           <button onClick={onReset} className="text-sm font-semibold text-slate-400 hover:text-primary transition-colors">
             Reset Names
           </button>
         </div>
         {/* File Preview */}
-        <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-200 dark:border-gray-700 max-h-48 overflow-y-auto">
-          <p className="text-sm font-semibold mb-2 text-brand-dark dark:text-gray-200">Filename Preview</p>
+        <div className="bg-slate-800/50 p-3 rounded-lg border border-slate-700 max-h-48 overflow-y-auto">
+          <p className="text-sm font-semibold mb-2 text-gray-200">Filename Preview</p>
           <ul className="text-sm space-y-1">
             {originalFiles.slice(0, 10).map((file, index) => (
-              <li key={index} className="flex items-center text-gray-600 dark:text-gray-400">
+              <li key={index} className="flex items-center text-slate-400">
                 <span className="truncate w-1/2 pr-2">{file.name}</span>
                 <span>&rarr;</span>
-                <span className="truncate w-1/2 pl-2 font-medium text-brand-dark dark:text-gray-300">{renamedFiles[index]?.name || file.name}</span>
+                <span className="truncate w-1/2 pl-2 font-medium text-gray-300">{renamedFiles[index]?.name || file.name}</span>
               </li>
             ))}
             {originalFiles.length > 10 && <li className="text-gray-500">...and {originalFiles.length - 10} more.</li>}
@@ -302,21 +302,21 @@ const PdfMergePage: React.FC = () => {
         {...getRootProps()}
         className={`p-10 border-2 border-dashed rounded-xl text-center transition-colors duration-300 ${
           isDragActive
-            ? 'border-brand-primary bg-blue-50 dark:bg-blue-900/20'
-            : 'border-gray-300 dark:border-gray-600 hover:border-brand-primary/50'
+            ? 'border-primary bg-primary/10'
+            : 'border-slate-600 hover:border-primary/70'
         }`}
       >
         <input {...getInputProps()} />
         <div className="flex flex-col items-center justify-center">
-          <UploadIcon className="w-16 h-16 text-gray-400 dark:text-gray-500 mb-4" />
-          <p className="text-xl font-semibold text-brand-dark dark:text-gray-200 mb-2">
+          <UploadIcon className="w-16 h-16 text-slate-500 mb-4" />
+          <p className="text-xl font-semibold text-gray-200 mb-2">
             {isDragActive ? 'Drop files to upload' : "Drag and drop PDFs to merge"}
           </p>
-          <p className="text-gray-500 dark:text-gray-400 mb-4">or</p>
+          <p className="text-slate-400 mb-4">or</p>
           <button
             type="button"
             onClick={open}
-            className="px-8 py-3 font-semibold text-white bg-brand-primary rounded-lg shadow-md hover:bg-blue-800 transition-all duration-300 transform hover:scale-105"
+            className="px-8 py-3 font-semibold text-slate-900 bg-primary rounded-lg shadow-md hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105"
           >
             Select Files
           </button>
@@ -326,38 +326,38 @@ const PdfMergePage: React.FC = () => {
       {files.length > 0 && (
         <div className="mt-8">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-brand-dark dark:text-gray-200">Files to Merge (in order):</h3>
+            <h3 className="text-lg font-semibold text-gray-200">Files to Merge (in order):</h3>
             <div className="flex items-center gap-2">
               <button
                 onClick={undo}
                 disabled={!canUndo}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded-full hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Undo"
               >
-                <UndoIcon className="w-5 h-5 text-brand-dark dark:text-gray-300" />
+                <UndoIcon className="w-5 h-5 text-gray-300" />
               </button>
               <button
                 onClick={redo}
                 disabled={!canRedo}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded-full hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Redo"
               >
-                <RedoIcon className="w-5 h-5 text-brand-dark dark:text-gray-300" />
+                <RedoIcon className="w-5 h-5 text-gray-300" />
               </button>
             </div>
           </div>
           <ul className="space-y-3">
             {files.map((file, index) => (
-              <li key={`${file.name}-${index}`} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                <span className="font-medium text-brand-dark dark:text-gray-300 truncate pr-4">{index + 1}. {file.name}</span>
+              <li key={`${file.name}-${index}`} className="flex items-center justify-between p-3 bg-slate-800 rounded-lg border border-slate-700">
+                <span className="font-medium text-gray-300 truncate pr-4">{index + 1}. {file.name}</span>
                 <div className="flex-shrink-0 flex items-center gap-2">
-                   <button onClick={() => handleMoveFile(index, 'up')} disabled={index === 0} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                   <button onClick={() => handleMoveFile(index, 'up')} disabled={index === 0} className="p-1 rounded-full hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg>
                   </button>
-                  <button onClick={() => handleMoveFile(index, 'down')} disabled={index === files.length - 1} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <button onClick={() => handleMoveFile(index, 'down')} disabled={index === files.length - 1} className="p-1 rounded-full hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                   </button>
-                  <button onClick={() => handleRemoveFile(index)} className="p-1 text-red-500 hover:text-red-700 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors">
+                  <button onClick={() => handleRemoveFile(index)} className="p-1 text-red-500 hover:text-red-700 rounded-full hover:bg-red-900/50 transition-colors">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                   </button>
                 </div>
@@ -373,7 +373,7 @@ const PdfMergePage: React.FC = () => {
         <button
           onClick={handleMerge}
           disabled={files.length < 2}
-          className="w-full sm:w-auto px-12 py-4 text-lg font-semibold text-white bg-brand-primary rounded-lg shadow-lg hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed disabled:scale-100"
+          className="w-full sm:w-auto px-12 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 disabled:bg-slate-600 disabled:cursor-not-allowed disabled:scale-100"
         >
           Merge PDFs
         </button>
@@ -386,16 +386,16 @@ const PdfMergePage: React.FC = () => {
     return (
       <div className="py-8">
         <div className="text-center mb-6">
-          <TrustedIcon className="w-16 h-16 mx-auto text-brand-accent" />
-          <h2 className="text-2xl sm:text-3xl font-bold font-heading text-brand-dark dark:text-white mt-4">Merge Successful!</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">{mergeResult.originalFiles.length} files were combined into one PDF with {mergeResult.pageCount} pages.</p>
+          <TrustedIcon className="w-16 h-16 mx-auto text-accent" />
+          <h2 className="text-2xl sm:text-3xl font-bold font-heading text-white mt-4">Merge Successful!</h2>
+          <p className="mt-2 text-slate-400">{mergeResult.originalFiles.length} files were combined into one PDF with {mergeResult.pageCount} pages.</p>
         </div>
         
         <div className="my-8">
-          <h3 className="text-left font-semibold text-brand-dark dark:text-gray-200 mb-2">
+          <h3 className="text-left font-semibold text-gray-200 mb-2">
             Document Preview ({mergeResult.pageCount} pages total)
           </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700 max-h-96 overflow-y-auto">
             {mergeResult.thumbnails.map((src, index) => (
               <div key={index} className="relative rounded-md overflow-hidden shadow-md">
                 <img src={src} alt={`Page ${index + 1}`} className="w-full h-auto" />
@@ -403,7 +403,7 @@ const PdfMergePage: React.FC = () => {
               </div>
             ))}
             {mergeResult.pageCount > mergeResult.thumbnails.length && (
-                <div className="flex items-center justify-center text-gray-500 dark:text-gray-400 text-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700">
+                <div className="flex items-center justify-center text-slate-400 text-center p-4 border-2 border-dashed border-slate-600 rounded-md bg-slate-700">
                     <p>...and {mergeResult.pageCount - mergeResult.thumbnails.length} more pages.</p>
                 </div>
             )}
@@ -412,25 +412,25 @@ const PdfMergePage: React.FC = () => {
 
         <div className="my-8 max-w-md mx-auto">
           <div className="flex justify-between items-center mb-2">
-            <label htmlFor="filename" className="block font-semibold text-brand-dark dark:text-gray-200">
+            <label htmlFor="filename" className="block font-semibold text-gray-200">
               Customize Filename:
             </label>
             <div className="flex items-center gap-1">
               <button
                 onClick={undoFileName}
                 disabled={!canUndoFileName}
-                className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-1.5 rounded-full hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Undo filename change"
               >
-                <UndoIcon className="w-4 h-4 text-brand-dark dark:text-gray-300" />
+                <UndoIcon className="w-4 h-4 text-gray-300" />
               </button>
               <button
                 onClick={redoFileName}
                 disabled={!canRedoFileName}
-                className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-1.5 rounded-full hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Redo filename change"
               >
-                <RedoIcon className="w-4 h-4 text-brand-dark dark:text-gray-300" />
+                <RedoIcon className="w-4 h-4 text-gray-300" />
               </button>
             </div>
           </div>
@@ -440,7 +440,7 @@ const PdfMergePage: React.FC = () => {
             value={fileName}
             onChange={handleFileNameChange}
             onBlur={handleFileNameBlur}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-brand-primary transition-colors"
+            className="w-full px-4 py-2 border border-slate-600 rounded-lg bg-slate-700 focus:ring-2 focus:ring-primary transition-colors"
             aria-label="Customize the filename for the merged PDF"
           />
         </div>
@@ -448,18 +448,18 @@ const PdfMergePage: React.FC = () => {
         {error && <p className="text-red-500 text-center my-4 font-semibold">{error}</p>}
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-          <button onClick={handleDownloadMerged} className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-white bg-brand-primary rounded-lg shadow-lg hover:bg-blue-800 transition-all duration-300 transform hover:scale-105">
+          <button onClick={handleDownloadMerged} className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
             <DownloadIcon className="w-6 h-6" />
             Download Merged PDF
           </button>
           <div className="flex items-center gap-2">
-            <button onClick={handleDownloadZip} className="inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-brand-primary bg-white dark:bg-gray-700 dark:text-white border-2 border-brand-primary dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-600 transition-colors duration-300">
+            <button onClick={handleDownloadZip} className="inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-primary bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-700 transition-colors duration-300">
                 <ZipIcon className="w-6 h-6" />
                 Download as ZIP
             </button>
             <button 
               onClick={() => setIsRenamePanelOpen(!isRenamePanelOpen)}
-              className="p-3 bg-brand-accent text-white rounded-full hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              className="p-3 bg-accent text-white rounded-full hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               aria-label="Rename original files"
             >
               <ChevronDownIcon className={`w-5 h-5 transition-transform ${isRenamePanelOpen ? 'rotate-180' : ''}`} />
@@ -478,7 +478,7 @@ const PdfMergePage: React.FC = () => {
 
 
         <div className="mt-8 text-center">
-          <button onClick={handleReset} className="font-semibold text-gray-600 dark:text-gray-400 hover:text-brand-primary dark:hover:text-white transition-colors">
+          <button onClick={handleReset} className="font-semibold text-slate-400 hover:text-primary transition-colors">
             Merge More Files
           </button>
         </div>

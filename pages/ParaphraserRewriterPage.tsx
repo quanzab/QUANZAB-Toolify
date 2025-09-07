@@ -53,13 +53,13 @@ const ParaphraserRewriterPage: React.FC = () => {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               rows={12}
-              className="w-full p-3 border rounded-md dark:bg-gray-800 dark:border-gray-600"
+              className="w-full p-3 border rounded-md bg-slate-800 border-slate-600"
               placeholder="Enter your text here..."
             ></textarea>
           </div>
           <div>
             <label htmlFor="output-text" className="block font-semibold mb-2">Rewritten Text</label>
-            <div className="w-full h-full p-3 border rounded-md bg-gray-50 dark:bg-gray-800/50 dark:border-gray-600 whitespace-pre-wrap">
+            <div className="w-full h-full p-3 border rounded-md bg-slate-800/50 border-slate-600 whitespace-pre-wrap">
               {isLoading ? <Loader message="AI is rewriting..." /> : outputText}
             </div>
           </div>
@@ -72,7 +72,7 @@ const ParaphraserRewriterPage: React.FC = () => {
               id="tone-select"
               value={tone}
               onChange={(e) => setTone(e.target.value as Tone)}
-              className="p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+              className="p-2 border rounded-md bg-slate-700 border-slate-600"
             >
               {tones.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
@@ -80,7 +80,7 @@ const ParaphraserRewriterPage: React.FC = () => {
           <button
             onClick={handleRewrite}
             disabled={isLoading || !inputText}
-            className="w-full sm:w-auto px-12 py-3 text-lg font-semibold text-white bg-brand-primary rounded-lg shadow-lg hover:bg-blue-800 disabled:bg-gray-400"
+            className="w-full sm:w-auto px-12 py-3 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg hover:bg-opacity-90 disabled:bg-slate-600"
           >
             {isLoading ? 'Rewriting...' : 'Rewrite'}
           </button>

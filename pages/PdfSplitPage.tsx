@@ -188,34 +188,34 @@ const PdfSplitPage: React.FC = () => {
     return (
       <div>
         <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
-           <div className="flex items-center bg-gray-100 dark:bg-gray-800 p-2 rounded-lg">
-                <span className="font-semibold text-brand-dark dark:text-gray-300">File:</span>
-                <span className="ml-2 text-gray-700 dark:text-gray-400 truncate max-w-xs">{file.name}</span>
+           <div className="flex items-center bg-slate-800 p-2 rounded-lg">
+                <span className="font-semibold text-gray-300">File:</span>
+                <span className="ml-2 text-slate-400 truncate max-w-xs">{file.name}</span>
            </div>
            <button onClick={handleReset} className="px-4 py-2 text-sm font-semibold bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">Start Over</button>
         </div>
         
-        <div className="flex justify-center border-b border-gray-200 dark:border-gray-700 mb-4">
-          <button onClick={() => setMode('select')} className={`px-6 py-3 font-semibold transition-colors ${mode === 'select' ? 'border-b-2 border-brand-primary text-brand-primary' : 'text-gray-500 hover:text-brand-primary'}`}>Select Pages</button>
-          <button onClick={() => setMode('range')} className={`px-6 py-3 font-semibold transition-colors ${mode === 'range' ? 'border-b-2 border-brand-primary text-brand-primary' : 'text-gray-500 hover:text-brand-primary'}`}>Extract by Range</button>
+        <div className="flex justify-center border-b border-slate-700 mb-4">
+          <button onClick={() => setMode('select')} className={`px-6 py-3 font-semibold transition-colors ${mode === 'select' ? 'border-b-2 border-primary text-primary' : 'text-gray-500 hover:text-primary'}`}>Select Pages</button>
+          <button onClick={() => setMode('range')} className={`px-6 py-3 font-semibold transition-colors ${mode === 'range' ? 'border-b-2 border-primary text-primary' : 'text-gray-500 hover:text-primary'}`}>Extract by Range</button>
         </div>
 
         {mode === 'select' && (
           <div>
              <div className="flex justify-between items-center mb-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">{selectedPages.size} of {pageCount} pages selected.</p>
+                <p className="text-sm text-slate-400">{selectedPages.size} of {pageCount} pages selected.</p>
                 <div>
-                    <button onClick={() => setSelectedPages(new Set(Array.from({length: pageCount}, (_, i) => i)))} className="mr-2 text-sm font-semibold text-brand-primary hover:underline">Select All</button>
+                    <button onClick={() => setSelectedPages(new Set(Array.from({length: pageCount}, (_, i) => i)))} className="mr-2 text-sm font-semibold text-primary hover:underline">Select All</button>
                     <button onClick={() => setSelectedPages(new Set())} className="text-sm font-semibold text-gray-500 hover:underline">Clear</button>
                 </div>
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 max-h-[400px] overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 max-h-[400px] overflow-y-auto p-4 bg-slate-800/50 rounded-lg">
               {pageThumbnails.map((src, index) => (
-                <div key={index} onClick={() => togglePageSelection(index)} className={`relative cursor-pointer rounded-md overflow-hidden border-2 transition-all ${selectedPages.has(index) ? 'border-brand-primary ring-2 ring-brand-primary' : 'border-transparent hover:border-blue-300'}`}>
+                <div key={index} onClick={() => togglePageSelection(index)} className={`relative cursor-pointer rounded-md overflow-hidden border-2 transition-all ${selectedPages.has(index) ? 'border-primary ring-2 ring-primary' : 'border-transparent hover:border-primary/50'}`}>
                   <img src={src} alt={`Page ${index + 1}`} className="w-full h-auto" />
                   <div className="absolute top-1 right-1 bg-black/50 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">{index + 1}</div>
                   {selectedPages.has(index) && (
-                    <div className="absolute inset-0 bg-brand-primary/30 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-primary/30 flex items-center justify-center">
                         <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>
                     </div>
                   )}
@@ -227,16 +227,16 @@ const PdfSplitPage: React.FC = () => {
 
         {mode === 'range' && (
           <div className="p-4">
-            <label htmlFor="range-input" className="block font-semibold text-brand-dark dark:text-gray-200 mb-2">Pages to extract</label>
+            <label htmlFor="range-input" className="block font-semibold text-gray-200 mb-2">Pages to extract</label>
             <input
               id="range-input"
               type="text"
               value={range}
               onChange={(e) => setRange(e.target.value)}
               placeholder="e.g., 1-3, 5, 8-10"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-brand-primary"
+              className="w-full px-4 py-2 border border-slate-600 rounded-lg bg-slate-700 focus:ring-2 focus:ring-primary"
             />
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Enter page numbers or ranges separated by commas. This document has {pageCount} pages.</p>
+            <p className="text-sm text-slate-400 mt-2">Enter page numbers or ranges separated by commas. This document has {pageCount} pages.</p>
           </div>
         )}
         
@@ -245,7 +245,7 @@ const PdfSplitPage: React.FC = () => {
         <div className="mt-8 text-center">
             <button
               onClick={handleSplit}
-              className="w-full sm:w-auto px-12 py-4 text-lg font-semibold text-white bg-brand-primary rounded-lg shadow-lg hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed disabled:scale-100"
+              className="w-full sm:w-auto px-12 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 disabled:bg-slate-600 disabled:cursor-not-allowed disabled:scale-100"
             >
               Split PDF
             </button>

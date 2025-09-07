@@ -109,10 +109,10 @@ const ReceiptScannerPage: React.FC = () => {
             <h3 className="font-bold text-lg">Receipt Preview</h3>
             {preview && <img src={preview} alt="Receipt preview" className="rounded-lg shadow-md max-h-96 w-auto mx-auto" />}
             <div className="flex gap-4">
-              <button onClick={handleScan} disabled={isLoading} className="flex-grow px-8 py-3 text-lg font-semibold text-white bg-brand-primary rounded-lg shadow-lg disabled:bg-gray-400">
+              <button onClick={handleScan} disabled={isLoading} className="flex-grow px-8 py-3 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg disabled:bg-slate-600">
                 {isLoading ? 'Scanning...' : 'Scan with AI'}
               </button>
-              <button onClick={handleReset} className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md">Change File</button>
+              <button onClick={handleReset} className="px-4 py-2 bg-slate-700 rounded-md">Change File</button>
             </div>
           </div>
           <div className="space-y-4">
@@ -120,7 +120,7 @@ const ReceiptScannerPage: React.FC = () => {
             {isLoading && <Loader message="AI is analyzing your receipt..." />}
             {error && <p className="text-red-500 font-semibold">{error}</p>}
             {data && (
-              <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border dark:border-gray-700 space-y-3">
+              <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700 space-y-3">
                 <p><strong>Vendor:</strong> {data.vendor || 'N/A'}</p>
                 <p><strong>Date:</strong> {data.date || 'N/A'}</p>
                 <p><strong>Total:</strong> ${data.total?.toFixed(2) || 'N/A'}</p>

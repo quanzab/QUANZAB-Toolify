@@ -97,11 +97,11 @@ const SignaturePad: React.FC<{ onSave: (dataUrl: string) => void, color: string 
                 onTouchEnd={stopDrawing}
                 width={400}
                 height={200}
-                className="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md"
+                className="bg-slate-700 border border-slate-600 rounded-md"
             />
             <div className="flex justify-between mt-2">
-                <button onClick={handleClear} className="text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-brand-primary">Clear</button>
-                <button onClick={handleSave} disabled={!hasDrawn} className="px-4 py-2 bg-brand-primary text-white font-semibold rounded-md hover:bg-blue-800 disabled:bg-gray-400">Save Signature</button>
+                <button onClick={handleClear} className="text-sm font-semibold text-slate-400 hover:text-primary">Clear</button>
+                <button onClick={handleSave} disabled={!hasDrawn} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-md hover:bg-opacity-90 disabled:bg-gray-400">Save Signature</button>
             </div>
         </div>
     );
@@ -113,7 +113,7 @@ const SignatureModal: React.FC<{ onClose: () => void; onSave: (dataUrl: string) 
     const [mode, setMode] = useState<SignatureMode>('draw');
     const [typedText, setTypedText] = useState('');
     const [font, setFont] = useState(Object.keys(signatureFonts)[0]);
-    const [color, setColor] = useState('#000000'); // Black
+    const [color, setColor] = useState('#FFFFFF'); // White for dark mode
 
     const handleSaveTyped = () => {
         const canvas = document.createElement('canvas');
@@ -142,17 +142,17 @@ const SignatureModal: React.FC<{ onClose: () => void; onSave: (dataUrl: string) 
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-lg">
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+            <div className="bg-slate-800 rounded-lg shadow-xl p-6 w-full max-w-lg">
                 <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-bold font-heading text-brand-dark dark:text-white">Create Signature</h3>
-                    <button onClick={onClose} className="text-2xl font-bold">&times;</button>
+                    <h3 className="text-xl font-bold font-heading text-white">Create Signature</h3>
+                    <button onClick={onClose} className="text-2xl font-bold text-slate-400 hover:text-white">&times;</button>
                 </div>
 
-                <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-                    <button onClick={() => setMode('draw')} className={`px-4 py-2 font-semibold ${mode === 'draw' ? 'border-b-2 border-brand-primary text-brand-primary' : ''}`}>Draw</button>
-                    <button onClick={() => setMode('type')} className={`px-4 py-2 font-semibold ${mode === 'type' ? 'border-b-2 border-brand-primary text-brand-primary' : ''}`}>Type</button>
-                    <button onClick={() => setMode('upload')} className={`px-4 py-2 font-semibold ${mode === 'upload' ? 'border-b-2 border-brand-primary text-brand-primary' : ''}`}>Upload</button>
+                <div className="flex border-b border-slate-700 mb-4">
+                    <button onClick={() => setMode('draw')} className={`px-4 py-2 font-semibold ${mode === 'draw' ? 'border-b-2 border-primary text-primary' : 'text-slate-400'}`}>Draw</button>
+                    <button onClick={() => setMode('type')} className={`px-4 py-2 font-semibold ${mode === 'type' ? 'border-b-2 border-primary text-primary' : 'text-slate-400'}`}>Type</button>
+                    <button onClick={() => setMode('upload')} className={`px-4 py-2 font-semibold ${mode === 'upload' ? 'border-b-2 border-primary text-primary' : 'text-slate-400'}`}>Upload</button>
                 </div>
                 
                 <div className="mb-4">
@@ -168,22 +168,22 @@ const SignatureModal: React.FC<{ onClose: () => void; onSave: (dataUrl: string) 
                             type="text"
                             value={typedText}
                             onChange={(e) => setTypedText(e.target.value)}
-                            className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700"
+                            className="w-full p-4 border border-slate-600 rounded-md bg-slate-700"
                             style={{ fontFamily: font, fontSize: '2rem', color }}
                             placeholder="Type your name"
                         />
                         <div className="flex items-center justify-between mt-4">
-                            <select value={font} onChange={e => setFont(e.target.value)} className="p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700">
+                            <select value={font} onChange={e => setFont(e.target.value)} className="p-2 border border-slate-600 rounded-md bg-slate-700">
                                 {Object.keys(signatureFonts).map(f => <option key={f} value={f}>{f}</option>)}
                             </select>
-                            <button onClick={handleSaveTyped} disabled={!typedText} className="px-4 py-2 bg-brand-primary text-white font-semibold rounded-md hover:bg-blue-800 disabled:bg-gray-400">Save Signature</button>
+                            <button onClick={handleSaveTyped} disabled={!typedText} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-md hover:bg-opacity-90 disabled:bg-gray-400">Save Signature</button>
                         </div>
                     </div>
                 )}
 
                 {mode === 'upload' && (
                     <div>
-                        <label className="w-full flex flex-col items-center px-4 py-6 bg-white dark:bg-gray-700 text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-500 hover:text-white">
+                        <label className="w-full flex flex-col items-center px-4 py-6 bg-slate-700 text-primary rounded-lg shadow-lg tracking-wide uppercase border border-primary cursor-pointer hover:bg-primary hover:text-slate-900 transition-colors">
                            <UploadIcon className="w-8 h-8"/>
                             <span className="mt-2 text-base leading-normal">Select an image file</span>
                             <input type='file' accept="image/png, image/jpeg" className="hidden" onChange={handleImageUpload} />
@@ -338,46 +338,46 @@ const PdfSignPage: React.FC = () => {
             ) : (
                 <div className="flex flex-col md:flex-row gap-8">
                     {/* Sidebar */}
-                    <aside className="w-full md:w-72 flex-shrink-0 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 self-start">
+                    <aside className="w-full md:w-72 flex-shrink-0 bg-slate-800 p-4 rounded-lg border border-slate-700 self-start">
                         <h3 className="font-bold text-lg mb-4">Tools</h3>
                         <div className="space-y-4">
                             <div>
                                 <p className="font-semibold mb-2">My Signature</p>
                                 {signature ? (
-                                    <div className="p-2 border border-dashed border-gray-400 rounded-md bg-white dark:bg-gray-700">
+                                    <div className="p-2 border border-dashed border-slate-600 rounded-md bg-slate-700">
                                         <img src={signature} alt="Signature" className="max-w-full h-auto" />
-                                        <button onClick={() => setIsModalOpen(true)} className="text-sm font-semibold text-brand-primary w-full text-center mt-2">Change</button>
+                                        <button onClick={() => setIsModalOpen(true)} className="text-sm font-semibold text-primary w-full text-center mt-2">Change</button>
                                     </div>
                                 ) : (
-                                    <button onClick={() => setIsModalOpen(true)} className="w-full p-4 border-2 border-dashed rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">Add Signature</button>
+                                    <button onClick={() => setIsModalOpen(true)} className="w-full p-4 border-2 border-dashed rounded-md border-slate-600 hover:bg-slate-700">Add Signature</button>
                                 )}
                             </div>
-                             <button onClick={() => addItemToPage(0, 'text')} className="w-full flex items-center gap-2 p-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+                             <button onClick={() => addItemToPage(0, 'text')} className="w-full flex items-center gap-2 p-2 border border-slate-600 rounded-md hover:bg-slate-700">
                                 <TypeIcon className="w-5 h-5"/> Add Text
                             </button>
                         </div>
-                        <div className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
-                            <button onClick={handleApplySignatures} disabled={placedItems.length === 0} className="w-full px-6 py-3 text-lg font-semibold text-white bg-brand-primary rounded-lg shadow-lg hover:bg-blue-800 disabled:bg-gray-400">
+                        <div className="mt-8 pt-4 border-t border-slate-700">
+                            <button onClick={handleApplySignatures} disabled={placedItems.length === 0} className="w-full px-6 py-3 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 disabled:bg-slate-600">
                                 Apply & Sign
                             </button>
                         </div>
-                        <p className="text-xs text-gray-500 mt-2 text-center">Document will be flattened to prevent edits.</p>
+                        <p className="text-xs text-slate-500 mt-2 text-center">Document will be flattened to prevent edits.</p>
 
                     </aside>
 
                     {/* Document Viewer */}
-                    <main className="flex-grow bg-gray-200 dark:bg-gray-900/50 p-4 rounded-lg overflow-auto">
+                    <main className="flex-grow bg-slate-900/50 p-4 rounded-lg overflow-auto">
                         <div className="space-y-4 mx-auto">
                             {pdfPages.map((pageData, index) => (
                                 <div key={index} onDoubleClick={() => signature && addItemToPage(index, 'signature')} className="relative shadow-lg mx-auto" style={{ width: 'fit-content' }}>
                                     <img src={pageData.src} alt={`Page ${index + 1}`} />
                                     {placedItems.filter(item => item.pageIndex === index).map(item => (
-                                        <div key={item.id} style={{ position: 'absolute', left: item.x, top: item.y, width: item.width, height: item.height, border: '1px dashed blue' }}
+                                        <div key={item.id} style={{ position: 'absolute', left: item.x, top: item.y, width: item.width, height: item.height, border: '1px dashed #22d3ee' }}
                                              onMouseDown={(e) => { e.preventDefault(); /* Logic for drag/resize start */ }}
                                         >
                                             {item.type === 'signature' && <img src={item.data} alt="signature" className="w-full h-full" />}
                                             {item.type === 'text' && (
-                                                <input type="text" value={item.data} onChange={(e) => updateItem(item.id, {data: e.target.value})} className="w-full h-full bg-transparent border-none text-2xl"/>
+                                                <input type="text" value={item.data} onChange={(e) => updateItem(item.id, {data: e.target.value})} className="w-full h-full bg-transparent border-none text-2xl text-white"/>
                                             )}
                                             <button onClick={() => deleteItem(item.id)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs">&times;</button>
                                         </div>
