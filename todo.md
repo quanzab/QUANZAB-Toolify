@@ -1,11 +1,10 @@
-
 # Project To-Do List
 
 This document tracks planned features, enhancements, and bug fixes for the QUANZAB Toolkit application.
 
 ## High Priority
 
-- [ ] **Implement User Authentication**: Set up a user login/signup system to support premium features and personalized experiences.
+- [x] **Implement User Authentication**: Set up a user login/signup system to support premium features and personalized experiences. (Mock implementation using localStorage).
 - [ ] **Activate Premium Features**: Gate premium tools (`PDF Sign`, `AI Document Analyzer`, etc.) behind the authentication system.
 - [ ] **PDF Sign Tool - Interactivity**: Implement the drag, drop, and resize functionality for signatures and text boxes on the PDF pages. The current placement is static.
 - [ ] **Improve Error Handling**: Provide more specific user feedback for errors, especially for PDF processing (e.g., handling encrypted/corrupt files) and API calls.
@@ -17,7 +16,7 @@ This document tracks planned features, enhancements, and bug fixes for the QUANZ
 - [ ] **Add Unit & Integration Tests**: Implement a testing framework (e.g., Vitest, React Testing Library) and write tests for critical components and hooks.
 - [ ] **Complete "Coming Soon" Tools**: Build the tools that are currently placeholders.
 - [ ] **Expand PDF Converter**: Add more output options like PDF to Word, Excel, etc. This may require a different library or a backend service.
-- [ ] **Add Confirmation Modals**: Implement "Are you sure?" modals for destructive actions like deleting a task or resetting a tool's state.
+- [x] **Add Confirmation Modals**: Implement "Are you sure?" modals for destructive actions like deleting a task or resetting a tool's state.
 
 ## Low Priority / Future Ideas
 

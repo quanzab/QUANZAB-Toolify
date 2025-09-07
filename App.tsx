@@ -1,6 +1,3 @@
-
-
-
 import React, { Suspense, lazy, ComponentType } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
@@ -8,6 +5,7 @@ import Footer from './components/Footer';
 import { tools } from './data/tools';
 import Loader from './components/Loader';
 import CursorGlow from './components/CursorGlow';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const PdfMergePage = lazy(() => import('./pages/PdfMergePage'));
@@ -24,6 +22,8 @@ const CrewRosterPlannerPage = lazy(() => import('./pages/CrewRosterPlannerPage')
 const VesselComplianceCheckerPage = lazy(() => import('./pages/VesselComplianceCheckerPage'));
 const ParaphraserRewriterPage = lazy(() => import('./pages/ParaphraserRewriterPage'));
 const TaskManagerPage = lazy(() => import('./pages/TaskManagerPage'));
+const SignInPage = lazy(() => import('./pages/SignInPage'));
+const SignUpPage = lazy(() => import('./pages/SignUpPage'));
 
 
 // A map of implemented tool paths to their components
@@ -54,6 +54,8 @@ function App() {
         <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader message="Loading page..." /></div>}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
             {tools.map(tool => {
               const ToolComponent = implementedTools[tool.path];
               if (ToolComponent) {
