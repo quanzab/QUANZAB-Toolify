@@ -8,6 +8,7 @@ import ToolPageLayout from '../components/ToolPageLayout';
 import Loader from '../components/Loader';
 import { useHistoryState } from '../hooks/useHistoryState';
 import { UndoIcon, RedoIcon, UploadIcon, DownloadIcon, ZipIcon, TrustedIcon, ChevronDownIcon } from '../components/Icons';
+import ConfirmationModal from '../components/ConfirmationModal';
 
 const MAX_SIZE = 50 * 1024 * 1024; // 50 MB
 
@@ -92,6 +93,7 @@ const PdfMergePage: React.FC = () => {
   // State for the bulk rename feature
   const [renamedOriginalFiles, setRenamedOriginalFiles] = useState<File[]>([]);
   const [isRenamePanelOpen, setIsRenamePanelOpen] = useState(false);
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -287,14 +289,19 @@ const PdfMergePage: React.FC = () => {
     setRenamedOriginalFiles(newFiles);
   };
   
-  const handleReset = () => {
+  const performReset = () => {
     setFiles([]);
     setMergeResult(null);
     setError(null);
     setFileName('merged.pdf');
     setRenamedOriginalFiles([]);
     setIsRenamePanelOpen(false);
+    setIsResetModalOpen(false);
   };
+
+  const handleResetClick = () => {
+    setIsResetModalOpen(true);
+  }
 
   const renderUploaderView = () => (
     <>
@@ -478,10 +485,19 @@ const PdfMergePage: React.FC = () => {
 
 
         <div className="mt-8 text-center">
-          <button onClick={handleReset} className="font-semibold text-slate-400 hover:text-primary transition-colors">
+          <button onClick={handleResetClick} className="font-semibold text-slate-400 hover:text-primary transition-colors">
             Merge More Files
           </button>
         </div>
+        
+        <ConfirmationModal
+          isOpen={isResetModalOpen}
+          onClose={() => setIsResetModalOpen(false)}
+          onConfirm={performReset}
+          title="Start Over?"
+          message="Are you sure you want to start over? All uploaded files and the merged result will be cleared."
+          confirmText="Start Over"
+        />
       </div>
     );
   };

@@ -4,6 +4,7 @@ import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
 import ToolPageLayout from '../components/ToolPageLayout';
 import FileDropzone from '../components/FileDropzone';
+import ConfirmationModal from '../components/ConfirmationModal';
 
 type CompressionLevel = 'high' | 'medium' | 'low';
 
@@ -20,6 +21,7 @@ const PdfCompressPage: React.FC = () => {
     const [progress, setProgress] = useState('');
     const [compressionLevel, setCompressionLevel] = useState<CompressionLevel>('medium');
     const [result, setResult] = useState<{ originalSize: number; compressedSize: number; blob: Blob; fileName: string } | null>(null);
+    const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
     const handleDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
@@ -108,11 +110,16 @@ const PdfCompressPage: React.FC = () => {
         }
     };
 
-    const handleReset = () => {
+    const performReset = () => {
         setFile(null);
         setResult(null);
         setError(null);
         setCompressionLevel('medium');
+        setIsResetModalOpen(false);
+    };
+
+    const handleResetClick = () => {
+        setIsResetModalOpen(true);
     };
 
     const formatBytes = (bytes: number, decimals = 2) => {
@@ -152,12 +159,21 @@ const PdfCompressPage: React.FC = () => {
                         Download Compressed PDF
                     </button>
                     <button
-                        onClick={handleReset}
+                        onClick={handleResetClick}
                         className="w-full sm:w-auto px-8 py-3 text-lg font-semibold text-primary bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-700 transition-colors duration-300"
                     >
                         Compress Another
                     </button>
                 </div>
+
+                <ConfirmationModal
+                  isOpen={isResetModalOpen}
+                  onClose={() => setIsResetModalOpen(false)}
+                  onConfirm={performReset}
+                  title="Compress Another File?"
+                  message="This will clear the current compressed file result. Are you sure you want to continue?"
+                  confirmText="Continue"
+                />
             </div>
         );
     };
@@ -207,7 +223,7 @@ const PdfCompressPage: React.FC = () => {
                     >
                         {isLoading ? (
                             <>
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>

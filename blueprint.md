@@ -1,11 +1,11 @@
 
-# QUANZAB Toolify - Project Blueprint
+# QUANZAB Toolkit - Project Blueprint
 
-This document outlines the architecture, features, and technical specifications of the QUANZAB Toolify application.
+This document outlines the architecture, features, and technical specifications of the QUANZAB Toolkit application.
 
 ## 1. Core Philosophy
 
-QUANZAB Toolify is a comprehensive, all-in-one productivity suite designed to be fast, secure, and intuitive. It leverages modern web technologies and AI to streamline common tasks related to documents, business productivity, and text manipulation. The application prioritizes user experience with a clean, dark-mode-first interface and responsive design.
+QUANZAB Toolkit is a comprehensive, all-in-one productivity suite designed to be fast, secure, and intuitive. It leverages modern web technologies and AI to streamline common tasks related to documents, business productivity, and text manipulation. The application prioritizes user experience with a clean, dark-mode-first interface and responsive design.
 
 ## 2. Technology Stack
 

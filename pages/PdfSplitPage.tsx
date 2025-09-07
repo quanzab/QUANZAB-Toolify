@@ -5,6 +5,7 @@ import { saveAs } from 'file-saver';
 import ToolPageLayout from '../components/ToolPageLayout';
 import FileDropzone from '../components/FileDropzone';
 import Loader from '../components/Loader';
+import ConfirmationModal from '../components/ConfirmationModal';
 
 type SplitMode = 'select' | 'range';
 
@@ -17,6 +18,7 @@ const PdfSplitPage: React.FC = () => {
   const [pageThumbnails, setPageThumbnails] = useState<string[]>([]);
   const [selectedPages, setSelectedPages] = useState<Set<number>>(new Set());
   const [range, setRange] = useState('');
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
   
   const handleDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length === 0) return;
@@ -151,7 +153,7 @@ const PdfSplitPage: React.FC = () => {
       saveAs(blob, `${file.name.replace('.pdf', '')}-split.pdf`);
 
       // Reset state
-      handleReset();
+      performReset();
     } catch (e) {
       console.error(e);
       setError('An error occurred while splitting the PDF.');
@@ -161,12 +163,17 @@ const PdfSplitPage: React.FC = () => {
     }
   };
 
-  const handleReset = () => {
+  const performReset = () => {
     setFile(null);
     setPageThumbnails([]);
     setSelectedPages(new Set());
     setRange('');
     setError(null);
+    setIsResetModalOpen(false);
+  };
+
+  const handleResetClick = () => {
+    setIsResetModalOpen(true);
   };
   
   const renderContent = () => {
@@ -192,7 +199,7 @@ const PdfSplitPage: React.FC = () => {
                 <span className="font-semibold text-gray-300">File:</span>
                 <span className="ml-2 text-slate-400 truncate max-w-xs">{file.name}</span>
            </div>
-           <button onClick={handleReset} className="px-4 py-2 text-sm font-semibold bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">Start Over</button>
+           <button onClick={handleResetClick} className="px-4 py-2 text-sm font-semibold bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">Start Over</button>
         </div>
         
         <div className="flex justify-center border-b border-slate-700 mb-4">
@@ -250,6 +257,15 @@ const PdfSplitPage: React.FC = () => {
               Split PDF
             </button>
         </div>
+        
+        <ConfirmationModal
+          isOpen={isResetModalOpen}
+          onClose={() => setIsResetModalOpen(false)}
+          onConfirm={performReset}
+          title="Start Over?"
+          message="Are you sure you want to start over? The current PDF and your selections will be cleared."
+          confirmText="Start Over"
+        />
 
       </div>
     );

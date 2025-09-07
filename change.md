@@ -1,7 +1,7 @@
 
 # Changelog
 
-All notable changes to the QUANZAB Toolify application will be documented in this file.
+All notable changes to the QUANZAB Toolkit application will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -34,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Initial Release**: Launched QUANZAB Toolify with a suite of productivity tools.
+- **Initial Release**: Launched QUANZAB Toolkit with a suite of productivity tools.
 - **Document Tools**: PDF Merge, Split, Compress, Converter, and Sign.
 - **Business Tools**: Invoice Generator, Task Manager, Receipt Scanner.
 - **AI & Text Tools**: AI Text Summarizer, AI Document Analyzer, Paraphraser.

@@ -2,11 +2,13 @@ import React, { useState, useMemo } from 'react';
 import ToolPageLayout from '../components/ToolPageLayout';
 import { useTaskManager } from '../hooks/useTaskManager';
 import TaskItem from '../components/TaskItem';
+import ConfirmationModal from '../components/ConfirmationModal';
 
 const TaskManagerPage: React.FC = () => {
   const { tasks, addTask, toggleTask, deleteTask, updateTaskDueDate } = useTaskManager();
   const [newTaskText, setNewTaskText] = useState('');
   const [newDueDate, setNewDueDate] = useState('');
+  const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
 
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,6 +19,21 @@ const TaskManagerPage: React.FC = () => {
   
   const pendingTasks = useMemo(() => tasks.filter(task => !task.completed), [tasks]);
   const completedTasks = useMemo(() => tasks.filter(task => task.completed), [tasks]);
+
+  const openDeleteConfirmation = (id: number) => {
+    setTaskToDelete(id);
+  };
+
+  const closeDeleteConfirmation = () => {
+    setTaskToDelete(null);
+  };
+
+  const confirmDelete = () => {
+    if (taskToDelete !== null) {
+      deleteTask(taskToDelete);
+      closeDeleteConfirmation();
+    }
+  };
 
   return (
     <ToolPageLayout
@@ -56,7 +73,7 @@ const TaskManagerPage: React.FC = () => {
             {pendingTasks.length > 0 ? (
                 <ul className="space-y-3">
                     {pendingTasks.map(task => (
-                        <TaskItem key={task.id} task={task} onToggle={toggleTask} onDelete={deleteTask} onUpdateDueDate={updateTaskDueDate} />
+                        <TaskItem key={task.id} task={task} onToggle={toggleTask} onDelete={openDeleteConfirmation} onUpdateDueDate={updateTaskDueDate} />
                     ))}
                 </ul>
             ) : (
@@ -71,12 +88,21 @@ const TaskManagerPage: React.FC = () => {
                 </h3>
                 <ul className="space-y-3">
                     {completedTasks.map(task => (
-                        <TaskItem key={task.id} task={task} onToggle={toggleTask} onDelete={deleteTask} onUpdateDueDate={updateTaskDueDate} />
+                        <TaskItem key={task.id} task={task} onToggle={toggleTask} onDelete={openDeleteConfirmation} onUpdateDueDate={updateTaskDueDate} />
                     ))}
                 </ul>
             </div>
         )}
       </div>
+
+      <ConfirmationModal
+        isOpen={taskToDelete !== null}
+        onClose={closeDeleteConfirmation}
+        onConfirm={confirmDelete}
+        title="Delete Task"
+        message="Are you sure you want to delete this task? This action cannot be undone."
+        confirmText="Delete"
+      />
     </ToolPageLayout>
   );
 };

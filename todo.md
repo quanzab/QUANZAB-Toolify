@@ -1,7 +1,7 @@
 
 # Project To-Do List
 
-This document tracks planned features, enhancements, and bug fixes for the QUANZAB Toolify application.
+This document tracks planned features, enhancements, and bug fixes for the QUANZAB Toolkit application.
 
 ## High Priority
 

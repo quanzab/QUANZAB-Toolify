@@ -26,8 +26,8 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-1 mb-8 md:mb-0">
              <a href="#" className="flex items-center space-x-3">
-                <img src="https://www.quanzab.com/media/quanzab.png" alt="QUANZAB Toolify Logo" className="h-9 w-auto" />
-                <span className="text-2xl font-bold font-heading text-white">QUANZAB</span>
+                <img src="https://www.quanzab.com/media/quanzab.png" alt="QUANZAB Toolkit Logo" className="h-9 w-auto" />
+                <span className="text-2xl font-bold font-heading bg-gradient-to-r from-slate-200 to-slate-400 text-transparent bg-clip-text">QUANZAB Toolkit</span>
             </a>
             <p className="mt-4 text-gray-400">Your all-in-one productivity suite.</p>
           </div>
@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
           ))}
         </div>
         <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-gray-400">&copy; {new Date().getFullYear()} QUANZAB Toolify. All rights reserved.</p>
+          <p className="text-gray-400">&copy; {new Date().getFullYear()} QUANZAB Toolkit. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 sm:mt-0">
             {/* Social Icons Placeholder */}
             <a href="#" className="text-gray-400 hover:text-white"><span className="sr-only">Twitter</span><svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg></a>
