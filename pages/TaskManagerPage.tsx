@@ -4,13 +4,15 @@ import { useTaskManager } from '../hooks/useTaskManager';
 import TaskItem from '../components/TaskItem';
 
 const TaskManagerPage: React.FC = () => {
-  const { tasks, addTask, toggleTask, deleteTask } = useTaskManager();
+  const { tasks, addTask, toggleTask, deleteTask, updateTaskDueDate } = useTaskManager();
   const [newTaskText, setNewTaskText] = useState('');
+  const [newDueDate, setNewDueDate] = useState('');
 
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
-    addTask(newTaskText);
+    addTask(newTaskText, newDueDate || null);
     setNewTaskText('');
+    setNewDueDate('');
   };
   
   const pendingTasks = useMemo(() => tasks.filter(task => !task.completed), [tasks]);
@@ -22,7 +24,7 @@ const TaskManagerPage: React.FC = () => {
       description="Keep track of your to-do list. Your tasks are saved locally in your browser."
     >
       <div className="space-y-6">
-        <form onSubmit={handleAddTask} className="flex gap-2">
+        <form onSubmit={handleAddTask} className="flex flex-col sm:flex-row gap-2">
           <input
             type="text"
             value={newTaskText}
@@ -30,6 +32,13 @@ const TaskManagerPage: React.FC = () => {
             placeholder="Add a new task..."
             className="flex-grow w-full px-4 py-2 border border-slate-600 rounded-lg bg-slate-700 focus:ring-2 focus:ring-primary transition-colors"
             aria-label="New task input"
+          />
+          <input
+            type="date"
+            value={newDueDate}
+            onChange={(e) => setNewDueDate(e.target.value)}
+            className="px-4 py-2 border border-slate-600 rounded-lg bg-slate-700 focus:ring-2 focus:ring-primary transition-colors"
+            aria-label="New task due date"
           />
           <button
             type="submit"
@@ -47,7 +56,7 @@ const TaskManagerPage: React.FC = () => {
             {pendingTasks.length > 0 ? (
                 <ul className="space-y-3">
                     {pendingTasks.map(task => (
-                        <TaskItem key={task.id} task={task} onToggle={toggleTask} onDelete={deleteTask} />
+                        <TaskItem key={task.id} task={task} onToggle={toggleTask} onDelete={deleteTask} onUpdateDueDate={updateTaskDueDate} />
                     ))}
                 </ul>
             ) : (
@@ -62,7 +71,7 @@ const TaskManagerPage: React.FC = () => {
                 </h3>
                 <ul className="space-y-3">
                     {completedTasks.map(task => (
-                        <TaskItem key={task.id} task={task} onToggle={toggleTask} onDelete={deleteTask} />
+                        <TaskItem key={task.id} task={task} onToggle={toggleTask} onDelete={deleteTask} onUpdateDueDate={updateTaskDueDate} />
                     ))}
                 </ul>
             </div>

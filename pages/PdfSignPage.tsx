@@ -1,396 +1,473 @@
 
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import React, { useState, useCallback, useRef, useEffect, useImperativeHandle } from 'react';
+import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
 import ToolPageLayout from '../components/ToolPageLayout';
 import FileDropzone from '../components/FileDropzone';
 import Loader from '../components/Loader';
-import { PencilIcon, TypeIcon, UploadIcon } from '../components/Icons';
+import { PencilIcon, TypeIcon, UndoIcon } from '../components/Icons';
 
-type SignatureMode = 'draw' | 'type' | 'upload';
-const signatureFonts: Record<string, StandardFonts> = {
-  'Caveat': StandardFonts.Helvetica,
-  'Dancing Script': StandardFonts.TimesRoman,
-  'Satisfy': StandardFonts.Courier,
-};
+// A dedicated component for the signature drawing canvas
+const SignaturePad = React.forwardRef<
+  { clear: () => void; undo: () => void; getSignatureDataUrl: () => string | null },
+  { strokeColor?: string; strokeWidth?: number }
+>(({ strokeColor = '#000000', strokeWidth = 2 }, ref) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [paths, setPaths] = useState<[number, number][][]>([]);
+  const [currentPath, setCurrentPath] = useState<[number, number][]>([]);
 
+  const getCoords = (e: MouseEvent | TouchEvent): [number, number] | null => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    if (e instanceof MouseEvent) {
+      return [e.clientX - rect.left, e.clientY - rect.top];
+    }
+    if (e.touches[0]) {
+      return [e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top];
+    }
+    return null;
+  };
+  
+  const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    const coords = getCoords(e.nativeEvent);
+    if (!coords) return;
+    setIsDrawing(true);
+    setCurrentPath([coords]);
+  };
+  
+  const draw = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    if (!isDrawing) return;
+    const coords = getCoords(e.nativeEvent);
+    if (!coords) return;
+    setCurrentPath(prev => [...prev, coords]);
+  };
 
-// Signature Pad component for drawing
-const SignaturePad: React.FC<{ onSave: (dataUrl: string) => void, color: string }> = ({ onSave, color }) => {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [isDrawing, setIsDrawing] = useState(false);
-    const [hasDrawn, setHasDrawn] = useState(false);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-    }, [color]);
-
-    const getCoords = (event: React.MouseEvent | React.TouchEvent) => {
-        if (!canvasRef.current) return { x: 0, y: 0 };
-        const rect = canvasRef.current.getBoundingClientRect();
-        if ('touches' in event) {
-            return { x: event.touches[0].clientX - rect.left, y: event.touches[0].clientY - rect.top };
-        }
-        return { x: event.clientX - rect.left, y: event.clientY - rect.top };
-    };
-
-    const startDrawing = (event: React.MouseEvent | React.TouchEvent) => {
-        const { x, y } = getCoords(event);
-        const ctx = canvasRef.current?.getContext('2d');
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        setIsDrawing(true);
-        setHasDrawn(true);
-    };
-
-    const draw = (event: React.MouseEvent | React.TouchEvent) => {
-        if (!isDrawing) return;
-        const { x, y } = getCoords(event);
-        const ctx = canvasRef.current?.getContext('2d');
-        if (!ctx) return;
-        ctx.lineTo(x, y);
-        ctx.stroke();
-    };
-
-    const stopDrawing = () => {
-        const ctx = canvasRef.current?.getContext('2d');
-        if (!ctx) return;
-        ctx.closePath();
-        setIsDrawing(false);
-    };
-
-    const handleClear = () => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setHasDrawn(false);
-    };
-
-    const handleSave = () => {
-        if (canvasRef.current && hasDrawn) {
-            const dataUrl = canvasRef.current.toDataURL('image/png');
-            onSave(dataUrl);
-        }
-    };
-
-    return (
-        <div>
-            <canvas
-                ref={canvasRef}
-                onMouseDown={startDrawing}
-                onMouseMove={draw}
-                onMouseUp={stopDrawing}
-                onMouseLeave={stopDrawing}
-                onTouchStart={startDrawing}
-                onTouchMove={draw}
-                onTouchEnd={stopDrawing}
-                width={400}
-                height={200}
-                className="bg-slate-700 border border-slate-600 rounded-md"
-            />
-            <div className="flex justify-between mt-2">
-                <button onClick={handleClear} className="text-sm font-semibold text-slate-400 hover:text-primary">Clear</button>
-                <button onClick={handleSave} disabled={!hasDrawn} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-md hover:bg-opacity-90 disabled:bg-gray-400">Save Signature</button>
-            </div>
-        </div>
-    );
-};
-
-
-// Signature creation modal
-const SignatureModal: React.FC<{ onClose: () => void; onSave: (dataUrl: string) => void; }> = ({ onClose, onSave }) => {
-    const [mode, setMode] = useState<SignatureMode>('draw');
-    const [typedText, setTypedText] = useState('');
-    const [font, setFont] = useState(Object.keys(signatureFonts)[0]);
-    const [color, setColor] = useState('#FFFFFF'); // White for dark mode
-
-    const handleSaveTyped = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = 400;
-        canvas.height = 200;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        ctx.font = `48px "${font}"`;
-        ctx.fillStyle = color;
-        ctx.textBaseline = 'middle';
-        ctx.textAlign = 'center';
-        ctx.fillText(typedText, canvas.width / 2, canvas.height / 2);
-        onSave(canvas.toDataURL('image/png'));
-    };
+  const endDrawing = () => {
+    if (!isDrawing || currentPath.length === 0) return;
+    setIsDrawing(false);
+    setPaths(prev => [...prev, currentPath]);
+    setCurrentPath([]);
+  };
+  
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                onSave(event.target?.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    
+    const allPaths = [...paths, currentPath];
 
-    return (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-            <div className="bg-slate-800 rounded-lg shadow-xl p-6 w-full max-w-lg">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-bold font-heading text-white">Create Signature</h3>
-                    <button onClick={onClose} className="text-2xl font-bold text-slate-400 hover:text-white">&times;</button>
-                </div>
+    allPaths.forEach(path => {
+      if (path.length < 2) return;
+      ctx.beginPath();
+      ctx.moveTo(path[0][0], path[0][1]);
+      path.forEach(point => {
+        ctx.lineTo(point[0], point[1]);
+      });
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = strokeWidth;
+      ctx.stroke();
+    });
+  }, [paths, currentPath, strokeColor, strokeWidth]);
 
-                <div className="flex border-b border-slate-700 mb-4">
-                    <button onClick={() => setMode('draw')} className={`px-4 py-2 font-semibold ${mode === 'draw' ? 'border-b-2 border-primary text-primary' : 'text-slate-400'}`}>Draw</button>
-                    <button onClick={() => setMode('type')} className={`px-4 py-2 font-semibold ${mode === 'type' ? 'border-b-2 border-primary text-primary' : 'text-slate-400'}`}>Type</button>
-                    <button onClick={() => setMode('upload')} className={`px-4 py-2 font-semibold ${mode === 'upload' ? 'border-b-2 border-primary text-primary' : 'text-slate-400'}`}>Upload</button>
-                </div>
-                
-                <div className="mb-4">
-                    <label htmlFor="color-picker" className="text-sm font-medium mr-2">Color:</label>
-                    <input id="color-picker" type="color" value={color} onChange={e => setColor(e.target.value)} />
-                </div>
+  useImperativeHandle(ref, () => ({
+    clear: () => {
+      setPaths([]);
+      setCurrentPath([]);
+    },
+    undo: () => {
+      setPaths(prev => prev.slice(0, -1));
+    },
+    getSignatureDataUrl: () => {
+      const canvas = canvasRef.current;
+      if (!canvas || paths.length === 0) return null;
 
-                {mode === 'draw' && <SignaturePad onSave={onSave} color={color}/>}
-                
-                {mode === 'type' && (
-                    <div>
-                        <input
-                            type="text"
-                            value={typedText}
-                            onChange={(e) => setTypedText(e.target.value)}
-                            className="w-full p-4 border border-slate-600 rounded-md bg-slate-700"
-                            style={{ fontFamily: font, fontSize: '2rem', color }}
-                            placeholder="Type your name"
-                        />
-                        <div className="flex items-center justify-between mt-4">
-                            <select value={font} onChange={e => setFont(e.target.value)} className="p-2 border border-slate-600 rounded-md bg-slate-700">
-                                {Object.keys(signatureFonts).map(f => <option key={f} value={f}>{f}</option>)}
-                            </select>
-                            <button onClick={handleSaveTyped} disabled={!typedText} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-md hover:bg-opacity-90 disabled:bg-gray-400">Save Signature</button>
-                        </div>
-                    </div>
-                )}
+      // Find bounding box to trim whitespace
+      let minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
+      paths.flat().forEach(([x, y]) => {
+          minX = Math.min(minX, x);
+          minY = Math.min(minY, y);
+          maxX = Math.max(maxX, x);
+          maxY = Math.max(maxY, y);
+      });
+      
+      const padding = 10;
+      minX = Math.max(0, minX - padding);
+      minY = Math.max(0, minY - padding);
+      maxX = Math.min(canvas.width, maxX + padding);
+      maxY = Math.min(canvas.height, maxY + padding);
+      
+      const trimmedWidth = maxX - minX;
+      const trimmedHeight = maxY - minY;
 
-                {mode === 'upload' && (
-                    <div>
-                        <label className="w-full flex flex-col items-center px-4 py-6 bg-slate-700 text-primary rounded-lg shadow-lg tracking-wide uppercase border border-primary cursor-pointer hover:bg-primary hover:text-slate-900 transition-colors">
-                           <UploadIcon className="w-8 h-8"/>
-                            <span className="mt-2 text-base leading-normal">Select an image file</span>
-                            <input type='file' accept="image/png, image/jpeg" className="hidden" onChange={handleImageUpload} />
-                        </label>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
-};
+      if (trimmedWidth <= 0 || trimmedHeight <= 0) return null;
 
-// Main Page Component
+      const trimmedCanvas = document.createElement('canvas');
+      trimmedCanvas.width = trimmedWidth;
+      trimmedCanvas.height = trimmedHeight;
+      const trimmedCtx = trimmedCanvas.getContext('2d');
+      if (!trimmedCtx) return null;
+      
+      trimmedCtx.drawImage(canvas, minX, minY, trimmedWidth, trimmedHeight, 0, 0, trimmedWidth, trimmedHeight);
+      
+      return trimmedCanvas.toDataURL('image/png');
+    },
+  }));
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={400}
+      height={200}
+      className="bg-slate-100 rounded-lg cursor-crosshair touch-none"
+      onMouseDown={startDrawing}
+      onMouseMove={draw}
+      onMouseUp={endDrawing}
+      onMouseLeave={endDrawing}
+      onTouchStart={startDrawing}
+      onTouchMove={draw}
+      onTouchEnd={endDrawing}
+    />
+  );
+});
+
 const PdfSignPage: React.FC = () => {
-    const [file, setFile] = useState<File | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [loadingMessage, setLoadingMessage] = useState('');
-    const [error, setError] = useState<string | null>(null);
-    // FIX: Store page dimensions along with the data URL to correctly calculate signature coordinates.
-    const [pdfPages, setPdfPages] = useState<{ src: string, width: number, height: number }[]>([]);
-    const [pdfDimensions, setPdfDimensions] = useState<{ width: number, height: number }[]>([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [signature, setSignature] = useState<string | null>(null);
-    const [placedItems, setPlacedItems] = useState<any[]>([]);
+  const [file, setFile] = useState<File | null>(null);
+  const [signatureImage, setSignatureImage] = useState<File | null>(null);
+  const [signaturePreview, setSignaturePreview] = useState<string | null>(null);
+  const [pagePreviews, setPagePreviews] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [placement, setPlacement] = useState<{ pageIndex: number; x: number; y: number } | null>(null);
 
-    const handleDrop = useCallback(async (acceptedFiles: File[]) => {
-        if (acceptedFiles.length === 0) return;
-        const droppedFile = acceptedFiles[0];
-        setFile(droppedFile);
-        setError(null);
-        setIsLoading(true);
-        setLoadingMessage('Preparing your document...');
+  // State for drawing modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [signatureColor, setSignatureColor] = useState('#0000FF'); // Default Blue
+  const [signatureWidth, setSignatureWidth] = useState(2); // Default Medium
+  const signaturePadRef = useRef<{ clear: () => void; undo: () => void; getSignatureDataUrl: () => string | null }>(null);
+  
+  const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-        try {
-            const { getDocument, GlobalWorkerOptions } = await import('pdfjs-dist');
-            GlobalWorkerOptions.workerSrc = `https://aistudiocdn.com/pdfjs-dist@4.5.136/build/pdf.worker.min.mjs`;
+  const handlePdfDrop = useCallback(async (acceptedFiles: File[]) => {
+    if (acceptedFiles.length === 0) return;
+    const droppedFile = acceptedFiles[0];
+    setFile(droppedFile);
+    setError(null);
+    setPlacement(null);
+    setIsLoading(true);
+    setLoadingMessage('Generating page previews...');
 
-            const arrayBuffer = await droppedFile.arrayBuffer();
-            const loadingTask = getDocument(arrayBuffer);
-            const pdf = await loadingTask.promise;
-            
-            const thumbnails: { src: string, width: number, height: number }[] = [];
-            const dimensions: { width: number, height: number }[] = [];
+    try {
+      const { getDocument, GlobalWorkerOptions } = await import('pdfjs-dist');
+      GlobalWorkerOptions.workerSrc = `https://aistudiocdn.com/pdfjs-dist@4.5.136/build/pdf.worker.min.mjs`;
 
-            for (let i = 1; i <= pdf.numPages; i++) {
-                const page = await pdf.getPage(i);
-                const viewport = page.getViewport({ scale: 1.5 });
-                dimensions.push({ width: page.view[2], height: page.view[3] });
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                if (context) {
-                    // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
-                    await page.render({ canvas, canvasContext: context, viewport }).promise;
-                    thumbnails.push({ src: canvas.toDataURL(), width: viewport.width, height: viewport.height });
-                }
-            }
-            setPdfPages(thumbnails);
-            setPdfDimensions(dimensions);
-        } catch (e) {
-            setError('Could not read PDF. It might be corrupted or protected.');
-            setFile(null);
-        } finally {
-            setIsLoading(false);
+      const arrayBuffer = await droppedFile.arrayBuffer();
+      const loadingTask = getDocument(arrayBuffer);
+      const pdf = await loadingTask.promise;
+      const thumbnails: string[] = [];
+      pageRefs.current = [];
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 1.0 });
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        
+        if (context) {
+          await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
+          thumbnails.push(canvas.toDataURL());
         }
-    }, []);
+      }
+      setPagePreviews(thumbnails);
+    } catch (e) {
+      console.error(e);
+      setError('Could not read the PDF file. It might be corrupted or protected.');
+      setFile(null);
+    } finally {
+      setIsLoading(false);
+      setLoadingMessage('');
+    }
+  }, []);
+
+  const handleSignatureDrop = useCallback((acceptedFiles: File[]) => {
+    if (acceptedFiles.length > 0) {
+      const sigFile = acceptedFiles[0];
+      setSignatureImage(sigFile);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSignaturePreview(reader.result as string);
+      };
+      reader.readAsDataURL(sigFile);
+    }
+  }, []);
+
+  const dataUrlToFile = async (dataUrl: string, fileName: string): Promise<File> => {
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    return new File([blob], fileName, { type: 'image/png' });
+  };
+  
+  const handleSaveSignature = async () => {
+    const dataUrl = signaturePadRef.current?.getSignatureDataUrl();
+    if (dataUrl) {
+      setSignaturePreview(dataUrl);
+      const signatureFile = await dataUrlToFile(dataUrl, 'signature.png');
+      setSignatureImage(signatureFile);
+      setIsModalOpen(false);
+    } else {
+      // Handle case where canvas is empty
+      alert("Please draw a signature before saving.");
+    }
+  };
+
+  const handlePageClick = (pageIndex: number, event: React.MouseEvent<HTMLDivElement>) => {
+    if (!signaturePreview) {
+      setError("Please add a signature first.");
+      return;
+    }
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    setPlacement({ pageIndex, x, y });
+    setError(null);
+  };
+  
+  const handleSign = async () => {
+    if (!file || !signatureImage || !placement) {
+      setError("Please upload a PDF, a signature, and click on the document to place it.");
+      return;
+    }
     
-    const addItemToPage = (pageIndex: number, itemType: 'signature' | 'text') => {
-        let newItem: any;
-        if (itemType === 'signature' && signature) {
-            newItem = { id: Date.now(), type: 'signature', pageIndex, x: 20, y: 20, width: 150, height: 75, data: signature };
-        } else if (itemType === 'text') {
-            newItem = { id: Date.now(), type: 'text', pageIndex, x: 20, y: 20, width: 200, height: 40, data: 'Type something...' };
-        }
-        if (newItem) {
-            setPlacedItems(prev => [...prev, newItem]);
-        }
-    };
+    setIsLoading(true);
+    setLoadingMessage('Applying signature...');
+    setError(null);
 
-    const updateItem = (id: number, updates: any) => {
-        setPlacedItems(prev => prev.map(item => item.id === id ? { ...item, ...updates } : item));
-    };
+    try {
+      const pdfBytes = await file.arrayBuffer();
+      const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+      
+      const sigBytes = await signatureImage.arrayBuffer();
+      const sigImage = signatureImage.type === 'image/png'
+        ? await pdfDoc.embedPng(sigBytes)
+        : await pdfDoc.embedJpg(sigBytes);
 
-    const deleteItem = (id: number) => {
-        setPlacedItems(prev => prev.filter(item => item.id !== id));
-    };
+      const page = pdfDoc.getPages()[placement.pageIndex];
+      const { width, height } = page.getSize();
+      
+      const previewEl = pageRefs.current[placement.pageIndex];
+      if (!previewEl) throw new Error("Could not find page element for sizing.");
+      
+      const previewWidth = previewEl.clientWidth;
+      
+      // Define a consistent signature size on the PDF document (e.g., 120px wide)
+      const sigPdfWidth = 120;
+      const sigPdfHeight = (sigPdfWidth / sigImage.width) * sigImage.height;
+      
+      // Convert click coordinates on the preview to PDF coordinates
+      const scaledX = (placement.x / previewWidth) * width;
+      const scaledY = height - ((placement.y / previewWidth) * width) - sigPdfHeight; // Adjust for aspect ratio of preview vs pdf
 
-    const handleApplySignatures = async () => {
-        if (!file || placedItems.length === 0) return;
-        setIsLoading(true);
-        setLoadingMessage('Applying signatures...');
-        try {
-            const existingPdfBytes = await file.arrayBuffer();
-            const pdfDoc = await PDFDocument.load(existingPdfBytes, { ignoreEncryption: true });
-            const pages = pdfDoc.getPages();
+      page.drawImage(sigImage, {
+        x: scaledX - (sigPdfWidth / 2), // Center the signature on the click
+        y: scaledY + (sigPdfHeight / 2),
+        width: sigPdfWidth,
+        height: sigPdfHeight,
+      });
 
-            for (const item of placedItems) {
-                const page = pages[item.pageIndex];
-                const { width: pageWidth, height: pageHeight } = page.getSize();
+      const signedPdfBytes = await pdfDoc.save();
+      const blob = new Blob([signedPdfBytes], { type: 'application/pdf' });
+      saveAs(blob, `${file.name.replace('.pdf', '')}-signed.pdf`);
+      
+      handleReset();
 
-                // FIX: Correctly calculate the scaling factor between the displayed thumbnail and the actual PDF page size.
-                // The original implementation was buggy and would result in incorrect signature placement.
-                const pageViewData = pdfPages[item.pageIndex];
-                if (!pageViewData) {
-                    continue;
-                }
-                const viewWidth = pageViewData.width;
-                const scale = viewWidth > 0 ? pageWidth / viewWidth : 1;
+    } catch (e) {
+      console.error(e);
+      setError("An error occurred while signing the document. The PDF may be protected.");
+    } finally {
+      setIsLoading(false);
+      setLoadingMessage('');
+    }
+  };
 
-                const pdfX = item.x * scale;
-                const pdfY = pageHeight - ((item.y + item.height) * scale);
-                const pdfWidth = item.width * scale;
-                const pdfHeight = item.height * scale;
-                
-                if (item.type === 'signature') {
-                    const pngImageBytes = await fetch(item.data).then(res => res.arrayBuffer());
-                    const pngImage = await pdfDoc.embedPng(pngImageBytes);
-                    page.drawImage(pngImage, { x: pdfX, y: pdfY, width: pdfWidth, height: pdfHeight });
-                } else if (item.type === 'text') {
-                    page.drawText(item.data, {
-                        x: pdfX,
-                        y: pdfY + (pdfHeight * 0.2), // Adjust baseline
-                        size: pdfHeight * 0.8,
-                        font: await pdfDoc.embedFont(StandardFonts.Helvetica),
-                        color: rgb(0, 0, 0),
-                    });
-                }
-            }
-            
-            // FIX: The `flatten` method does not exist on `PDFDocument` and is not necessary here.
-            // Drawing images and text directly onto the page makes them a permanent part of the content.
-            const pdfBytes = await pdfDoc.save();
-            saveAs(new Blob([pdfBytes], { type: 'application/pdf' }), `${file.name.replace('.pdf', '')}-signed.pdf`);
-            setFile(null);
-            setPdfPages([]);
-            setPlacedItems([]);
-            setSignature(null);
-        } catch(e) {
-            console.error(e);
-            setError("Failed to apply signatures. Please try again.");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  const handleReset = () => {
+    setFile(null);
+    setSignatureImage(null);
+    setSignaturePreview(null);
+    setPagePreviews([]);
+    setPlacement(null);
+    setError(null);
+  };
+
+  const renderSignatureModal = () => {
+    if (!isModalOpen) return null;
     
-    if (isLoading) return <ToolPageLayout title="Sign PDF" description="Sign documents securely."><Loader message={loadingMessage} /></ToolPageLayout>;
+    const colors = [
+        { name: 'Blue', value: '#0000FF' },
+        { name: 'Black', value: '#000000' },
+        { name: 'Red', value: '#FF0000' },
+    ];
+    
+    const widths = [
+        { name: 'Thin', value: 1 },
+        { name: 'Medium', value: 2 },
+        { name: 'Thick', value: 4 },
+    ];
 
     return (
-        <ToolPageLayout title="Sign PDF" description="Upload your document, add your signature, and download.">
-            {!file ? (
-                <FileDropzone onDrop={handleDrop} accept={{ 'application/pdf': ['.pdf'] }} multiple={false} instructions="Drop your PDF here to start signing" />
-            ) : (
-                <div className="flex flex-col md:flex-row gap-8">
-                    {/* Sidebar */}
-                    <aside className="w-full md:w-72 flex-shrink-0 bg-slate-800 p-4 rounded-lg border border-slate-700 self-start">
-                        <h3 className="font-bold text-lg mb-4">Tools</h3>
-                        <div className="space-y-4">
-                            <div>
-                                <p className="font-semibold mb-2">My Signature</p>
-                                {signature ? (
-                                    <div className="p-2 border border-dashed border-slate-600 rounded-md bg-slate-700">
-                                        <img src={signature} alt="Signature" className="max-w-full h-auto" />
-                                        <button onClick={() => setIsModalOpen(true)} className="text-sm font-semibold text-primary w-full text-center mt-2">Change</button>
-                                    </div>
-                                ) : (
-                                    <button onClick={() => setIsModalOpen(true)} className="w-full p-4 border-2 border-dashed rounded-md border-slate-600 hover:bg-slate-700">Add Signature</button>
-                                )}
-                            </div>
-                             <button onClick={() => addItemToPage(0, 'text')} className="w-full flex items-center gap-2 p-2 border border-slate-600 rounded-md hover:bg-slate-700">
-                                <TypeIcon className="w-5 h-5"/> Add Text
-                            </button>
-                        </div>
-                        <div className="mt-8 pt-4 border-t border-slate-700">
-                            <button onClick={handleApplySignatures} disabled={placedItems.length === 0} className="w-full px-6 py-3 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 disabled:bg-slate-600">
-                                Apply & Sign
-                            </button>
-                        </div>
-                        <p className="text-xs text-slate-500 mt-2 text-center">Document will be flattened to prevent edits.</p>
-
-                    </aside>
-
-                    {/* Document Viewer */}
-                    <main className="flex-grow bg-slate-900/50 p-4 rounded-lg overflow-auto">
-                        <div className="space-y-4 mx-auto">
-                            {pdfPages.map((pageData, index) => (
-                                <div key={index} onDoubleClick={() => signature && addItemToPage(index, 'signature')} className="relative shadow-lg mx-auto" style={{ width: 'fit-content' }}>
-                                    <img src={pageData.src} alt={`Page ${index + 1}`} />
-                                    {placedItems.filter(item => item.pageIndex === index).map(item => (
-                                        <div key={item.id} style={{ position: 'absolute', left: item.x, top: item.y, width: item.width, height: item.height, border: '1px dashed #22d3ee' }}
-                                             onMouseDown={(e) => { e.preventDefault(); /* Logic for drag/resize start */ }}
-                                        >
-                                            {item.type === 'signature' && <img src={item.data} alt="signature" className="w-full h-full" />}
-                                            {item.type === 'text' && (
-                                                <input type="text" value={item.data} onChange={(e) => updateItem(item.id, {data: e.target.value})} className="w-full h-full bg-transparent border-none text-2xl text-white"/>
-                                            )}
-                                            <button onClick={() => deleteItem(item.id)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs">&times;</button>
-                                        </div>
-                                    ))}
-                                </div>
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4" aria-modal="true" role="dialog">
+            <div className="bg-slate-800 p-6 rounded-xl shadow-2xl border border-slate-700 w-full max-w-lg">
+                <h3 className="text-xl font-bold text-white mb-4">Draw Your Signature</h3>
+                <SignaturePad ref={signaturePadRef} strokeColor={signatureColor} strokeWidth={signatureWidth} />
+                
+                <div className="my-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Color</label>
+                        <div className="flex gap-2">
+                            {colors.map(color => (
+                                <button key={color.name} onClick={() => setSignatureColor(color.value)} className={`w-8 h-8 rounded-full transition-transform transform hover:scale-110 ${signatureColor === color.value ? 'ring-2 ring-offset-2 ring-offset-slate-800 ring-primary' : ''}`} style={{ backgroundColor: color.value }} aria-label={`Set color to ${color.name}`}></button>
                             ))}
                         </div>
-                    </main>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-300 mb-2">Line Width</label>
+                         <div className="flex gap-2">
+                            {widths.map(width => (
+                                <button key={width.name} onClick={() => setSignatureWidth(width.value)} className={`px-3 py-1 text-sm rounded-md transition-colors ${signatureWidth === width.value ? 'bg-primary text-slate-900 font-bold' : 'bg-slate-700 hover:bg-slate-600'}`}>{width.name}</button>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            )}
-            {isModalOpen && <SignatureModal onClose={() => setIsModalOpen(false)} onSave={(data) => { setSignature(data); setIsModalOpen(false); }} />}
-        </ToolPageLayout>
+
+                <div className="flex justify-between items-center mt-4">
+                    <div>
+                         <button onClick={() => signaturePadRef.current?.undo()} className="px-4 py-2 text-sm text-gray-300 bg-slate-700 rounded-md hover:bg-slate-600 inline-flex items-center gap-2"><UndoIcon className="w-4 h-4" /> Undo</button>
+                         <button onClick={() => signaturePadRef.current?.clear()} className="ml-2 px-4 py-2 text-sm text-gray-300 bg-slate-700 rounded-md hover:bg-slate-600">Clear</button>
+                    </div>
+                    <div>
+                        <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-semibold text-gray-300 rounded-md hover:bg-slate-700">Cancel</button>
+                        <button onClick={handleSaveSignature} className="ml-2 px-6 py-2 text-sm font-semibold text-slate-900 bg-primary rounded-md hover:bg-opacity-90">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
+  };
+
+  const renderSigner = () => (
+    <div className="space-y-6">
+      {renderSignatureModal()}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1 space-y-4">
+          <h3 className="font-bold text-lg">1. Add Signature</h3>
+          <div className="space-y-2">
+              <FileDropzone 
+                onDrop={handleSignatureDrop}
+                accept={{ 'image/png': ['.png'], 'image/jpeg': ['.jpg', '.jpeg'] }}
+                multiple={false}
+                instructions="Drop signature image"
+              />
+              <div className="flex items-center gap-2 text-slate-400">
+                  <hr className="flex-grow border-slate-600" />
+                  <span>OR</span>
+                  <hr className="flex-grow border-slate-600" />
+              </div>
+              <button onClick={() => setIsModalOpen(true)} className="w-full justify-center inline-flex items-center gap-2 px-4 py-2 text-center font-semibold text-primary bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-700 transition-colors duration-300">
+                  <PencilIcon className="w-5 h-5"/> Draw Signature
+              </button>
+          </div>
+          {signaturePreview && (
+            <div>
+              <p className="font-semibold text-sm mb-2">Signature Preview:</p>
+              <div className="p-2 bg-slate-800 rounded-lg border border-slate-700">
+                <img src={signaturePreview} alt="Signature" className="max-h-24 mx-auto" style={{ filter: signatureImage?.type.includes('image') ? 'invert(1) grayscale(1) contrast(3)' : '' }}/>
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="lg:col-span-2">
+           <h3 className="font-bold text-lg">2. Place Signature</h3>
+           <p className="text-slate-400 text-sm mb-2">Click on the document where you want to place the signature.</p>
+           <div className="max-h-[60vh] overflow-y-auto p-4 bg-slate-950 border border-slate-700 rounded-lg space-y-4">
+            {pagePreviews.map((src, index) => (
+              <div 
+                key={index} 
+                // FIX: The ref callback should not return a value. Changed to a block body.
+                ref={el => { pageRefs.current[index] = el; }}
+                onClick={(e) => handlePageClick(index, e)}
+                className="relative cursor-pointer shadow-lg mx-auto"
+                style={{ width: '100%' }}
+              >
+                <img src={src} alt={`Page ${index + 1}`} className="w-full h-auto" />
+                {placement?.pageIndex === index && signaturePreview && (
+                  <img 
+                    src={signaturePreview} 
+                    alt="Signature placement" 
+                    className="absolute pointer-events-none"
+                    style={{ 
+                      left: `${placement.x}px`, 
+                      top: `${placement.y}px`, 
+                      width: '120px', 
+                      transform: 'translate(-50%, -50%)',
+                      filter: signatureImage?.type.includes('image') ? 'opacity(0.7) invert(1) grayscale(1) contrast(3)' : 'opacity(0.7)',
+                    }} 
+                  />
+                )}
+              </div>
+            ))}
+           </div>
+        </div>
+      </div>
+       {error && <p className="text-red-500 text-center my-4 font-semibold">{error}</p>}
+      <div className="mt-6 pt-6 border-t border-slate-700 text-center space-y-4">
+        <h3 className="font-bold text-lg">3. Finalize & Download</h3>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button 
+                onClick={handleSign}
+                disabled={!placement || isLoading}
+                className="w-full sm:w-auto px-12 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg hover:bg-opacity-90 disabled:bg-slate-600"
+            >
+                <PencilIcon className="inline-block w-5 h-5 mr-2" />
+                Sign & Download
+            </button>
+            <button onClick={handleReset} className="font-semibold text-slate-400 hover:text-primary">
+                Start Over
+            </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <ToolPageLayout
+      title="eSign PDF"
+      description="Easily sign your documents. Upload or draw your signature, and download the signed file securely."
+    >
+      {isLoading ? (
+        <Loader message={loadingMessage} />
+       ) : !file ? (
+        <FileDropzone 
+          onDrop={handlePdfDrop}
+          accept={{ 'application/pdf': ['.pdf'] }}
+          multiple={false}
+          instructions="Drag and drop your PDF here"
+        />
+      ) : (
+        renderSigner()
+      )}
+    </ToolPageLayout>
+  );
 };
 
 export default PdfSignPage;

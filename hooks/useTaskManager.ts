@@ -22,12 +22,13 @@ export const useTaskManager = () => {
     }
   }, [tasks]);
 
-  const addTask = (text: string) => {
+  const addTask = (text: string, dueDate: string | null) => {
     if (!text.trim()) return;
     const newTask: Task = {
       id: Date.now(),
       text,
       completed: false,
+      dueDate,
     };
     setTasks(prevTasks => [...prevTasks, newTask]);
   };
@@ -44,5 +45,13 @@ export const useTaskManager = () => {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
   };
 
-  return { tasks, addTask, toggleTask, deleteTask };
+  const updateTaskDueDate = (id: number, dueDate: string | null) => {
+    setTasks(prevTasks =>
+      prevTasks.map(task =>
+        task.id === id ? { ...task, dueDate } : task
+      )
+    );
+  };
+
+  return { tasks, addTask, toggleTask, deleteTask, updateTaskDueDate };
 };

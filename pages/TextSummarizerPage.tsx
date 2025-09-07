@@ -9,6 +9,7 @@ const TextSummarizerPage: React.FC = () => {
   const [summary, setSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const handleSummarize = async () => {
     if (!inputText.trim()) {
@@ -34,6 +35,15 @@ const TextSummarizerPage: React.FC = () => {
     }
   };
 
+  const handleCopy = () => {
+    if (summary) {
+      navigator.clipboard.writeText(summary).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      });
+    }
+  };
+
   return (
     <ToolPageLayout
       title="Text Summarizer"
@@ -51,6 +61,7 @@ const TextSummarizerPage: React.FC = () => {
             rows={10}
             className="w-full p-3 border rounded-md bg-slate-800 border-slate-600 focus:ring-2 focus:ring-primary"
             placeholder="Enter a long piece of text here..."
+            aria-label="Text input for summarization"
           ></textarea>
         </div>
 
@@ -64,13 +75,22 @@ const TextSummarizerPage: React.FC = () => {
           </button>
         </div>
 
-        {error && <p className="text-red-500 text-center font-semibold">{error}</p>}
+        {error && <p className="text-red-500 text-center font-semibold" role="alert">{error}</p>}
         
         {isLoading && <Loader message="AI is reading and summarizing..." />}
 
         {summary && (
-          <div>
-            <h3 className="text-xl font-bold mt-6 border-t pt-4 border-slate-700">Summary</h3>
+          <div role="region" aria-labelledby="summary-heading">
+            <div className="flex justify-between items-center mt-6 border-t pt-4 border-slate-700">
+              <h3 id="summary-heading" className="text-xl font-bold">Summary</h3>
+              <button
+                onClick={handleCopy}
+                className="px-3 py-1.5 text-sm font-semibold text-gray-200 bg-slate-700 rounded-md hover:bg-slate-600 transition-colors"
+                aria-label="Copy summary to clipboard"
+              >
+                {copied ? 'Copied!' : 'Copy Summary'}
+              </button>
+            </div>
             <div className="mt-2 p-4 bg-slate-800/50 rounded-md whitespace-pre-wrap">
               {summary}
             </div>
