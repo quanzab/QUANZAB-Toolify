@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useMemo } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
@@ -45,7 +46,6 @@ const PdfSplitPage: React.FC = () => {
           canvas.width = viewport.width;
           
           if (context) {
-            // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
             await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
             thumbnails.push(canvas.toDataURL());
           }
@@ -75,31 +75,42 @@ const PdfSplitPage: React.FC = () => {
     });
   };
 
-  const parseRange = (rangeStr: string): number[] => {
+  const parseRange = (rangeStr: string, totalPages: number): number[] => {
     const pages = new Set<number>();
-    const parts = rangeStr.split(',').map(part => part.trim());
+    const parts = rangeStr.split(',').map(part => part.trim()).filter(Boolean);
 
     for (const part of parts) {
+      if (!/^[0-9]+(-[0-9]+)?$/.test(part)) {
+          throw new Error(`Invalid format for "${part}". Use numbers like '5' or ranges like '2-4'.`);
+      }
+
       if (part.includes('-')) {
-        const [start, end] = part.split('-').map(num => parseInt(num.trim(), 10));
-        if (!isNaN(start) && !isNaN(end) && start <= end) {
-          for (let i = start; i <= end; i++) {
-            if (i > 0 && i <= pageThumbnails.length) pages.add(i - 1);
-          }
-        } else {
-            throw new Error(`Invalid range format: "${part}"`);
+        const [startStr, endStr] = part.split('-');
+        const start = parseInt(startStr, 10);
+        const end = parseInt(endStr, 10);
+
+        if (start > end) {
+            throw new Error(`Invalid range: "${part}". The start page cannot be greater than the end page.`);
+        }
+        if (start < 1 || end > totalPages) {
+            throw new Error(`Range "${part}" is out of bounds. This document has ${totalPages} pages (1-${totalPages}).`);
+        }
+
+        for (let i = start; i <= end; i++) {
+            pages.add(i - 1); // 0-indexed
         }
       } else {
         const pageNum = parseInt(part, 10);
-        if (!isNaN(pageNum) && pageNum > 0 && pageNum <= pageThumbnails.length) {
-          pages.add(pageNum - 1);
-        } else if (part) {
-            throw new Error(`Invalid page number: "${part}"`);
+        if (pageNum < 1 || pageNum > totalPages) {
+            throw new Error(`Page number "${pageNum}" is out of bounds. This document has ${totalPages} pages (1-${totalPages}).`);
         }
+        pages.add(pageNum - 1); // 0-indexed
       }
     }
     return Array.from(pages).sort((a, b) => a - b);
   };
+  
+  const pageCount = useMemo(() => pageThumbnails.length, [pageThumbnails]);
   
   const handleSplit = async () => {
     if (!file) return;
@@ -111,7 +122,7 @@ const PdfSplitPage: React.FC = () => {
         if (mode === 'select') {
           pagesToExtract = Array.from(selectedPages).sort((a, b) => a - b);
         } else {
-          pagesToExtract = parseRange(range);
+          pagesToExtract = parseRange(range, pageCount);
         }
     
         if (pagesToExtract.length === 0) {
@@ -158,8 +169,6 @@ const PdfSplitPage: React.FC = () => {
     setError(null);
   };
   
-  const pageCount = useMemo(() => pageThumbnails.length, [pageThumbnails]);
-
   const renderContent = () => {
     if (isLoading) {
       return <Loader message={loadingMessage || 'Loading...'} />;
