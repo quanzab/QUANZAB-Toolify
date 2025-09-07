@@ -17,3 +17,9 @@ export interface Tool {
   tags?: ('New' | 'Popular' | 'AI')[];
   featured?: boolean;
 }
+
+export interface Task {
+  id: number;
+  text: string;
+  completed: boolean;
+}

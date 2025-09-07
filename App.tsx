@@ -23,6 +23,7 @@ const AiDocumentAnalyzerPage = lazy(() => import('./pages/AiDocumentAnalyzerPage
 const CrewRosterPlannerPage = lazy(() => import('./pages/CrewRosterPlannerPage'));
 const VesselComplianceCheckerPage = lazy(() => import('./pages/VesselComplianceCheckerPage'));
 const ParaphraserRewriterPage = lazy(() => import('./pages/ParaphraserRewriterPage'));
+const TaskManagerPage = lazy(() => import('./pages/TaskManagerPage'));
 
 
 // A map of implemented tool paths to their components
@@ -40,6 +41,7 @@ const implementedTools: { [key: string]: React.LazyExoticComponent<ComponentType
   '/crew-roster-planner': CrewRosterPlannerPage,
   '/vessel-compliance-checker': VesselComplianceCheckerPage,
   '/paraphraser-rewriter': ParaphraserRewriterPage,
+  '/task-manager': TaskManagerPage,
 };
 
 

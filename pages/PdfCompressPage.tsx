@@ -1,9 +1,9 @@
+
 import React, { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
 import ToolPageLayout from '../components/ToolPageLayout';
 import FileDropzone from '../components/FileDropzone';
-import Loader from '../components/Loader';
 
 type CompressionLevel = 'high' | 'medium' | 'low';
 
@@ -69,7 +69,6 @@ const PdfCompressPage: React.FC = () => {
                 context.fillStyle = 'white';
                 context.fillRect(0, 0, canvas.width, canvas.height);
 
-                // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
                 await page.render({ canvas, canvasContext: context, viewport }).promise;
 
                 const jpegDataUrl = canvas.toDataURL('image/jpeg', quality);
@@ -165,7 +164,7 @@ const PdfCompressPage: React.FC = () => {
 
     const renderUploader = () => {
         return (
-            <>
+            <fieldset disabled={isLoading}>
                 {!file ? (
                     <FileDropzone
                         onDrop={handleDrop}
@@ -175,7 +174,7 @@ const PdfCompressPage: React.FC = () => {
                     />
                 ) : (
                     <div className="text-center">
-                        <div className="p-4 bg-slate-800 rounded-lg inline-flex items-center gap-4">
+                        <div className={`p-4 bg-slate-800 rounded-lg inline-flex items-center gap-4 ${isLoading ? 'animate-pulse' : ''}`}>
                             <span className="font-medium text-gray-300">{file.name}</span>
                             <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl leading-none px-2 rounded-full hover:bg-red-900/50 transition-colors">&times;</button>
                         </div>
@@ -203,13 +202,23 @@ const PdfCompressPage: React.FC = () => {
                 <div className="mt-8 text-center">
                     <button
                         onClick={handleCompress}
-                        disabled={!file}
-                        className="w-full sm:w-auto px-12 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 disabled:bg-slate-600 disabled:cursor-not-allowed disabled:scale-100"
+                        disabled={!file || isLoading}
+                        className="w-full sm:w-auto px-12 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 disabled:bg-slate-600 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center min-h-[56px] min-w-[220px]"
                     >
-                        Compress PDF
+                        {isLoading ? (
+                            <>
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span>{progress || 'Compressing...'}</span>
+                            </>
+                        ) : (
+                            <span>Compress PDF</span>
+                        )}
                     </button>
                 </div>
-            </>
+            </fieldset>
         );
     };
 
@@ -218,7 +227,7 @@ const PdfCompressPage: React.FC = () => {
             title="PDF Compressor"
             description="Reduce the file size of your PDFs while maintaining a balance of quality and size. Choose a compression level to suit your needs."
         >
-            {isLoading ? <Loader message={progress} /> : (result ? renderResult() : renderUploader())}
+            {result ? renderResult() : renderUploader()}
         </ToolPageLayout>
     );
 };

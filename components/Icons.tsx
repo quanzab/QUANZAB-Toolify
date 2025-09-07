@@ -161,3 +161,9 @@ export const TypeIcon: React.FC<{ className?: string }> = (props) => (
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7V6a1 1 0 011-1h14a1 1 0 011 1v1M7 12h10M9 12V6m6 6V6" />
     </Icon>
 );
+
+export const ChecklistIcon: React.FC<{ className?: string }> = (props) => (
+    <Icon {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+    </Icon>
+);

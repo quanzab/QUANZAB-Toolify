@@ -8,7 +8,8 @@ import {
   InvoiceIcon, 
   SummarizeIcon, 
   AIIcon, 
-  MaritimeIcon 
+  MaritimeIcon,
+  ChecklistIcon
 } from '../components/Icons';
 
 export const tools: Tool[] = [
@@ -55,6 +56,13 @@ export const tools: Tool[] = [
     icon: InvoiceIcon,
     category: Category.BUSINESS,
     path: '/invoice-generator',
+  },
+   {
+    name: 'Task Manager',
+    description: 'A simple to-do list to keep track of your tasks.',
+    icon: ChecklistIcon,
+    category: Category.BUSINESS,
+    path: '/task-manager',
   },
   {
     name: 'Receipt Scanner',
