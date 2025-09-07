@@ -13,6 +13,14 @@ const PdfSplitPage = lazy(() => import('./pages/PdfSplitPage'));
 const PdfCompressPage = lazy(() => import('./pages/PdfCompressPage'));
 const PdfSignPage = lazy(() => import('./pages/PdfSignPage'));
 const ToolComingSoonPage = lazy(() => import('./pages/ToolComingSoonPage'));
+const InvoiceGeneratorPage = lazy(() => import('./pages/InvoiceGeneratorPage'));
+const ReceiptScannerPage = lazy(() => import('./pages/ReceiptScannerPage'));
+const TextSummarizerPage = lazy(() => import('./pages/TextSummarizerPage'));
+const AiDocumentAnalyzerPage = lazy(() => import('./pages/AiDocumentAnalyzerPage'));
+const CrewRosterPlannerPage = lazy(() => import('./pages/CrewRosterPlannerPage'));
+const VesselComplianceCheckerPage = lazy(() => import('./pages/VesselComplianceCheckerPage'));
+const ParaphraserRewriterPage = lazy(() => import('./pages/ParaphraserRewriterPage'));
+
 
 // A map of implemented tool paths to their components
 // FIX: Changed React.FC to ComponentType to fix type error with React.lazy
@@ -22,6 +30,13 @@ const implementedTools: { [key: string]: React.LazyExoticComponent<ComponentType
   '/pdf-split': PdfSplitPage,
   '/pdf-compress': PdfCompressPage,
   '/pdf-sign': PdfSignPage,
+  '/invoice-generator': InvoiceGeneratorPage,
+  '/receipt-scanner': ReceiptScannerPage,
+  '/text-summarizer': TextSummarizerPage,
+  '/ai-document-analyzer': AiDocumentAnalyzerPage,
+  '/crew-roster-planner': CrewRosterPlannerPage,
+  '/vessel-compliance-checker': VesselComplianceCheckerPage,
+  '/paraphraser-rewriter': ParaphraserRewriterPage,
 };
 
 

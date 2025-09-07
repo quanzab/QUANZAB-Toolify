@@ -1,0 +1,103 @@
+
+import React, { useState } from 'react';
+import ToolPageLayout from '../components/ToolPageLayout';
+
+interface CrewMember {
+  id: number;
+  name: string;
+  role: string;
+}
+
+const CrewRosterPlannerPage: React.FC = () => {
+  const [crewMembers, setCrewMembers] = useState<CrewMember[]>([
+    { id: 1, name: 'John Doe', role: 'Captain' },
+    { id: 2, name: 'Jane Smith', role: 'First Mate' },
+  ]);
+  const [newName, setNewName] = useState('');
+  const [newRole, setNewRole] = useState('');
+
+  const addCrewMember = () => {
+    if (newName && newRole) {
+      setCrewMembers([...crewMembers, { id: Date.now(), name: newName, role: newRole }]);
+      setNewName('');
+      setNewRole('');
+    }
+  };
+
+  const removeCrewMember = (id: number) => {
+    setCrewMembers(crewMembers.filter(member => member.id !== id));
+  };
+  
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  return (
+    <ToolPageLayout
+      title="Crew Roster Planner"
+      description="A specialized tool to manage maritime crew schedules, assignments, and ensure compliance with rest hours."
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Crew Management */}
+        <div className="lg:col-span-1 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border dark:border-gray-700">
+          <h3 className="font-bold text-lg mb-4">Manage Crew</h3>
+          <div className="space-y-2 mb-4">
+            {crewMembers.map(member => (
+              <div key={member.id} className="flex justify-between items-center p-2 bg-white dark:bg-gray-700 rounded-md">
+                <div>
+                  <p className="font-semibold">{member.name}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{member.role}</p>
+                </div>
+                <button onClick={() => removeCrewMember(member.id)} className="text-red-500 font-bold text-lg">&times;</button>
+              </div>
+            ))}
+          </div>
+          <div className="space-y-2 border-t pt-4 dark:border-gray-600">
+            <input type="text" value={newName} onChange={e => setNewName(e.target.value)} placeholder="Name" className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-600" />
+            <input type="text" value={newRole} onChange={e => setNewRole(e.target.value)} placeholder="Role" className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-600" />
+            <button onClick={addCrewMember} className="w-full px-4 py-2 bg-brand-primary text-white rounded-md">Add Crew Member</button>
+          </div>
+        </div>
+
+        {/* Roster Grid */}
+        <div className="lg:col-span-2">
+            <h3 className="font-bold text-lg mb-4">Weekly Roster</h3>
+            <div className="overflow-x-auto">
+                <table className="min-w-full bg-white dark:bg-gray-800 border dark:border-gray-700">
+                    <thead>
+                        <tr>
+                            <th className="p-2 border-b dark:border-gray-600">Crew / Day</th>
+                            {days.map(day => <th key={day} className="p-2 border-b dark:border-gray-600">{day}</th>)}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {crewMembers.map(member => (
+                            <tr key={member.id}>
+                                <td className="p-2 border-b dark:border-gray-600 font-semibold">{member.name}</td>
+                                {days.map(day => (
+                                    <td key={`${member.id}-${day}`} className="p-2 border-b dark:border-gray-600 text-center">
+                                        <select className="w-full p-1 border rounded-md dark:bg-gray-700 dark:border-gray-600 text-sm">
+                                            <option>Off</option>
+                                            <option>On Watch (00-04)</option>
+                                            <option>On Watch (04-08)</option>
+                                            <option>On Watch (08-12)</option>
+                                            <option>On Watch (12-16)</option>
+                                            <option>On Watch (16-20)</option>
+                                            <option>On Watch (20-24)</option>
+                                            <option>Standby</option>
+                                        </select>
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+             <div className="text-center mt-8">
+                <button onClick={() => alert('Roster saved!')} className="px-8 py-3 text-lg font-semibold text-white bg-brand-primary rounded-lg shadow-lg">Save Roster</button>
+            </div>
+        </div>
+      </div>
+    </ToolPageLayout>
+  );
+};
+
+export default CrewRosterPlannerPage;
