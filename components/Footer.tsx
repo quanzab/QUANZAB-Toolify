@@ -21,19 +21,19 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-brand-dark text-white">
+    <footer className="bg-slate-950 border-t border-slate-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-1 mb-8 md:mb-0">
-             <a href="#" className="flex items-center space-x-2">
-                <img src="https://www.quanzab.com/media/quanzab1.png" alt="QUANZAB Toolify Logo" className="h-8 w-auto bg-white rounded-full p-1" />
-                <span className="text-2xl font-bold font-heading">QUANZAB Toolify</span>
+             <a href="#" className="flex items-center space-x-3">
+                <img src="https://www.quanzab.com/media/quanzab1.png" alt="QUANZAB Toolify Logo" className="h-9 w-auto" />
+                <span className="text-2xl font-bold font-heading text-white">QUANZAB</span>
             </a>
             <p className="mt-4 text-gray-400">Your all-in-one productivity suite.</p>
           </div>
           {linkSections.map(section => (
             <div key={section.title}>
-              <h3 className="font-bold font-heading tracking-wider uppercase mb-4 text-sm">{section.title}</h3>
+              <h3 className="font-bold font-heading tracking-wider uppercase mb-4 text-sm text-gray-400">{section.title}</h3>
               <ul className="space-y-3">
                 {section.links.map(link => (
                   <li key={link}>
@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="mt-16 pt-8 border-t border-gray-700 flex flex-col sm:flex-row justify-between items-center">
+        <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-gray-400">&copy; {new Date().getFullYear()} QUANZAB Toolify. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 sm:mt-0">
             {/* Social Icons Placeholder */}

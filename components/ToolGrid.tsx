@@ -16,11 +16,11 @@ const ToolGrid: React.FC = () => {
   const categories: (Category | 'all')[] = ['all', ...Object.values(Category)];
 
   return (
-    <section id="tools" className="py-20 sm:py-24 bg-white dark:bg-gray-800">
+    <section id="tools" className="py-20 sm:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-brand-dark dark:text-white">Our Powerful Suite of Tools</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400">
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">Our Powerful Suite of Tools</h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
             Select a category to find the perfect tool for your task.
           </p>
         </div>
@@ -32,8 +32,8 @@ const ToolGrid: React.FC = () => {
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base font-semibold rounded-full transition-all duration-300 ${
                 activeCategory === cat
-                  ? 'bg-brand-primary text-white shadow-md'
-                  : 'bg-brand-light dark:bg-gray-800 text-brand-dark dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  ? 'bg-white text-slate-900 shadow-md'
+                  : 'bg-slate-800/50 text-gray-300 hover:bg-slate-700'
               }`}
             >
               {cat === 'all' ? 'All Tools' : cat.split(' ')[0]}

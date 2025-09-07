@@ -3,36 +3,29 @@ import { FastIcon, SecureIcon, FreeIcon, TrustedIcon } from './Icons';
 
 const TrustSection: React.FC = () => {
   const features = [
-    { icon: FastIcon, title: 'Fast', description: 'Lightning-fast processing for all your tasks.' },
-    { icon: SecureIcon, title: 'Secure', description: 'Your data is encrypted and protected.' },
-    { icon: FreeIcon, title: 'Free to Start', description: 'Access essential tools completely free.' },
-    // FIX: Corrected the data structure for consistent rendering.
-    { icon: TrustedIcon, title: 'Trusted by Users', description: 'Loved by over 100,000+ users worldwide.' },
+    { icon: FastIcon, title: 'Lightning Fast', description: 'Optimized processing for all your tasks.' },
+    { icon: SecureIcon, title: 'Bank-Grade Security', description: 'Your data is encrypted and protected.' },
+    { icon: FreeIcon, title: 'Generous Free Tier', description: 'Access essential tools completely free.' },
+    { icon: TrustedIcon, title: 'Trusted by Thousands', description: 'Loved by over 100,000+ users worldwide.' },
   ];
 
   return (
-    <section className="bg-brand-light dark:bg-gray-800 py-20 sm:py-24">
+    <section id="features" className="py-20 sm:py-24 border-y border-slate-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="text-center mb-16">
+           <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">More Accurate Than Standard LLMs</h2>
+           <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+             By using real data to model individuals and their interactions, Artificial Societies can predict social outcomes at far greater accuracy than standard LLMs.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
           {features.map((feature, index) => (
             <div key={index} className="flex flex-col items-center">
-              <div className="p-4 bg-white dark:bg-gray-700 rounded-full shadow-md mb-4">
-                <feature.icon className="h-8 w-8 text-brand-primary" />
-              </div>
-              <h3 className="text-xl font-bold font-heading text-brand-dark dark:text-white">{feature.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">{feature.description}</p>
+              <feature.icon className="h-10 w-10 text-cyan mb-4" />
+              <h3 className="text-xl font-bold font-heading text-white">{feature.title}</h3>
+              <p className="text-gray-400 mt-2">{feature.description}</p>
             </div>
           ))}
-        </div>
-        <div className="mt-16 text-center">
-          <h4 className="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-6">TRUSTED BY TEAMS AT</h4>
-          <div className="flex justify-center items-center flex-wrap gap-x-12 gap-y-6 opacity-60">
-            <span className="font-bold text-2xl text-gray-400 dark:text-gray-500">BRAND.IO</span>
-            <span className="font-bold text-2xl text-gray-400 dark:text-gray-500">STARTUP</span>
-            <span className="font-bold text-2xl text-gray-400 dark:text-gray-500">ENTERPRISE</span>
-            <span className="font-bold text-2xl text-gray-400 dark:text-gray-500">CREATIVE</span>
-            <span className="font-bold text-2xl text-gray-400 dark:text-gray-500">TECH.CO</span>
-          </div>
         </div>
       </div>
     </section>
