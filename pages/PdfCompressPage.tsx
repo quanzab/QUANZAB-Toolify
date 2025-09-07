@@ -70,7 +70,7 @@ const PdfCompressPage: React.FC = () => {
                 context.fillRect(0, 0, canvas.width, canvas.height);
 
                 // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
-                await page.render({ canvasContext: context, viewport }).promise;
+                await page.render({ canvas, canvasContext: context, viewport }).promise;
 
                 const jpegDataUrl = canvas.toDataURL('image/jpeg', quality);
                 const jpegBytes = await fetch(jpegDataUrl).then(res => res.arrayBuffer());

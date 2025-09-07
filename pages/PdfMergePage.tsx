@@ -6,9 +6,74 @@ import JSZip from 'jszip';
 import ToolPageLayout from '../components/ToolPageLayout';
 import Loader from '../components/Loader';
 import { useHistoryState } from '../hooks/useHistoryState';
-import { UndoIcon, RedoIcon, UploadIcon, DownloadIcon, ZipIcon, TrustedIcon } from '../components/Icons';
+import { UndoIcon, RedoIcon, UploadIcon, DownloadIcon, ZipIcon, TrustedIcon, ChevronDownIcon } from '../components/Icons';
 
 const MAX_SIZE = 50 * 1024 * 1024; // 50 MB
+
+// A new component for the renaming UI
+const RenamePanel: React.FC<{
+  originalFiles: File[];
+  renamedFiles: File[];
+  onRename: (type: 'prefix' | 'suffix' | 'sequential', value: string) => void;
+  onReset: () => void;
+}> = ({ originalFiles, renamedFiles, onRename, onReset }) => {
+  const [prefix, setPrefix] = useState('');
+  const [suffix, setSuffix] = useState('');
+  const [sequentialName, setSequentialName] = useState('document');
+
+  return (
+    <div className="mt-6 p-6 border-t-2 border-dashed border-gray-300 dark:border-gray-600">
+      <h4 className="text-lg font-semibold text-brand-dark dark:text-gray-200 mb-4">Batch Rename Original Files</h4>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Renaming Controls */}
+        <div className="space-y-4">
+          {/* Prefix */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Add Prefix</label>
+            <div className="flex">
+              <input type="text" value={prefix} onChange={(e) => setPrefix(e.target.value)} placeholder="e.g., ProjectA_" className="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md bg-white dark:bg-gray-700 focus:ring-1 focus:ring-brand-primary" />
+              <button onClick={() => { onRename('prefix', prefix); setPrefix(''); }} disabled={!prefix} className="px-4 py-2 bg-brand-primary text-white font-semibold rounded-r-md hover:bg-blue-800 disabled:bg-gray-400">Apply</button>
+            </div>
+          </div>
+          {/* Suffix */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Add Suffix</label>
+            <div className="flex">
+              <input type="text" value={suffix} onChange={(e) => setSuffix(e.target.value)} placeholder="e.g., _final" className="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md bg-white dark:bg-gray-700 focus:ring-1 focus:ring-brand-primary" />
+              <button onClick={() => { onRename('suffix', suffix); setSuffix(''); }} disabled={!suffix} className="px-4 py-2 bg-brand-primary text-white font-semibold rounded-r-md hover:bg-blue-800 disabled:bg-gray-400">Apply</button>
+            </div>
+          </div>
+          {/* Sequential */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sequential Rename</label>
+            <div className="flex">
+              <input type="text" value={sequentialName} onChange={(e) => setSequentialName(e.target.value)} className="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md bg-white dark:bg-gray-700 focus:ring-1 focus:ring-brand-primary" />
+              <button onClick={() => onRename('sequential', sequentialName)} disabled={!sequentialName} className="px-4 py-2 bg-brand-primary text-white font-semibold rounded-r-md hover:bg-blue-800 disabled:bg-gray-400">Apply</button>
+            </div>
+          </div>
+           <button onClick={onReset} className="text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-brand-primary dark:hover:text-white transition-colors">
+            Reset Names
+          </button>
+        </div>
+        {/* File Preview */}
+        <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-200 dark:border-gray-700 max-h-48 overflow-y-auto">
+          <p className="text-sm font-semibold mb-2 text-brand-dark dark:text-gray-200">Filename Preview</p>
+          <ul className="text-sm space-y-1">
+            {originalFiles.slice(0, 10).map((file, index) => (
+              <li key={index} className="flex items-center text-gray-600 dark:text-gray-400">
+                <span className="truncate w-1/2 pr-2">{file.name}</span>
+                <span>&rarr;</span>
+                <span className="truncate w-1/2 pl-2 font-medium text-brand-dark dark:text-gray-300">{renamedFiles[index]?.name || file.name}</span>
+              </li>
+            ))}
+            {originalFiles.length > 10 && <li className="text-gray-500">...and {originalFiles.length - 10} more.</li>}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 const PdfMergePage: React.FC = () => {
   const [files, { set: setFiles, undo, redo, canUndo, canRedo }] = useHistoryState<File[]>([]);
@@ -22,6 +87,11 @@ const PdfMergePage: React.FC = () => {
     pageCount: number;
   } | null>(null);
   const [fileName, { set: setFileName, undo: undoFileName, redo: redoFileName, canUndo: canUndoFileName, canRedo: canRedoFileName }] = useHistoryState('merged.pdf');
+
+  // State for the bulk rename feature
+  const [renamedOriginalFiles, setRenamedOriginalFiles] = useState<File[]>([]);
+  const [isRenamePanelOpen, setIsRenamePanelOpen] = useState(false);
+
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
     setMergeResult(null); // Reset on new file drop
@@ -87,7 +157,7 @@ const PdfMergePage: React.FC = () => {
 
         if (context) {
             // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
-            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
             thumbnails.push(canvas.toDataURL());
         }
     }
@@ -127,7 +197,10 @@ const PdfMergePage: React.FC = () => {
         thumbnails,
         pageCount,
       });
-      setFileName('merged.pdf'); // Reset filename to default
+      setFileName('merged.pdf');
+      setRenamedOriginalFiles(files);
+      setIsRenamePanelOpen(false);
+
     } catch (e) {
       console.error(e);
       setError('An error occurred while merging the PDFs. One or more files might be corrupted or protected.');
@@ -166,7 +239,8 @@ const PdfMergePage: React.FC = () => {
       zip.file(fileName || 'merged.pdf', mergeResult.blob);
       const originalsFolder = zip.folder('original_files');
       if (originalsFolder) {
-        for (const file of mergeResult.originalFiles) {
+        const filesToZip = renamedOriginalFiles.length > 0 ? renamedOriginalFiles : mergeResult.originalFiles;
+        for (const file of filesToZip) {
           originalsFolder.file(file.name, file);
         }
       }
@@ -179,12 +253,47 @@ const PdfMergePage: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  const handleRenameOriginals = (type: 'prefix' | 'suffix' | 'sequential', value: string) => {
+    if (!mergeResult) return;
+  
+    const sourceFiles = mergeResult.originalFiles;
+    let newFiles: File[] = [];
+  
+    if (type === 'prefix') {
+      newFiles = sourceFiles.map(file => {
+        const newName = `${value}${file.name}`;
+        return new File([file], newName, { type: file.type });
+      });
+    } else if (type === 'suffix') {
+      newFiles = sourceFiles.map(file => {
+        const dotIndex = file.name.lastIndexOf('.');
+        if (dotIndex === -1) {
+          return new File([file], `${file.name}${value}`, { type: file.type });
+        }
+        const name = file.name.substring(0, dotIndex);
+        const extension = file.name.substring(dotIndex);
+        return new File([file], `${name}${value}${extension}`, { type: file.type });
+      });
+    } else if (type === 'sequential') {
+      newFiles = sourceFiles.map((file, index) => {
+        const dotIndex = file.name.lastIndexOf('.');
+        const extension = dotIndex === -1 ? '.pdf' : file.name.substring(dotIndex);
+        const newName = `${value}_${index + 1}${extension}`;
+        return new File([file], newName, { type: file.type });
+      });
+    }
+  
+    setRenamedOriginalFiles(newFiles);
+  };
   
   const handleReset = () => {
     setFiles([]);
     setMergeResult(null);
     setError(null);
     setFileName('merged.pdf');
+    setRenamedOriginalFiles([]);
+    setIsRenamePanelOpen(false);
   };
 
   const renderUploaderView = () => (
@@ -343,11 +452,31 @@ const PdfMergePage: React.FC = () => {
             <DownloadIcon className="w-6 h-6" />
             Download Merged PDF
           </button>
-          <button onClick={handleDownloadZip} className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-brand-primary bg-white dark:bg-gray-700 dark:text-white border-2 border-brand-primary dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-600 transition-colors duration-300">
-            <ZipIcon className="w-6 h-6" />
-            Download as ZIP
-          </button>
+          <div className="relative w-full sm:w-auto">
+             <button onClick={handleDownloadZip} className="w-full inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-brand-primary bg-white dark:bg-gray-700 dark:text-white border-2 border-brand-primary dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-600 transition-colors duration-300">
+                <ZipIcon className="w-6 h-6" />
+                Download as ZIP
+            </button>
+            <button 
+              onClick={() => setIsRenamePanelOpen(!isRenamePanelOpen)}
+              className="absolute -top-2 -right-2 p-1.5 bg-brand-accent text-white rounded-full hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              aria-label="Rename original files"
+            >
+              <ChevronDownIcon className={`w-5 h-5 transition-transform ${isRenamePanelOpen ? 'rotate-180' : ''}`} />
+            </button>
+          </div>
         </div>
+        
+        {isRenamePanelOpen && (
+          <RenamePanel
+            originalFiles={mergeResult.originalFiles}
+            renamedFiles={renamedOriginalFiles}
+            onRename={handleRenameOriginals}
+            onReset={() => setRenamedOriginalFiles(mergeResult.originalFiles)}
+          />
+        )}
+
+
         <div className="mt-8 text-center">
           <button onClick={handleReset} className="font-semibold text-gray-600 dark:text-gray-400 hover:text-brand-primary dark:hover:text-white transition-colors">
             Merge More Files

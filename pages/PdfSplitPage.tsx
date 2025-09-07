@@ -46,7 +46,7 @@ const PdfSplitPage: React.FC = () => {
           
           if (context) {
             // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
-            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
             thumbnails.push(canvas.toDataURL());
           }
         }

@@ -64,7 +64,7 @@ const PdfConverterPage: React.FC = () => {
 
         if (context) {
           // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
-          await page.render({ canvasContext: context, viewport: viewport }).promise;
+          await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
           const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, `image/${outputFormat}`, 0.95));
           if (blob) {
             zip.file(`page_${i}.${outputFormat}`, blob);
