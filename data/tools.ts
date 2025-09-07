@@ -1,0 +1,102 @@
+import { Tool, Category } from '../types';
+import { 
+  MergeIcon, 
+  SplitIcon, 
+  CompressIcon, 
+  ConvertIcon, 
+  SignIcon, 
+  InvoiceIcon, 
+  SummarizeIcon, 
+  AIIcon, 
+  MaritimeIcon 
+} from '../components/Icons';
+
+export const tools: Tool[] = [
+  {
+    name: 'PDF Merge',
+    description: 'Combine multiple PDFs into a single, organized document.',
+    icon: MergeIcon,
+    category: Category.DOCUMENTS,
+    path: '/pdf-merge',
+  },
+  {
+    name: 'PDF Split',
+    description: 'Extract specific pages or ranges from your PDF files.',
+    icon: SplitIcon,
+    category: Category.DOCUMENTS,
+    path: '/pdf-split',
+  },
+  {
+    name: 'PDF Compress',
+    description: 'Reduce file size while maintaining optimal quality.',
+    icon: CompressIcon,
+    category: Category.DOCUMENTS,
+    path: '/pdf-compress',
+  },
+  {
+    name: 'PDF Converter',
+    description: 'Convert PDFs to Word, Excel, PowerPoint, and images.',
+    icon: ConvertIcon,
+    category: Category.DOCUMENTS,
+    path: '/pdf-converter',
+  },
+  {
+    name: 'PDF Sign',
+    description: 'Sign documents electronically with ease and security.',
+    icon: SignIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-sign',
+  },
+  {
+    name: 'Invoice Generator',
+    description: 'Create and send professional invoices in minutes.',
+    icon: InvoiceIcon,
+    category: Category.BUSINESS,
+    path: '/invoice-generator',
+  },
+  {
+    name: 'Receipt Scanner',
+    description: 'Digitize and organize your receipts with OCR technology.',
+    icon: ConvertIcon,
+    category: Category.BUSINESS,
+    path: '/receipt-scanner',
+  },
+  {
+    name: 'Text Summarizer',
+    description: 'Get key points from long texts or articles instantly.',
+    icon: SummarizeIcon,
+    category: Category.AI,
+    path: '/text-summarizer',
+  },
+  {
+    name: 'AI Document Analyzer',
+    description: 'Ask questions and get insights from your documents.',
+    icon: AIIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-document-analyzer',
+  },
+  {
+    name: 'Crew Roster Planner',
+    description: 'Manage crew schedules and ensure compliance.',
+    icon: MaritimeIcon,
+    category: Category.MARITIME,
+    path: '/crew-roster-planner',
+  },
+  {
+    name: 'Vessel Compliance Checker',
+    description: 'Check vessel compliance against international regulations.',
+    icon: MaritimeIcon,
+    category: Category.MARITIME,
+    premium: true,
+    path: '/vessel-compliance-checker',
+  },
+  {
+    name: 'Paraphraser & Rewriter',
+    description: 'Rephrase your text with different tones and styles.',
+    icon: ConvertIcon,
+    category: Category.AI,
+    path: '/paraphraser-rewriter',
+  }
+];

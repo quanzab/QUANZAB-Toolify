@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QUANZAB Toolify - The Ultimate Productivity Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Roboto', 'sans-serif'],
+              heading: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                primary: '#0D47A1', // Deep Blue
+                accent: '#43A047',  // Vibrant Green
+                light: '#F5F5F5',    // Light Gray
+                dark: '#212121'     // Charcoal
+              }
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^6.25.1",
+    "react-dropzone": "https://aistudiocdn.com/react-dropzone@^14.2.3",
+    "pdf-lib": "https://aistudiocdn.com/pdf-lib@^1.17.1",
+    "file-saver": "https://aistudiocdn.com/file-saver@^2.0.5",
+    "jszip": "https://aistudiocdn.com/jszip@^3.10.1",
+    "pdfjs-dist": "https://aistudiocdn.com/pdfjs-dist@^4.5.136",
+    "pdfjs-dist/build/pdf.worker.min.mjs": "https://aistudiocdn.com/pdfjs-dist@^4.5.136/build/pdf.worker.min.mjs",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.17.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-white dark:bg-gray-900 text-brand-dark dark:text-gray-300 font-sans transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

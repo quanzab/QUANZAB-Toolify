@@ -1,0 +1,370 @@
+import React, { useState, useCallback } from 'react';
+import { PDFDocument } from 'pdf-lib';
+import { saveAs } from 'file-saver';
+import { useDropzone, FileRejection } from 'react-dropzone';
+import JSZip from 'jszip';
+import ToolPageLayout from '../components/ToolPageLayout';
+import Loader from '../components/Loader';
+import { useHistoryState } from '../hooks/useHistoryState';
+import { UndoIcon, RedoIcon, UploadIcon, DownloadIcon, ZipIcon, TrustedIcon } from '../components/Icons';
+
+const MAX_SIZE = 50 * 1024 * 1024; // 50 MB
+
+const PdfMergePage: React.FC = () => {
+  const [files, { set: setFiles, undo, redo, canUndo, canRedo }] = useHistoryState<File[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [mergeResult, setMergeResult] = useState<{
+    blob: Blob;
+    originalFiles: File[];
+    thumbnails: string[];
+    pageCount: number;
+  } | null>(null);
+  const [fileName, { set: setFileName, undo: undoFileName, redo: redoFileName, canUndo: canUndoFileName, canRedo: canRedoFileName }] = useHistoryState('merged.pdf');
+
+  const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
+    setMergeResult(null); // Reset on new file drop
+    setError(null); // Clear previous errors
+
+    if (fileRejections.length > 0) {
+      setError('Upload failed. Please ensure all files are PDFs and under 50MB.');
+    }
+    
+    if (acceptedFiles.length > 0) {
+      const newFiles = [...files, ...acceptedFiles].filter(
+        (file, index, self) => index === self.findIndex(f => f.name === file.name && f.size === file.size)
+      );
+      setFiles(newFiles);
+    }
+  }, [files, setFiles]);
+
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+    onDrop,
+    accept: { 'application/pdf': ['.pdf'] },
+    multiple: true,
+    noClick: true,
+    maxSize: MAX_SIZE,
+  });
+
+  const handleRemoveFile = (index: number) => {
+    const newFiles = files.filter((_, i) => i !== index);
+    setFiles(newFiles);
+  };
+
+  const handleMoveFile = (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index > 0) {
+      const newFiles = [...files];
+      [newFiles[index - 1], newFiles[index]] = [newFiles[index], newFiles[index - 1]];
+      setFiles(newFiles);
+    }
+    if (direction === 'down' && index < files.length - 1) {
+      const newFiles = [...files];
+      [newFiles[index + 1], newFiles[index]] = [newFiles[index], newFiles[index + 1]];
+      setFiles(newFiles);
+    }
+  };
+
+  const generatePdfPreview = async (pdfBlob: Blob): Promise<{ thumbnails: string[], pageCount: number }> => {
+    const { getDocument, GlobalWorkerOptions } = await import('pdfjs-dist');
+    GlobalWorkerOptions.workerSrc = `https://aistudiocdn.com/pdfjs-dist@4.5.136/build/pdf.worker.min.mjs`;
+
+    const arrayBuffer = await pdfBlob.arrayBuffer();
+    const loadingTask = getDocument(arrayBuffer);
+    const pdf = await loadingTask.promise;
+    const pageCount = pdf.numPages;
+    
+    const thumbnails: string[] = [];
+    const numPagesToShow = Math.min(pageCount, 4);
+
+    for (let i = 1; i <= numPagesToShow; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 0.5 });
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        if (context) {
+            // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            thumbnails.push(canvas.toDataURL());
+        }
+    }
+    return { thumbnails, pageCount };
+  };
+
+  const handleMerge = async () => {
+    if (files.length < 2) {
+      setError('Please select at least two PDF files to merge.');
+      return;
+    }
+
+    setLoadingMessage('Merging your PDFs...');
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const mergedPdf = await PDFDocument.create();
+      for (const file of files) {
+        const pdfBytes = await file.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+        const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+        copiedPages.forEach((page) => {
+          mergedPdf.addPage(page);
+        });
+      }
+
+      const mergedPdfBytes = await mergedPdf.save();
+      const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+
+      setLoadingMessage('Generating preview...');
+      const { thumbnails, pageCount } = await generatePdfPreview(blob);
+
+      setMergeResult({
+        blob,
+        originalFiles: files,
+        thumbnails,
+        pageCount,
+      });
+      setFileName('merged.pdf'); // Reset filename to default
+    } catch (e) {
+      console.error(e);
+      setError('An error occurred while merging the PDFs. One or more files might be corrupted or protected.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const handleFileNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value.replace(/[/\\?%*:|"<>]/g, '-');
+    setFileName(newName);
+  };
+
+  const handleFileNameBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    let currentName = e.target.value.trim();
+    if (currentName && !currentName.toLowerCase().endsWith('.pdf')) {
+        setFileName(`${currentName}.pdf`);
+    } else if (!currentName) {
+        setFileName('merged.pdf');
+    }
+  };
+
+  const handleDownloadMerged = () => {
+    if (mergeResult) {
+      saveAs(mergeResult.blob, fileName || 'merged.pdf');
+    }
+  };
+
+  const handleDownloadZip = async () => {
+    if (!mergeResult) return;
+    setLoadingMessage('Creating ZIP file...');
+    setIsLoading(true);
+    setError(null);
+    try {
+      const zip = new JSZip();
+      zip.file(fileName || 'merged.pdf', mergeResult.blob);
+      const originalsFolder = zip.folder('original_files');
+      if (originalsFolder) {
+        for (const file of mergeResult.originalFiles) {
+          originalsFolder.file(file.name, file);
+        }
+      }
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      saveAs(zipBlob, 'merged_files.zip');
+    } catch (e) {
+      console.error(e);
+      setError('Failed to create ZIP file. Please try downloading the merged PDF directly.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const handleReset = () => {
+    setFiles([]);
+    setMergeResult(null);
+    setError(null);
+    setFileName('merged.pdf');
+  };
+
+  const renderUploaderView = () => (
+    <>
+      <div
+        {...getRootProps()}
+        className={`p-10 border-2 border-dashed rounded-xl text-center transition-colors duration-300 ${
+          isDragActive
+            ? 'border-brand-primary bg-blue-50 dark:bg-blue-900/20'
+            : 'border-gray-300 dark:border-gray-600 hover:border-brand-primary/50'
+        }`}
+      >
+        <input {...getInputProps()} />
+        <div className="flex flex-col items-center justify-center">
+          <UploadIcon className="w-16 h-16 text-gray-400 dark:text-gray-500 mb-4" />
+          <p className="text-xl font-semibold text-brand-dark dark:text-gray-200 mb-2">
+            {isDragActive ? 'Drop files to upload' : "Drag and drop PDFs to merge"}
+          </p>
+          <p className="text-gray-500 dark:text-gray-400 mb-4">or</p>
+          <button
+            type="button"
+            onClick={open}
+            className="px-8 py-3 font-semibold text-white bg-brand-primary rounded-lg shadow-md hover:bg-blue-800 transition-all duration-300 transform hover:scale-105"
+          >
+            Select Files
+          </button>
+        </div>
+      </div>
+
+      {files.length > 0 && (
+        <div className="mt-8">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold text-brand-dark dark:text-gray-200">Files to Merge (in order):</h3>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={undo}
+                disabled={!canUndo}
+                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Undo"
+              >
+                <UndoIcon className="w-5 h-5 text-brand-dark dark:text-gray-300" />
+              </button>
+              <button
+                onClick={redo}
+                disabled={!canRedo}
+                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Redo"
+              >
+                <RedoIcon className="w-5 h-5 text-brand-dark dark:text-gray-300" />
+              </button>
+            </div>
+          </div>
+          <ul className="space-y-3">
+            {files.map((file, index) => (
+              <li key={`${file.name}-${index}`} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                <span className="font-medium text-brand-dark dark:text-gray-300 truncate pr-4">{index + 1}. {file.name}</span>
+                <div className="flex-shrink-0 flex items-center gap-2">
+                   <button onClick={() => handleMoveFile(index, 'up')} disabled={index === 0} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path></svg>
+                  </button>
+                  <button onClick={() => handleMoveFile(index, 'down')} disabled={index === files.length - 1} className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </button>
+                  <button onClick={() => handleRemoveFile(index)} className="p-1 text-red-500 hover:text-red-700 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {error && <p className="text-red-500 text-center my-4 font-semibold">{error}</p>}
+
+      <div className="mt-8 text-center">
+        <button
+          onClick={handleMerge}
+          disabled={files.length < 2}
+          className="w-full sm:w-auto px-12 py-4 text-lg font-semibold text-white bg-brand-primary rounded-lg shadow-lg hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed disabled:scale-100"
+        >
+          Merge PDFs
+        </button>
+      </div>
+    </>
+  );
+
+  const renderResultView = () => {
+    if (!mergeResult) return null;
+    return (
+      <div className="py-8">
+        <div className="text-center mb-6">
+          <TrustedIcon className="w-16 h-16 mx-auto text-brand-accent" />
+          <h2 className="text-2xl sm:text-3xl font-bold font-heading text-brand-dark dark:text-white mt-4">Merge Successful!</h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">{mergeResult.originalFiles.length} files were combined into one PDF with {mergeResult.pageCount} pages.</p>
+        </div>
+        
+        <div className="my-8">
+          <h3 className="text-left font-semibold text-brand-dark dark:text-gray-200 mb-2">
+            Document Preview ({mergeResult.pageCount} pages total)
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto">
+            {mergeResult.thumbnails.map((src, index) => (
+              <div key={index} className="relative rounded-md overflow-hidden shadow-md">
+                <img src={src} alt={`Page ${index + 1}`} className="w-full h-auto" />
+                <div className="absolute top-1 right-1 bg-black/50 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">{index + 1}</div>
+              </div>
+            ))}
+            {mergeResult.pageCount > mergeResult.thumbnails.length && (
+                <div className="flex items-center justify-center text-gray-500 dark:text-gray-400 text-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700">
+                    <p>...and {mergeResult.pageCount - mergeResult.thumbnails.length} more pages.</p>
+                </div>
+            )}
+          </div>
+        </div>
+
+        <div className="my-8 max-w-md mx-auto">
+          <div className="flex justify-between items-center mb-2">
+            <label htmlFor="filename" className="block font-semibold text-brand-dark dark:text-gray-200">
+              Customize Filename:
+            </label>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={undoFileName}
+                disabled={!canUndoFileName}
+                className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Undo filename change"
+              >
+                <UndoIcon className="w-4 h-4 text-brand-dark dark:text-gray-300" />
+              </button>
+              <button
+                onClick={redoFileName}
+                disabled={!canRedoFileName}
+                className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Redo filename change"
+              >
+                <RedoIcon className="w-4 h-4 text-brand-dark dark:text-gray-300" />
+              </button>
+            </div>
+          </div>
+          <input
+            id="filename"
+            type="text"
+            value={fileName}
+            onChange={handleFileNameChange}
+            onBlur={handleFileNameBlur}
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-brand-primary transition-colors"
+            aria-label="Customize the filename for the merged PDF"
+          />
+        </div>
+
+        {error && <p className="text-red-500 text-center my-4 font-semibold">{error}</p>}
+        
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+          <button onClick={handleDownloadMerged} className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-white bg-brand-primary rounded-lg shadow-lg hover:bg-blue-800 transition-all duration-300 transform hover:scale-105">
+            <DownloadIcon className="w-6 h-6" />
+            Download Merged PDF
+          </button>
+          <button onClick={handleDownloadZip} className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3 text-lg font-semibold text-brand-primary bg-white dark:bg-gray-700 dark:text-white border-2 border-brand-primary dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-600 transition-colors duration-300">
+            <ZipIcon className="w-6 h-6" />
+            Download as ZIP
+          </button>
+        </div>
+        <div className="mt-8 text-center">
+          <button onClick={handleReset} className="font-semibold text-gray-600 dark:text-gray-400 hover:text-brand-primary dark:hover:text-white transition-colors">
+            Merge More Files
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <ToolPageLayout
+      title="PDF Merge"
+      description="Combine multiple PDF files into a single document. Drag and drop to upload, reorder, and merge."
+    >
+      {isLoading ? <Loader message={loadingMessage} /> : (mergeResult ? renderResultView() : renderUploaderView())}
+    </ToolPageLayout>
+  );
+};
+
+export default PdfMergePage;
