@@ -15,6 +15,12 @@ const ToolGrid: React.FC = () => {
 
   const categories: (Category | 'all')[] = ['all', ...Object.values(Category)];
 
+  const getCategoryName = (category: Category | 'all'): string => {
+    if (category === 'all') return 'All Tools';
+    if (category === Category.MARITIME) return 'Maritime';
+    return category.split(' ')[0];
+  };
+
   return (
     <div>
       <div className="flex justify-center flex-wrap gap-2 sm:gap-3 mb-8">
@@ -28,7 +34,7 @@ const ToolGrid: React.FC = () => {
                 : 'bg-slate-800/50 text-gray-300 hover:bg-slate-700'
             }`}
           >
-            {cat === 'all' ? 'All Tools' : cat.split(' ')[0]}
+            {getCategoryName(cat)}
           </button>
         ))}
       </div>
