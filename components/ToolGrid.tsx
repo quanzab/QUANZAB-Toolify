@@ -1,17 +1,36 @@
 import React, { useState, useMemo } from 'react';
-import { tools } from '../data/tools';
-import { Category } from '../types';
+import { Tool, Category } from '../types';
 import ToolCard from './ToolCard';
 
-const ToolGrid: React.FC = () => {
+interface ToolGridProps {
+  tools: Tool[];
+  searchQuery: string;
+}
+
+const categoryColorMap: Record<Category, string> = {
+  [Category.DOCUMENTS]: '#3b82f6', // blue-500
+  [Category.BUSINESS]: '#22c55e', // green-500
+  [Category.AI]: '#a855f7', // purple-500
+  [Category.MARITIME]: '#22d3ee', // cyan-400
+};
+
+const ToolGrid: React.FC<ToolGridProps> = ({ tools, searchQuery }) => {
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
 
   const filteredTools = useMemo(() => {
-    if (activeCategory === 'all') {
-      return tools;
+    const categoryFiltered = activeCategory === 'all'
+      ? tools
+      : tools.filter(tool => tool.category === activeCategory);
+    
+    if (!searchQuery) {
+      return categoryFiltered;
     }
-    return tools.filter(tool => tool.category === activeCategory);
-  }, [activeCategory]);
+    
+    return categoryFiltered.filter(tool => 
+      tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tool.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [activeCategory, searchQuery, tools]);
 
   const categories: (Category | 'all')[] = ['all', ...Object.values(Category)];
 
@@ -40,9 +59,13 @@ const ToolGrid: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredTools.map(tool => (
-          <ToolCard key={tool.name} tool={tool} />
-        ))}
+        {filteredTools.length > 0 ? filteredTools.map(tool => (
+          <ToolCard key={tool.name} tool={tool} accentColor={categoryColorMap[tool.category]} />
+        )) : (
+          <div className="col-span-full text-center py-12">
+            <p className="text-xl text-gray-400">No tools found for your search.</p>
+          </div>
+        )}
       </div>
     </div>
   );

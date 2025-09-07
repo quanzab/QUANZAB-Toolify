@@ -14,4 +14,6 @@ export interface Tool {
   category: Category;
   premium?: boolean;
   path: string;
+  tags?: ('New' | 'Popular' | 'AI')[];
+  featured?: boolean;
 }

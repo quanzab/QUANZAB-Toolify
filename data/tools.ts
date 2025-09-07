@@ -18,6 +18,7 @@ export const tools: Tool[] = [
     icon: MergeIcon,
     category: Category.DOCUMENTS,
     path: '/pdf-merge',
+    featured: true,
   },
   {
     name: 'PDF Split',
@@ -68,6 +69,7 @@ export const tools: Tool[] = [
     icon: SummarizeIcon,
     category: Category.AI,
     path: '/text-summarizer',
+    tags: ['AI'],
   },
   {
     name: 'AI Document Analyzer',
@@ -76,6 +78,8 @@ export const tools: Tool[] = [
     category: Category.AI,
     premium: true,
     path: '/ai-document-analyzer',
+    tags: ['AI'],
+    featured: true,
   },
   {
     name: 'Crew Roster Planner',
@@ -98,5 +102,6 @@ export const tools: Tool[] = [
     icon: ConvertIcon,
     category: Category.AI,
     path: '/paraphraser-rewriter',
+    tags: ['AI', 'New'],
   }
 ];

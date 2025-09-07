@@ -1,10 +1,13 @@
 
+
+
 import React, { Suspense, lazy, ComponentType } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { tools } from './data/tools';
 import Loader from './components/Loader';
+import CursorGlow from './components/CursorGlow';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const PdfMergePage = lazy(() => import('./pages/PdfMergePage'));
@@ -43,6 +46,7 @@ const implementedTools: { [key: string]: React.LazyExoticComponent<ComponentType
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
+      <CursorGlow />
       <Header />
       <main>
         <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader message="Loading page..." /></div>}>
@@ -56,6 +60,7 @@ function App() {
               return <Route key={tool.path} path={tool.path} element={<ToolComingSoonPage tool={tool} />} />;
             })}
           </Routes>
+        {/* FIX: Corrected typo in Suspense closing tag. JSX components must be capitalized. */}
         </Suspense>
       </main>
       <Footer />

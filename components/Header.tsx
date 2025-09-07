@@ -11,7 +11,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center space-x-2">
-              <img src="https://www.quanzab.com/media/quanzab1.png" alt="QUANZAB Toolify Logo" className="h-9 w-auto" />
+              <img src="https://www.quanzab.com/media/quanzab.png" alt="QUANZAB Toolify Logo" className="h-9 w-auto" />
             </a>
           </div>
 
