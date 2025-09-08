@@ -12,11 +12,11 @@ const Hero: React.FC = () => {
         </div>
       </div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <h1 className="text-4xl sm:text-6xl lg:text-8xl font-extrabold font-heading text-white tracking-tight">
+        <h1 className="text-4xl sm:text-6xl lg:text-8xl font-extrabold font-heading text-slate-900 dark:text-white tracking-tight">
           Your All-in-One
           <span className="block bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text mt-2 sm:mt-4">AI Productivity Suite</span>
         </h1>
-        <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-300">
+        <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 dark:text-gray-300">
          From complex document analysis to creative text generation, accomplish more with our intelligent, integrated toolkit.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -28,7 +28,7 @@ const Hero: React.FC = () => {
           </a>
           <a
             href="#features"
-            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-white bg-white/10 border-2 border-white/20 rounded-lg hover:bg-white/20 transition-colors duration-300"
+            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-slate-700 dark:text-white bg-slate-500/10 dark:bg-white/10 border-2 border-slate-500/20 dark:border-white/20 rounded-lg hover:bg-slate-500/20 dark:hover:bg-white/20 transition-colors duration-300"
           >
             Learn More
           </a>

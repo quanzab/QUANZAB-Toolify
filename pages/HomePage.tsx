@@ -28,10 +28,10 @@ const HomePage: React.FC = () => {
       {/* Featured Tools Section */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-white">
+          <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-slate-900 dark:text-white">
             Featured Tools
           </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-gray-400">
             Get started with our most powerful and popular AI-driven solutions.
           </p>
         </div>
@@ -42,19 +42,19 @@ const HomePage: React.FC = () => {
             const cardStyle = { '--accent-color': accentColor } as React.CSSProperties;
 
             return (
-              <Link to={path} key={name} style={cardStyle} className="block group relative bg-slate-900 p-8 rounded-2xl border border-slate-700 transition-all duration-300 ease-in-out transform hover:-translate-y-2 overflow-hidden">
+              <Link to={path} key={name} style={cardStyle} className="block group relative bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-in-out transform hover:-translate-y-2 overflow-hidden">
                 <div className="absolute -inset-px bg-gradient-to-r from-[var(--accent-color)] to-primary rounded-2xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
                 <div className="relative z-10">
                   <div className="flex justify-between items-start">
-                    <div className="p-3 bg-slate-800 border border-slate-700 rounded-lg inline-block">
+                    <div className="p-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg inline-block">
                       <Icon className="h-10 w-10 text-[var(--accent-color)]" />
                     </div>
                     {tags?.map(tag => (
                       <span key={tag} className="px-3 py-1 text-sm font-semibold rounded-full bg-secondary/20 text-secondary-300 border border-secondary/50">{tag}</span>
                     ))}
                   </div>
-                  <h3 className="text-3xl font-bold font-heading text-gray-100 mt-6 mb-3">{name}</h3>
-                  <p className="text-gray-300 text-lg">{description}</p>
+                  <h3 className="text-3xl font-bold font-heading text-slate-900 dark:text-gray-100 mt-6 mb-3">{name}</h3>
+                  <p className="text-slate-600 dark:text-gray-300 text-lg">{description}</p>
                 </div>
               </Link>
             )
@@ -64,14 +64,14 @@ const HomePage: React.FC = () => {
       
       <main id="tools" className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative z-10">
         <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-white">
+            <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-slate-900 dark:text-white">
                 An Entire Suite of Tools, Right Here.
             </h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-gray-400">
                 Everything you need to enhance productivity and streamline your workflows.
             </p>
         </div>
-        <div className="bg-slate-950/60 backdrop-blur-sm p-4 sm:p-8 rounded-2xl border border-slate-800 shadow-2xl">
+        <div className="bg-slate-50/60 dark:bg-slate-950/60 backdrop-blur-sm p-4 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl">
             {/* Search Bar */}
             <div className="max-w-xl mx-auto mb-8">
                 <div className="relative">
@@ -85,7 +85,7 @@ const HomePage: React.FC = () => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search for a tool..."
-                        className="block w-full bg-slate-800/50 border border-slate-700 rounded-full py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                        className="block w-full bg-white dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-full py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     />
                 </div>
             </div>

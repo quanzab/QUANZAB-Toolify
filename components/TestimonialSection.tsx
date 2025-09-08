@@ -26,22 +26,22 @@ const TestimonialSection: React.FC = () => {
     <section className="py-24 sm:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-white">
+          <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-slate-900 dark:text-white">
             Trusted by Professionals Worldwide
           </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-gray-400">
             See what our users are saying about their productivity boost.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-slate-900/50 p-8 rounded-xl border border-slate-800 flex flex-col">
-              <p className="text-gray-300 flex-grow">"{testimonial.quote}"</p>
+            <div key={index} className="bg-white dark:bg-slate-900/50 p-8 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col">
+              <p className="text-slate-600 dark:text-gray-300 flex-grow">"{testimonial.quote}"</p>
               <div className="flex items-center mt-6">
                 <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />
                 <div>
-                  <p className="font-bold text-white">{testimonial.name}</p>
-                  <p className="text-sm text-gray-400">{testimonial.title}</p>
+                  <p className="font-bold text-slate-900 dark:text-white">{testimonial.name}</p>
+                  <p className="text-sm text-slate-500 dark:text-gray-400">{testimonial.title}</p>
                 </div>
               </div>
             </div>

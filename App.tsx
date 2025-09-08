@@ -61,7 +61,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
 
 const App: React.FC = () => {
   return (
-    <div className="bg-slate-950 text-gray-200 font-sans min-h-screen flex flex-col">
+    <div className="bg-transparent text-slate-800 dark:text-gray-200 font-sans min-h-screen flex flex-col">
       <CursorGlow />
       <Header />
       <main className="flex-grow">

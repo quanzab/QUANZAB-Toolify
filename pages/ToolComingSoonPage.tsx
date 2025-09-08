@@ -11,8 +11,8 @@ const ToolComingSoonPage: React.FC<ToolComingSoonPageProps> = ({ tool }) => {
   return (
     <ToolPageLayout title={tool.name} description={tool.description}>
       <div className="text-center py-10">
-        <h2 className="text-3xl font-bold mb-4 text-white">Feature Under Development</h2>
-        <p className="text-gray-400 mb-8 max-w-md mx-auto">
+        <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-white">Feature Under Development</h2>
+        <p className="text-slate-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
           We're working hard to bring you this tool. It will be available in a future update. Stay tuned!
         </p>
         <Link
