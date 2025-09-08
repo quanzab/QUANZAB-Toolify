@@ -1,10 +1,11 @@
+
 import React from 'react';
 
 const CtaBanner: React.FC = () => {
   return (
     <section className="py-20 sm:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
+        <div className="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800 border border-transparent dark:border-slate-700 rounded-2xl p-8 md:p-12 text-center relative overflow-hidden shadow-xl">
           <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
           <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-secondary/10 rounded-full blur-2xl"></div>
           <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-slate-900 dark:text-white relative z-10">

@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 interface ToolPageLayoutProps {
@@ -18,7 +19,7 @@ const ToolPageLayout: React.FC<ToolPageLayoutProps> = ({ title, description, chi
             {description}
           </p>
         </div>
-        <div className="max-w-4xl mx-auto bg-white dark:bg-slate-950 p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800">
+        <div className="max-w-4xl mx-auto bg-white dark:bg-slate-950 p-6 sm:p-8 rounded-2xl shadow-2xl border border-transparent dark:border-slate-800">
           {children}
         </div>
       </div>

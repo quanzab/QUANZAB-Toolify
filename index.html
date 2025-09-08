@@ -60,10 +60,10 @@
       .paper-animation-wrapper span {
         position: absolute;
         bottom: -180px;
-        height: 90px;
-        width: 60px;
+        height: 110px;
+        width: 80px;
         animation: paper-animate 15s linear infinite;
-        background-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.7);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -71,82 +71,33 @@
         font-weight: 600;
         font-size: 14px;
         color: rgba(15, 23, 42, 0.7); /* slate-900 with opacity */
-        border-radius: 4px;
+        border-radius: 0;
       }
 
-      .paper-animation-wrapper span:nth-child(1){
-        left: 60px;
-        animation-delay: 0.6s;
-        height: 110px;
-        width: 80px;
-        background-color: rgba(34, 211, 238, 0.5);
-      }
-      .paper-animation-wrapper span:nth-child(2){
-        left: 10%;
-        animation-delay: 3s;
-        width: 90px;
-        height: 60px;
-        background-color: rgba(168, 85, 247, 0.5);
-      }
-      .paper-animation-wrapper span:nth-child(3){
-        left: 20%;
-        animation-delay: 2s;
-        background-color: rgba(255, 255, 255, 0.4);
-      }
-      .paper-animation-wrapper span:nth-child(4){
-        left: 30%;
-        animation-delay: 5s;
-        width: 80px;
-        height: 120px;
-        background-color: rgba(34, 211, 238, 0.4);
-      }
-      .paper-animation-wrapper span:nth-child(5){
-        left: 40%;
-        animation-delay: 1s;
-        background-color: rgba(168, 85, 247, 0.4);
-      }
-      .paper-animation-wrapper span:nth-child(6){
-        left: 50%;
-        animation-delay: 7s;
-        width: 70px;
-        height: 100px;
-        background-color: rgba(255, 255, 255, 0.5);
-      }
-      .paper-animation-wrapper span:nth-child(7){
-        left: 60%;
-        animation-delay: 6s;
-        width: 100px;
-        height: 140px;
-        background-color: rgba(34, 211, 238, 0.5);
-      }
-      .paper-animation-wrapper span:nth-child(8){
-        left: 70%;
-        animation-delay: 8s;
-        background-color: rgba(168, 85, 247, 0.5);
-      }
-      .paper-animation-wrapper span:nth-child(9){
-        left: 80%;
-        animation-delay: 6s;
-        width: 80px;
-        height: 80px; /* Keep one square for variety */
-        background-color: rgba(255, 255, 255, 0.4);
-      }
-      .paper-animation-wrapper span:nth-child(10){
-        left: 90%;
-        animation-delay: 4s;
-        background-color: rgba(34, 211, 238, 0.5);
-      }
+      .paper-animation-wrapper span:nth-child(1){ left: 45%; animation-delay: 0.6s; }
+      .paper-animation-wrapper span:nth-child(2){ left: 35%; animation-delay: 3s; }
+      .paper-animation-wrapper span:nth-child(3){ left: 55%; animation-delay: 2s; }
+      .paper-animation-wrapper span:nth-child(4){ left: 30%; animation-delay: 5s; }
+      .paper-animation-wrapper span:nth-child(5){ left: 65%; animation-delay: 1s; }
+      .paper-animation-wrapper span:nth-child(6){ left: 50%; animation-delay: 7s; }
+      .paper-animation-wrapper span:nth-child(7){ left: 60%; animation-delay: 6s; }
+      .paper-animation-wrapper span:nth-child(8){ left: 70%; animation-delay: 8s; }
+      .paper-animation-wrapper span:nth-child(9){ left: 40%; animation-delay: 6s; }
+      .paper-animation-wrapper span:nth-child(10){ left: 68%; animation-delay: 4s; }
+      .paper-animation-wrapper span:nth-child(11){ left: 32%; animation-delay: 9s; }
+      .paper-animation-wrapper span:nth-child(12){ left: 58%; animation-delay: 11s; }
+      .paper-animation-wrapper span:nth-child(13){ left: 48%; animation-delay: 1.5s; }
+      .paper-animation-wrapper span:nth-child(14){ left: 38%; animation-delay: 10s; }
+      .paper-animation-wrapper span:nth-child(15){ left: 62%; animation-delay: 5.5s; }
 
       @keyframes paper-animate {
         0% {
           transform: translateY(0) rotate(0deg);
           opacity: 1;
-          border-radius: 4px;
         }
         100% {
           transform: translateY(-120vh) rotate(720deg);
           opacity: 0;
-          border-radius: 50%;
         }
       }
     </style>

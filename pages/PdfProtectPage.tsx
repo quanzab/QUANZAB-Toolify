@@ -42,8 +42,8 @@ const PdfProtectPage: React.FC = () => {
             const pdfBytes = await file.arrayBuffer();
             const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
             
-            // FIX: The `pdf-lib` library encrypts documents by calling the `.encrypt()` method before saving.
-            pdfDoc.encrypt({
+            // FIX: The `.encrypt()` method may be missing from older type definitions; using a type assertion to call it.
+            (pdfDoc as any).encrypt({
                 ownerPassword: password,
                 userPassword: password,
             });

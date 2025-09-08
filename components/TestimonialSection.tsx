@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const testimonials = [
@@ -35,7 +36,7 @@ const TestimonialSection: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-white dark:bg-slate-900/50 p-8 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col">
+            <div key={index} className="bg-white dark:bg-slate-900/50 p-8 rounded-xl border border-transparent dark:border-slate-800 flex flex-col shadow-lg">
               <p className="text-slate-600 dark:text-gray-300 flex-grow">"{testimonial.quote}"</p>
               <div className="flex items-center mt-6">
                 <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />

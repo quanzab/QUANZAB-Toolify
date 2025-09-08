@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Tool, Category } from '../types';
 import ToolCard from './ToolCard';
@@ -50,7 +51,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({ tools, searchQuery }) => {
             className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full transition-all duration-300 ${
               activeCategory === cat
                 ? 'bg-primary text-slate-900 shadow-md border border-primary'
-                : 'bg-white text-slate-600 hover:bg-slate-100 dark:bg-slate-800/50 dark:text-gray-300 dark:hover:bg-slate-700 border border-slate-200 dark:border-transparent'
+                : 'bg-white text-slate-600 hover:bg-slate-100 dark:bg-slate-800/50 dark:text-gray-300 dark:hover:bg-slate-700 shadow-sm dark:shadow-none border border-transparent'
             }`}
           >
             {getCategoryName(cat)}

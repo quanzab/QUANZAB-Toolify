@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { AIIcon, SecureIcon, FreeIcon, FastIcon } from './Icons';
 
@@ -21,7 +22,7 @@ const TrustSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
           {features.map((feature, index) => (
             <div key={index} className="flex flex-col items-center">
-              <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-full mb-4 relative ring-2 ring-slate-200 dark:ring-slate-700">
+              <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-full mb-4 relative ring-2 ring-transparent dark:ring-slate-700 shadow-md">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-secondary to-primary rounded-full blur opacity-20"></div>
                 <feature.icon className="relative h-12 w-12 text-primary" />
               </div>

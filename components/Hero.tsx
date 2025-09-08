@@ -24,6 +24,11 @@ const Hero: React.FC = () => {
         <span>mov</span>
         <span>mp3</span>
         <span>zip</span>
+        <span>ai</span>
+        <span>svg</span>
+        <span>html</span>
+        <span>css</span>
+        <span>js</span>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

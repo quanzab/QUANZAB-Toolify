@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
@@ -42,7 +43,7 @@ const HomePage: React.FC = () => {
             const cardStyle = { '--accent-color': accentColor } as React.CSSProperties;
 
             return (
-              <Link to={path} key={name} style={cardStyle} className="block group relative bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-in-out transform hover:-translate-y-2 overflow-hidden">
+              <Link to={path} key={name} style={cardStyle} className="block group relative bg-white dark:bg-slate-900 p-8 rounded-2xl border border-transparent dark:border-slate-700 transition-all duration-300 ease-in-out transform hover:-translate-y-2 overflow-hidden shadow-lg hover:shadow-xl">
                 <div className="absolute -inset-px bg-gradient-to-r from-[var(--accent-color)] to-primary rounded-2xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
                 <div className="relative z-10">
                   <div className="flex justify-between items-start">
@@ -71,7 +72,7 @@ const HomePage: React.FC = () => {
                 Everything you need to enhance productivity and streamline your workflows.
             </p>
         </div>
-        <div className="bg-white dark:bg-slate-900/50 backdrop-blur-sm p-4 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl">
+        <div className="bg-white dark:bg-slate-900/50 backdrop-blur-sm p-4 sm:p-8 rounded-2xl border border-transparent dark:border-slate-800 shadow-2xl">
             {/* Search Bar */}
             <div className="max-w-xl mx-auto mb-8">
                 <div className="relative">
