@@ -259,3 +259,10 @@ export const AudioIcon: React.FC<{ className?: string }> = (props) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m-2.828-2.828a2 2 0 010 2.828M10 18v-2m0-4V6a2 2 0 012-2h0a2 2 0 012 2v6m-4 4h4" />
   </Icon>
 );
+
+export const ResearchIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16h8M8 12h8M10 8h4M3 4h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V4z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-3.5-3.5M14 10a4 4 0 11-8 0 4 4 0 018 0z" />
+  </Icon>
+);

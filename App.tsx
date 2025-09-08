@@ -45,6 +45,7 @@ import PdfProtectPage from './pages/PdfProtectPage';
 import VideoEditorPage from './pages/VideoEditorPage';
 import PdfUnlockPage from './pages/PdfUnlockPage';
 import PdfRedactPage from './pages/PdfRedactPage';
+import AiResearchAssistantPage from './pages/AiResearchAssistantPage';
 
 import { tools } from './data/tools';
 
@@ -83,6 +84,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/video-editor': VideoEditorPage,
   '/pdf-unlock': PdfUnlockPage,
   '/pdf-redact': PdfRedactPage,
+  '/ai-research-assistant': AiResearchAssistantPage,
 };
 
 const App: React.FC = () => {

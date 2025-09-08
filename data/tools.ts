@@ -26,6 +26,7 @@ import {
   AudioIcon,
   LockOpenIcon,
   DocumentMinusIcon,
+  ResearchIcon,
 } from '../components/Icons';
 
 export const tools: Tool[] = [
@@ -39,6 +40,15 @@ export const tools: Tool[] = [
     path: '/ai-document-analyzer',
     tags: ['AI', 'Popular'],
     featured: true,
+  },
+  {
+    name: 'AI Research Assistant',
+    description: 'Ask questions about current events or topics requiring up-to-date information. Get AI-powered answers grounded in Google Search results.',
+    icon: ResearchIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-research-assistant',
+    tags: ['AI', 'New', 'Popular'],
   },
   {
     name: 'Text Summarizer',
