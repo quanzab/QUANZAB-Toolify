@@ -32,6 +32,13 @@ import ToolComingSoonPage from './pages/ToolComingSoonPage';
 import PdfToWordPage from './pages/PdfToWordPage';
 import AiContentGeneratorPage from './pages/AiContentGeneratorPage';
 import PlatformFeaturesPage from './pages/PlatformFeaturesPage';
+import AiPresentationGeneratorPage from './pages/AiPresentationGeneratorPage';
+import AiCodeAssistantPage from './pages/AiCodeAssistantPage';
+import PdfAnnotatorPage from './pages/PdfAnnotatorPage';
+import AiAudioTranscriberPage from './pages/AiAudioTranscriberPage';
+import VideoToGifConverterPage from './pages/VideoToGifConverterPage';
+import LanguageTranslatorPage from './pages/LanguageTranslatorPage';
+import ProjectPlannerPage from './pages/ProjectPlannerPage';
 
 import { tools } from './data/tools';
 
@@ -57,6 +64,13 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/vessel-compliance-checker': VesselComplianceCheckerPage,
   '/pdf-to-word': PdfToWordPage,
   '/platform-features': PlatformFeaturesPage,
+  '/ai-presentation-generator': AiPresentationGeneratorPage,
+  '/ai-code-assistant': AiCodeAssistantPage,
+  '/pdf-annotator': PdfAnnotatorPage,
+  '/ai-audio-transcriber': AiAudioTranscriberPage,
+  '/video-to-gif': VideoToGifConverterPage,
+  '/language-translator': LanguageTranslatorPage,
+  '/project-planner': ProjectPlannerPage,
 };
 
 const App: React.FC = () => {

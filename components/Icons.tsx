@@ -210,3 +210,40 @@ export const ChartBarIcon: React.FC<{ className?: string }> = (props) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0h6" />
   </Icon>
 );
+
+export const TranslateIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5h12M9 3v2m4 13-4-4-4 4M5 13h10a2 2 0 012 2v2" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13l-1.5-1.5M15 13l1.5-1.5M19 13h-4" />
+  </Icon>
+);
+
+export const KanbanIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+  </Icon>
+);
+
+export const WatermarkIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+  </Icon>
+);
+
+export const LockIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+  </Icon>
+);
+
+export const VideoIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h10a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+  </Icon>
+);
+
+export const AudioIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m-2.828-2.828a2 2 0 010 2.828M10 18v-2m0-4V6a2 2 0 012-2h0a2 2 0 012 2v6m-4 4h4" />
+  </Icon>
+);

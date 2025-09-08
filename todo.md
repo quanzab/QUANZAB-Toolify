@@ -9,7 +9,15 @@ This document tracks planned features, enhancements, and bug fixes for the QUANZ
 - [x] **PDF Sign Tool - Interactivity**: Implement the drag, drop, and resize functionality for signatures and text boxes on the PDF pages.
 - [ ] **Improve Error Handling**: Provide more specific user feedback for errors, especially for PDF processing (e.g., handling encrypted/corrupt files) and API calls.
 - [ ] **Enhance Accessibility**: Conduct a full accessibility audit. Add necessary ARIA attributes, ensure keyboard navigability, and check color contrast.
-- [ ] **Complete "Coming Soon" Tools**: Build the tools that are currently placeholders, such as an AI Presentation Generator or advanced data analysis tools.
+- [x] **Complete "Coming Soon" Tools**: Build the tools that are currently placeholders, such as an AI Presentation Generator or advanced data analysis tools.
+  - [x] AI Presentation Generator
+  - [x] AI Code Assistant
+  - [x] PDF Annotator (Simplified Text Annotation)
+  - [x] Language Translator
+  - [x] Project Planner (Kanban Board)
+  - [ ] Video to GIF Converter (Deferred due to complexity)
+  - [ ] AI Audio Transcriber (Deferred due to complexity)
+
 
 ## Medium Priority
 

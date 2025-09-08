@@ -18,6 +18,12 @@ import {
   TypeIcon,
   PresentationIcon,
   ChartBarIcon,
+  TranslateIcon,
+  KanbanIcon,
+  WatermarkIcon,
+  LockIcon,
+  VideoIcon,
+  AudioIcon,
 } from '../components/Icons';
 
 export const tools: Tool[] = [
@@ -70,7 +76,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'AI Code Assistant',
-    description: 'Get AI-powered help with coding tasks, from writing snippets to debugging.',
+    description: 'A chat-based assistant to help with coding tasks, from writing snippets to debugging.',
     icon: TypeIcon,
     category: Category.AI,
     path: '/ai-code-assistant',
@@ -78,7 +84,7 @@ export const tools: Tool[] = [
   {
     name: 'AI Audio Transcriber',
     description: 'Convert speech from audio files into accurate, searchable text. Feature under development.',
-    icon: AIIcon,
+    icon: AudioIcon,
     category: Category.AI,
     premium: true,
     path: '/ai-audio-transcriber',
@@ -86,8 +92,8 @@ export const tools: Tool[] = [
   },
   {
     name: 'Language Translator',
-    description: 'Translate text or entire documents between dozens of languages. Feature under development.',
-    icon: ConvertIcon,
+    description: 'Translate text between dozens of languages using the power of AI.',
+    icon: TranslateIcon,
     category: Category.AI,
     premium: false,
     path: '/language-translator',
@@ -171,7 +177,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'PDF Annotator',
-    description: 'Add notes, highlight text, and draw on your PDF documents. Feature under development.',
+    description: 'Add text notes and comments directly onto your PDF documents.',
     icon: PencilIcon,
     category: Category.DOCUMENTS,
     premium: true,
@@ -180,8 +186,8 @@ export const tools: Tool[] = [
   },
   {
     name: 'Video to GIF Converter',
-    description: 'Create animated GIFs from video clips with custom settings. Feature under development.',
-    icon: ConvertIcon,
+    description: 'Create animated GIFs from video clips. Feature under development due to browser processing limits.',
+    icon: VideoIcon,
     category: Category.DOCUMENTS,
     premium: false,
     path: '/video-to-gif',
@@ -214,7 +220,7 @@ export const tools: Tool[] = [
   },
   {
     name: 'AI Presentation Generator',
-    description: 'Create professional presentations from a text prompt, letting AI generate slides.',
+    description: 'Create professional presentations from a text prompt, letting AI generate the slide content.',
     icon: PresentationIcon,
     category: Category.BUSINESS,
     premium: true,
@@ -223,8 +229,8 @@ export const tools: Tool[] = [
   },
   {
     name: 'Project Planner',
-    description: 'Organize complex projects with boards, timelines, and collaboration tools. Feature under development.',
-    icon: ChecklistIcon,
+    description: 'Organize projects with a drag-and-drop Kanban board. Data is saved in your browser.',
+    icon: KanbanIcon,
     category: Category.BUSINESS,
     premium: true,
     path: '/project-planner',
@@ -262,5 +268,30 @@ export const tools: Tool[] = [
     premium: true,
     path: '/pdf-to-word',
     tags: ['AI']
+  },
+  // New Placeholders
+  {
+    name: 'PDF Watermarker',
+    description: 'Add text or image watermarks to your PDF files. Feature under development.',
+    icon: WatermarkIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-watermark',
+  },
+  {
+    name: 'PDF Protect',
+    description: 'Encrypt and password-protect your PDF documents. Feature under development.',
+    icon: LockIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-protect',
+  },
+  {
+    name: 'Video Editor',
+    description: 'Trim, merge, and add captions to video files. Feature under development.',
+    icon: VideoIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/video-editor',
   },
 ];
