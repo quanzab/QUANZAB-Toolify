@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
         className="absolute inset-0 w-full h-full object-cover -z-10"
       />
       {/* Overlay */}
-      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+      <div className="absolute inset-0 bg-slate-900/40"></div>
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto">
@@ -29,7 +29,7 @@ const Hero: React.FC = () => {
           </a>
           <a
             href="#features"
-            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-white bg-white/10 border border-white/20 rounded-lg hover:bg-white/20 backdrop-blur-sm transition-colors duration-300"
+            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-white bg-white/10 border border-white/20 rounded-lg hover:bg-white/20 transition-colors duration-300"
           >
             Learn More
           </a>
