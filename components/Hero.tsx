@@ -12,27 +12,13 @@ const Hero: React.FC = () => {
       {/* Overlay Removed */}
 
       {/* Content */}
-      <div className="relative z-10 max-w-4xl mx-auto">
+      <div className="relative z-10 max-w-4xl mx-auto mt-24">
         <h1 className="hero-title font-heading tracking-tight leading-tight mb-4 lg:text-7xl md:text-6xl text-5xl">
           Unlock Limitless Productivity
         </h1>
         <p className="hero-subtitle max-w-2xl mx-auto lg:text-2xl md:text-xl text-lg">
           Your Complete Suite of AI-Powered Tools for Documents, Business, and Creativity.
         </p>
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="#tools"
-            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105"
-          >
-            Explore AI Tools
-          </a>
-          <a
-            href="#features"
-            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-white bg-white/10 border border-white/20 rounded-lg hover:bg-white/20 transition-colors duration-300"
-          >
-            Learn More
-          </a>
-        </div>
       </div>
     </section>
   );
