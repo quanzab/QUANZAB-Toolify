@@ -1,5 +1,4 @@
 
-
 import React, { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -160,6 +159,7 @@ const PdfMergePage: React.FC = () => {
         canvas.width = viewport.width;
 
         if (context) {
+            // FIX: The 'render' method requires the 'canvas' property in its parameters.
             await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
             thumbnails.push(canvas.toDataURL());
         }
@@ -180,12 +180,19 @@ const PdfMergePage: React.FC = () => {
     try {
       const mergedPdf = await PDFDocument.create();
       for (const file of files) {
-        const pdfBytes = await file.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
-        const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
-        copiedPages.forEach((page) => {
-          mergedPdf.addPage(page);
-        });
+        try {
+            const pdfBytes = await file.arrayBuffer();
+            const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+            const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+            copiedPages.forEach((page) => {
+              mergedPdf.addPage(page);
+            });
+        } catch (e: any) {
+             if (e && e.name === 'PDFEncryptedError') {
+                throw new Error(`Error: The file "${file.name}" is encrypted. Please remove password protection and try again.`);
+            }
+            throw new Error(`Error processing "${file.name}": It may be corrupted or in an unsupported format.`);
+        }
       }
 
       const mergedPdfBytes = await mergedPdf.save();
@@ -206,11 +213,7 @@ const PdfMergePage: React.FC = () => {
 
     } catch (e: any) {
       console.error(e);
-      if (e && e.name === 'PDFEncryptedError') {
-          setError('One of the PDFs is encrypted. Please remove the password protection and try again.');
-      } else {
-          setError('An error occurred while merging. One or more files might be corrupted or in an unsupported format.');
-      }
+      setError(e.message || 'An unexpected error occurred during the merge process.');
     } finally {
       setIsLoading(false);
     }

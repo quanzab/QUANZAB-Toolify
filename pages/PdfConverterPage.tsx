@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import saveAs from 'file-saver';
 import JSZip from 'jszip';
@@ -64,6 +62,7 @@ const PdfConverterPage: React.FC = () => {
         canvas.width = viewport.width;
 
         if (context) {
+          // FIX: The 'render' method requires the 'canvas' property in its parameters.
           await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
           const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, `image/${outputFormat}`, 0.95));
           if (blob) {
