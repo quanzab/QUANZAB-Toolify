@@ -6,8 +6,8 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="mb-12">
           <img
-            src="https://storage.googleapis.com/aai-web-samples/product-design/18919429_2024-03-01T06-03-45.025Z.png"
-            alt="An illustration of various document types like PDF, DOCX, and XLSX, with an audio waveform in the background, representing the QUANZAB Toolkit's capabilities."
+            src="https://i.ibb.co/xtmR1cz8/Chat-GPT-Image-Sep-8-2025-09-59-23-PM.png"
+            alt="A futuristic digital interface showcasing various productivity tools and AI capabilities, representing the QUANZAB Toolkit's all-in-one suite."
             className="mx-auto rounded-xl shadow-2xl shadow-slate-900/40 w-full max-w-4xl"
             width="1024"
             height="576"
