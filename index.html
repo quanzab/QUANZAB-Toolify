@@ -49,6 +49,97 @@
         }
       }
     </script>
+    <style>
+      .paper-animation-wrapper {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        z-index: 5;
+      }
+
+      .paper-animation-wrapper span {
+        position: absolute;
+        bottom: -180px;
+        height: 50px;
+        width: 50px;
+        animation: paper-animate 15s linear infinite;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .paper-animation-wrapper span:nth-child(1){
+        left: 60px;
+        animation-delay: 0.6s;
+        height: 90px;
+        width: 90px;
+        background-color: rgba(34, 211, 238, 0.5);
+      }
+      .paper-animation-wrapper span:nth-child(2){
+        left: 10%;
+        animation-delay: 3s;
+        width: 60px;
+        height: 60px;
+        background-color: rgba(168, 85, 247, 0.5);
+      }
+      .paper-animation-wrapper span:nth-child(3){
+        left: 20%;
+        animation-delay: 2s;
+        background-color: rgba(255, 255, 255, 0.4);
+      }
+      .paper-animation-wrapper span:nth-child(4){
+        left: 30%;
+        animation-delay: 5s;
+        width: 80px;
+        height: 80px;
+        background-color: rgba(34, 211, 238, 0.4);
+      }
+      .paper-animation-wrapper span:nth-child(5){
+        left: 40%;
+        animation-delay: 1s;
+        background-color: rgba(168, 85, 247, 0.4);
+      }
+      .paper-animation-wrapper span:nth-child(6){
+        left: 50%;
+        animation-delay: 7s;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+      .paper-animation-wrapper span:nth-child(7){
+        left: 60%;
+        animation-delay: 6s;
+        width: 100px;
+        height: 100px;
+        background-color: rgba(34, 211, 238, 0.5);
+      }
+      .paper-animation-wrapper span:nth-child(8){
+        left: 70%;
+        animation-delay: 8s;
+        background-color: rgba(168, 85, 247, 0.5);
+      }
+      .paper-animation-wrapper span:nth-child(9){
+        left: 80%;
+        animation-delay: 6s;
+        width: 90px;
+        height: 90px;
+        background-color: rgba(255, 255, 255, 0.4);
+      }
+      .paper-animation-wrapper span:nth-child(10){
+        left: 90%;
+        animation-delay: 4s;
+        background-color: rgba(34, 211, 238, 0.5);
+      }
+
+      @keyframes paper-animate {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+          border-radius: 0;
+        }
+        100% {
+          transform: translateY(-120vh) rotate(720deg);
+          opacity: 0;
+          border-radius: 50%;
+        }
+      }
+    </style>
   <script type="importmap">
 {
   "imports": {
