@@ -175,14 +175,13 @@ export const tools: Tool[] = [
     premium: true,
     path: '/vessel-compliance-checker',
   },
-  // Add other tools here...
-  // Placeholders for tools that don't have a page yet
   {
     name: 'PDF to Word',
-    description: 'Convert your PDFs to editable Word documents with high accuracy.',
+    description: 'Convert PDFs to editable text files using AI-powered OCR, which can be opened in Word.',
     icon: ConvertIcon,
     category: Category.DOCUMENTS,
     premium: true,
-    path: '/coming-soon/pdf-to-word',
+    path: '/pdf-to-word',
+    tags: ['AI']
   },
 ];

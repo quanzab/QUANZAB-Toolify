@@ -29,6 +29,7 @@ import AiItineraryPlannerPage from './pages/AiItineraryPlannerPage';
 import CrewRosterPlannerPage from './pages/CrewRosterPlannerPage';
 import VesselComplianceCheckerPage from './pages/VesselComplianceCheckerPage';
 import ToolComingSoonPage from './pages/ToolComingSoonPage';
+import PdfToWordPage from './pages/PdfToWordPage';
 
 import { tools } from './data/tools';
 
@@ -51,6 +52,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/ai-itinerary-planner': AiItineraryPlannerPage,
   '/crew-roster-planner': CrewRosterPlannerPage,
   '/vessel-compliance-checker': VesselComplianceCheckerPage,
+  '/pdf-to-word': PdfToWordPage,
 };
 
 const App: React.FC = () => {

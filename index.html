@@ -39,6 +39,16 @@
             },
             animation: {
               'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'text-flash': 'text-flash 5s linear infinite',
+            },
+            keyframes: {
+              'text-flash': {
+                '0%, 100%': { color: '#43A047' }, // accent (Green)
+                '20%': { color: '#a855f7' }, // secondary (Purple)
+                '40%': { color: '#ef4444' }, // Red-500
+                '60%': { color: '#eab308' }, // Yellow-500
+                '80%': { color: '#3b82f6' }, // Blue-500
+              }
             }
           }
         }

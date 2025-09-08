@@ -41,9 +41,9 @@ const Header: React.FC = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex md:items-center md:space-x-8">
-            <a href="/#features" className="font-medium text-gray-300 hover:text-white transition-colors duration-200">Features</a>
-            <a href="/#tools" className="font-medium text-gray-300 hover:text-white transition-colors duration-200">Tools</a>
+          <nav className="hidden md:flex md:items-center md:space-x-6">
+            <a href="/#features" className="px-6 py-3 rounded-xl font-bold text-xl bg-slate-800 transition-all duration-300 hover:scale-105 hover:bg-slate-700 animate-text-flash">Explore Features</a>
+            <a href="/#tools" className="px-6 py-3 rounded-xl font-bold text-xl bg-slate-800 transition-all duration-300 hover:scale-105 hover:bg-slate-700 animate-text-flash">Explore Tools</a>
           </nav>
           
           <div className="hidden md:flex items-center space-x-4">
@@ -105,9 +105,9 @@ const Header: React.FC = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-slate-900 border-b border-slate-800">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="/#features" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-slate-800">Features</a>
-            <a href="/#tools" onClick={() => setIsMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:bg-slate-800">Tools</a>
+          <div className="px-2 pt-2 pb-3 space-y-2 sm:px-3">
+            <a href="/#features" onClick={() => setIsMenuOpen(false)} className="block px-3 py-3 rounded-md text-lg font-bold text-center bg-slate-800 animate-text-flash">Explore Features</a>
+            <a href="/#tools" onClick={() => setIsMenuOpen(false)} className="block px-3 py-3 rounded-md text-lg font-bold text-center bg-slate-800 animate-text-flash">Explore Tools</a>
           </div>
           <div className="pt-4 pb-3 border-t border-slate-700">
             {isAuthenticated ? (
