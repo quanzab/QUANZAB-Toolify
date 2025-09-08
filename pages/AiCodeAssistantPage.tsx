@@ -1,19 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ToolPageLayout from '../components/ToolPageLayout';
-import { Tool } from '../types';
 
-interface ToolComingSoonPageProps {
-  tool: Tool;
-}
-
-const ToolComingSoonPage: React.FC<ToolComingSoonPageProps> = ({ tool }) => {
+const AiCodeAssistantPage: React.FC = () => {
   return (
-    <ToolPageLayout title={tool.name} description={tool.description}>
+    <ToolPageLayout 
+      title="AI Code Assistant" 
+      description="Get AI-powered help with coding tasks, from writing snippets to debugging."
+    >
       <div className="text-center py-10">
-        <h2 className="text-3xl font-bold mb-4 text-white">Feature Under Development</h2>
+        <h2 className="text-3xl font-bold mb-4 text-white">Coming Soon!</h2>
         <p className="text-gray-400 mb-8 max-w-md mx-auto">
-          We're working hard to bring you this tool. It will be available in a future update. Stay tuned!
+          We are building this powerful AI coding tool. It will be available in a future update. Stay tuned!
         </p>
         <Link
           to="/"
@@ -26,4 +24,4 @@ const ToolComingSoonPage: React.FC<ToolComingSoonPageProps> = ({ tool }) => {
   );
 };
 
-export default ToolComingSoonPage;
+export default AiCodeAssistantPage;

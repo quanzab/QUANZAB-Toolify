@@ -30,6 +30,8 @@ import CrewRosterPlannerPage from './pages/CrewRosterPlannerPage';
 import VesselComplianceCheckerPage from './pages/VesselComplianceCheckerPage';
 import ToolComingSoonPage from './pages/ToolComingSoonPage';
 import PdfToWordPage from './pages/PdfToWordPage';
+import AiContentGeneratorPage from './pages/AiContentGeneratorPage';
+import PlatformFeaturesPage from './pages/PlatformFeaturesPage';
 
 import { tools } from './data/tools';
 
@@ -45,6 +47,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/paraphraser-rewriter': ParaphraserRewriterPage,
   '/receipt-scanner': ReceiptScannerPage,
   '/ai-document-analyzer': AiDocumentAnalyzerPage,
+  '/ai-content-generator': AiContentGeneratorPage,
   '/image-background-remover': ImageBackgroundRemoverPage,
   '/image-editor': ImageEditorPage,
   '/zip-creator': ZipCreatorPage,
@@ -53,6 +56,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/crew-roster-planner': CrewRosterPlannerPage,
   '/vessel-compliance-checker': VesselComplianceCheckerPage,
   '/pdf-to-word': PdfToWordPage,
+  '/platform-features': PlatformFeaturesPage,
 };
 
 const App: React.FC = () => {
@@ -68,34 +72,24 @@ const App: React.FC = () => {
 
           {tools.map(tool => {
             const Component = componentMap[tool.path];
-            if (Component) {
-              const routeElement = <Component />;
-              return (
-                <Route
-                  key={tool.path}
-                  path={tool.path}
-                  element={
-                    tool.premium ? (
-                      <ProtectedRoute toolName={tool.name}>
-                        {routeElement}
-                      </ProtectedRoute>
-                    ) : (
-                      routeElement
-                    )
-                  }
-                />
-              );
-            }
-            if (tool.path.startsWith('/coming-soon')) {
-                 return (
-                    <Route 
-                        key={tool.path}
-                        path={tool.path}
-                        element={<ToolComingSoonPage tool={tool} />}
-                    />
-                 )
-            }
-            return null;
+            // If a component is mapped, use it. Otherwise, use the generic placeholder page.
+            const routeElement = Component ? <Component /> : <ToolComingSoonPage tool={tool} />;
+
+            return (
+              <Route
+                key={tool.path}
+                path={tool.path}
+                element={
+                  tool.premium ? (
+                    <ProtectedRoute toolName={tool.name}>
+                      {routeElement}
+                    </ProtectedRoute>
+                  ) : (
+                    routeElement
+                  )
+                }
+              />
+            );
           })}
 
         </Routes>

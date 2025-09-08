@@ -15,7 +15,9 @@ import {
   MaritimeIcon,
   ZipIcon,
   TuneIcon,
-  TypeIcon
+  TypeIcon,
+  PresentationIcon,
+  ChartBarIcon,
 } from '../components/Icons';
 
 export const tools: Tool[] = [
@@ -49,12 +51,46 @@ export const tools: Tool[] = [
     tags: ['AI'],
   },
   {
+    name: 'AI Content Generator',
+    description: 'Generate blog posts, emails, and more from a simple text prompt. Choose your tone and style.',
+    icon: WandIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-content-generator',
+    tags: ['AI', 'New'],
+  },
+  {
     name: 'Receipt Scanner',
     description: 'Digitize your paper receipts with AI. Upload an image to automatically extract details.',
     icon: AIIcon,
     category: Category.AI,
     premium: true,
     path: '/receipt-scanner',
+    tags: ['AI', 'New'],
+  },
+  {
+    name: 'AI Code Assistant',
+    description: 'Get AI-powered help with coding tasks, from writing snippets to debugging.',
+    icon: TypeIcon,
+    category: Category.AI,
+    path: '/ai-code-assistant',
+  },
+  {
+    name: 'AI Audio Transcriber',
+    description: 'Convert speech from audio files into accurate, searchable text. Feature under development.',
+    icon: AIIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-audio-transcriber',
+    tags: ['AI', 'New'],
+  },
+  {
+    name: 'Language Translator',
+    description: 'Translate text or entire documents between dozens of languages. Feature under development.',
+    icon: ConvertIcon,
+    category: Category.AI,
+    premium: false,
+    path: '/language-translator',
     tags: ['AI', 'New'],
   },
   // Document & File Tools
@@ -133,6 +169,24 @@ export const tools: Tool[] = [
     category: Category.DOCUMENTS,
     path: '/zip-creator',
   },
+  {
+    name: 'PDF Annotator',
+    description: 'Add notes, highlight text, and draw on your PDF documents. Feature under development.',
+    icon: PencilIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-annotator',
+    tags: ['New'],
+  },
+  {
+    name: 'Video to GIF Converter',
+    description: 'Create animated GIFs from video clips with custom settings. Feature under development.',
+    icon: ConvertIcon,
+    category: Category.DOCUMENTS,
+    premium: false,
+    path: '/video-to-gif',
+    tags: ['New'],
+  },
   // Business Productivity
   {
     name: 'Invoice Generator',
@@ -157,6 +211,31 @@ export const tools: Tool[] = [
     premium: true,
     path: '/ai-itinerary-planner',
     tags: ['AI', 'New']
+  },
+  {
+    name: 'AI Presentation Generator',
+    description: 'Create professional presentations from a text prompt, letting AI generate slides.',
+    icon: PresentationIcon,
+    category: Category.BUSINESS,
+    premium: true,
+    path: '/ai-presentation-generator',
+    tags: ['AI', 'New'],
+  },
+  {
+    name: 'Project Planner',
+    description: 'Organize complex projects with boards, timelines, and collaboration tools. Feature under development.',
+    icon: ChecklistIcon,
+    category: Category.BUSINESS,
+    premium: true,
+    path: '/project-planner',
+    tags: ['New'],
+  },
+  {
+    name: 'Platform Features',
+    description: 'An interactive dashboard showcasing the full range of QUANZAB Toolkit\'s capabilities.',
+    icon: ChartBarIcon,
+    category: Category.BUSINESS,
+    path: '/platform-features',
   },
   // Niche Maritime Tools
   {

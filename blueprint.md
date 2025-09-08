@@ -1,4 +1,3 @@
-
 # QUANZAB Toolkit - Project Blueprint
 
 This document outlines the architecture, features, and technical specifications of the QUANZAB Toolkit application.
@@ -65,6 +64,7 @@ The QUANZAB Toolkit is envisioned as a modular platform with the following capab
 ### 4.2 Advanced AI Capabilities
 
 - **Content Intelligence:** Generate concise summaries, extract keywords, and highlight critical tables or figures from any document.
+- **AI Content Generation**: A dedicated tool for generating various types of written content like blog posts, emails, and social media updates from a simple prompt.
 - **Smart Search:** Unified search across all file types, including the content of text, audio, and video files.
 - **Language Translation:** Auto-translate documents, captions, or audio between multiple languages.
 - **Content Assistant:** A chat-based interface to ask questions about a document and get AI-generated answers and insights.

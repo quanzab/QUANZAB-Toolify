@@ -3,12 +3,20 @@ import ToolPageLayout from '../components/ToolPageLayout';
 import { useTaskManager } from '../hooks/useTaskManager';
 import TaskItem from '../components/TaskItem';
 import ConfirmationModal from '../components/ConfirmationModal';
+import { GoogleGenAI } from "@google/genai";
+import { WandIcon } from '../components/Icons';
+import Loader from '../components/Loader';
 
 const TaskManagerPage: React.FC = () => {
   const { tasks, addTask, toggleTask, deleteTask, updateTaskDueDate } = useTaskManager();
   const [newTaskText, setNewTaskText] = useState('');
   const [newDueDate, setNewDueDate] = useState('');
   const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
+
+  // State for AI summary
+  const [isSummarizing, setIsSummarizing] = useState(false);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [summaryError, setSummaryError] = useState<string | null>(null);
 
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,6 +40,49 @@ const TaskManagerPage: React.FC = () => {
     if (taskToDelete !== null) {
       deleteTask(taskToDelete);
       closeDeleteConfirmation();
+    }
+  };
+
+  const handleSummarizeTasks = async () => {
+    if (tasks.length === 0) return;
+
+    setIsSummarizing(true);
+    setSummary(null);
+    setSummaryError(null);
+
+    try {
+        const pendingList = pendingTasks.map(t => `- ${t.text}${t.dueDate ? ` (Due: ${new Date(t.dueDate).toLocaleDateString()})` : ''}`).join('\n');
+        const completedList = completedTasks.map(t => `- ${t.text}`).join('\n');
+
+        const prompt = `
+        Analyze my current task list and provide a brief, actionable summary.
+        - Start with a one-sentence overview of my current workload.
+        - Highlight any urgent or upcoming tasks based on due dates.
+        - Comment on the balance between pending and completed work.
+        - Conclude with a motivational or strategic suggestion.
+        
+        My Task List:
+        
+        Pending Tasks:
+        ${pendingList || 'No pending tasks.'}
+        
+        Completed Tasks:
+        ${completedList || 'No completed tasks yet.'}
+        `;
+
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+        });
+
+        setSummary(response.text);
+
+    } catch (e) {
+        console.error(e);
+        setSummaryError('Failed to generate summary. The AI service may be temporarily unavailable.');
+    } finally {
+        setIsSummarizing(false);
     }
   };
 
@@ -66,10 +117,39 @@ const TaskManagerPage: React.FC = () => {
           </button>
         </form>
 
+        {isSummarizing && <Loader message="AI is summarizing your tasks..." />}
+        {summaryError && <p className="text-red-500 text-center font-semibold">{summaryError}</p>}
+        {summary && (
+            <div className="p-4 bg-primary/10 border-l-4 border-primary rounded-r-lg relative animate-fade-in">
+                <h4 className="font-bold text-primary mb-2 flex items-center gap-2">
+                    <WandIcon className="w-5 h-5" />
+                    AI Summary
+                </h4>
+                <p className="whitespace-pre-wrap text-primary/90">{summary}</p>
+                <button 
+                    onClick={() => setSummary(null)} 
+                    className="absolute top-2 right-2 text-primary/70 hover:text-primary font-bold text-2xl leading-none px-2 rounded-full"
+                    aria-label="Close summary"
+                >
+                    &times;
+                </button>
+            </div>
+        )}
+
         <div className="space-y-4">
-            <h3 className="text-xl font-bold font-heading text-white border-b border-slate-700 pb-2">
-                To Do ({pendingTasks.length})
-            </h3>
+            <div className="flex justify-between items-center border-b border-slate-700 pb-2 flex-wrap gap-2">
+                <h3 className="text-xl font-bold font-heading text-white">
+                    To Do ({pendingTasks.length})
+                </h3>
+                <button
+                    onClick={handleSummarizeTasks}
+                    disabled={tasks.length === 0 || isSummarizing}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-primary bg-slate-800 border-2 border-primary/50 rounded-lg hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    <WandIcon className="w-4 h-4" />
+                    Summarize with AI
+                </button>
+            </div>
             {pendingTasks.length > 0 ? (
                 <ul className="space-y-3">
                     {pendingTasks.map(task => (

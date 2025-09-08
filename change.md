@@ -1,10 +1,16 @@
-
 # Changelog
 
 All notable changes to the QUANZAB Toolkit application will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.2.0] - YYYY-MM-DD
+
+### Added
+
+- **AI Content Generator**: Added a new premium tool that uses AI to generate various types of written content (blog posts, emails, etc.) from a user's prompt.
+- **Project Documentation Updates**: Updated `todo.md` to reflect completed features and future plans.
 
 ## [1.1.0] - YYYY-MM-DD
 
