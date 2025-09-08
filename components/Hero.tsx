@@ -9,8 +9,7 @@ const Hero: React.FC = () => {
         alt="A futuristic digital interface showcasing various productivity tools and AI capabilities."
         className="absolute inset-0 w-full h-full object-cover -z-10"
       />
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-slate-900/40"></div>
+      {/* Overlay Removed */}
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto">
