@@ -4,10 +4,11 @@ import ToolPageLayout from '../components/ToolPageLayout';
 import Loader from '../components/Loader';
 import { ResearchIcon } from '../components/Icons';
 
+// FIX: Made `uri` and `title` optional to match the type from the @google/genai library.
 interface GroundingChunk {
   web: {
-    uri: string;
-    title: string;
+    uri?: string;
+    title?: string;
   };
 }
 
@@ -41,7 +42,7 @@ const AiResearchAssistantPage: React.FC = () => {
             setResult(response.text);
             const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
             if (groundingChunks) {
-                setSources(groundingChunks);
+                setSources(groundingChunks as GroundingChunk[]);
             }
 
         } catch (e) {
@@ -98,7 +99,9 @@ const AiResearchAssistantPage: React.FC = () => {
                             <div className="mt-6">
                                 <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Sources</h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {/* FIX: Add a guard to ensure source.web.uri exists before rendering the link. */}
                                     {sources.map((source, index) => (
+                                        source.web.uri &&
                                         <a
                                             key={index}
                                             href={source.web.uri}
@@ -106,7 +109,7 @@ const AiResearchAssistantPage: React.FC = () => {
                                             rel="noopener noreferrer"
                                             className="block p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 hover:border-primary transition-colors shadow-sm dark:shadow-none"
                                         >
-                                            <p className="font-semibold text-primary truncate">{source.web.title}</p>
+                                            <p className="font-semibold text-primary truncate">{source.web.title || "Untitled Source"}</p>
                                             <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{source.web.uri}</p>
                                         </a>
                                     ))}

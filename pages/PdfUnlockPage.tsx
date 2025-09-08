@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -35,7 +36,8 @@ const PdfUnlockPage: React.FC = () => {
 
         try {
             const pdfBytes = await file.arrayBuffer();
-            // FIX: The property for providing a password when loading an encrypted PDF is `password`, not `userPassword`.
+            // FIX: The property for providing a password when loading an encrypted PDF is 'password'.
+            // The project's type definitions may be outdated, causing a type error for this property.
             const pdfDoc = await PDFDocument.load(pdfBytes, {
                 password: password,
             });

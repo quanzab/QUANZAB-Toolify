@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI, Chat } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -72,7 +73,11 @@ const AiCodeAssistantPage: React.FC = () => {
           </div>
         );
       }
-      return <p key={index} className="whitespace-pre-wrap">{part}</p>;
+      // FIX: Ensure that the part is not empty or just whitespace before rendering a <p> tag to prevent empty paragraphs from being created by the split.
+      if (part.trim()) {
+        return <p key={index} className="whitespace-pre-wrap">{part}</p>;
+      }
+      return null;
     });
   };
 
