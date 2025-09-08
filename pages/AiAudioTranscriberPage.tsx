@@ -15,9 +15,9 @@ const AiAudioTranscriberPage: React.FC = () => {
         <p className="text-gray-400 mb-6 max-w-lg mx-auto">
           Our team is developing a state-of-the-art AI transcription tool to provide fast and accurate audio-to-text conversion.
         </p>
-        <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700 text-left max-w-lg mx-auto">
-            <h4 className="font-semibold text-gray-200">What to Expect</h4>
-            <p className="text-sm text-gray-400 mt-2">
+        <div className="p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 text-left max-w-lg mx-auto">
+            <h4 className="font-semibold text-gray-800 dark:text-gray-200">What to Expect</h4>
+            <p className="text-sm text-slate-600 dark:text-gray-400 mt-2">
                 This upcoming premium feature will leverage advanced AI models to handle various audio formats and accents. We are focused on ensuring high accuracy and providing features like speaker identification and timestamping. Thank you for your patience as we build this powerful tool for you.
             </p>
         </div>

@@ -15,9 +15,9 @@ const VideoEditorPage: React.FC = () => {
         <p className="text-gray-400 mb-6 max-w-lg mx-auto">
           We are building a powerful, browser-based video editor.
         </p>
-        <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700 text-left max-w-lg mx-auto">
-            <h4 className="font-semibold text-gray-200">Advanced In-Browser Processing</h4>
-            <p className="text-sm text-gray-400 mt-2">
+        <div className="p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 text-left max-w-lg mx-auto">
+            <h4 className="font-semibold text-gray-800 dark:text-gray-200">Advanced In-Browser Processing</h4>
+            <p className="text-sm text-slate-600 dark:text-gray-400 mt-2">
               Video editing requires intensive processing. Our team is engineering an efficient solution using WebAssembly and other modern web technologies to bring this powerful tool to you, right in your browser, without compromising your privacy by uploading files to a server.
             </p>
         </div>

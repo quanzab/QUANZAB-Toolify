@@ -15,9 +15,9 @@ const VideoToGifConverterPage: React.FC = () => {
         <p className="text-gray-400 mb-6 max-w-lg mx-auto">
           We are actively working on a high-quality, in-browser Video to GIF converter.
         </p>
-        <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700 text-left max-w-lg mx-auto">
-            <h4 className="font-semibold text-gray-200">A Note on Complexity</h4>
-            <p className="text-sm text-gray-400 mt-2">
+        <div className="p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 text-left max-w-lg mx-auto">
+            <h4 className="font-semibold text-gray-800 dark:text-gray-200">A Note on Complexity</h4>
+            <p className="text-sm text-slate-600 dark:text-gray-400 mt-2">
                 Converting video formats entirely within a web browser is a complex engineering challenge. It requires significant processing power and advanced web technologies (like WebAssembly) to work efficiently without sending your files to a server. We are committed to building a secure, private, and powerful tool, and we appreciate your patience as we perfect it.
             </p>
         </div>

@@ -41,8 +41,8 @@ const PdfProtectPage: React.FC = () => {
             const pdfBytes = await file.arrayBuffer();
             const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
             
-            // FIX: The correct method name for encryption is `encryptWithPermissions`.
-            pdfDoc.encryptWithPermissions({
+            // FIX: The method `encryptWithPermissions` does not exist on `PDFDocument`. The correct method is `encrypt`.
+            pdfDoc.encrypt({
                 ownerPassword: password,
                 userPassword: password,
                 permissions: {},
