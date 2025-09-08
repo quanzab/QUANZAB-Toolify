@@ -106,21 +106,21 @@ const ReceiptScannerPage: React.FC = () => {
       {file && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
-            <h3 className="font-bold text-lg">Receipt Preview</h3>
+            <h3 className="font-bold text-lg text-slate-900 dark:text-white">Receipt Preview</h3>
             {preview && <img src={preview} alt="Receipt preview" className="rounded-lg shadow-md max-h-96 w-auto mx-auto" />}
             <div className="flex gap-4">
               <button onClick={handleScan} disabled={isLoading} className="flex-grow px-8 py-3 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg disabled:bg-slate-600">
                 {isLoading ? 'Scanning...' : 'Scan with AI'}
               </button>
-              <button onClick={handleReset} className="px-4 py-2 bg-slate-700 rounded-md">Change File</button>
+              <button onClick={handleReset} className="px-4 py-2 bg-slate-200 dark:bg-slate-700 rounded-md text-slate-800 dark:text-gray-200 hover:bg-slate-300 dark:hover:bg-slate-600 shadow-sm">Change File</button>
             </div>
           </div>
           <div className="space-y-4">
-            <h3 className="font-bold text-lg">Extracted Data</h3>
+            <h3 className="font-bold text-lg text-slate-900 dark:text-white">Extracted Data</h3>
             {isLoading && <Loader message="AI is analyzing your receipt..." />}
             {error && <p className="text-red-500 font-semibold">{error}</p>}
             {data && (
-              <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700 space-y-3">
+              <div className="p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg border border-transparent dark:border-slate-700 space-y-3 shadow-sm dark:shadow-none text-slate-800 dark:text-gray-200">
                 <p><strong>Vendor:</strong> {data.vendor || 'N/A'}</p>
                 <p><strong>Date:</strong> {data.date || 'N/A'}</p>
                 <p><strong>Total:</strong> ${data.total?.toFixed(2) || 'N/A'}</p>

@@ -51,7 +51,7 @@ const TextSummarizerPage: React.FC = () => {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="input-text" className="block font-semibold mb-2">
+          <label htmlFor="input-text" className="block font-semibold mb-2 text-slate-800 dark:text-gray-200">
             Paste your text below
           </label>
           <textarea
@@ -59,7 +59,7 @@ const TextSummarizerPage: React.FC = () => {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             rows={10}
-            className="w-full p-3 border rounded-md bg-slate-800 border-slate-600 focus:ring-2 focus:ring-primary"
+            className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-transparent dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
             placeholder="Enter a long piece of text here..."
             aria-label="Text input for summarization"
           ></textarea>
@@ -81,17 +81,17 @@ const TextSummarizerPage: React.FC = () => {
 
         {summary && (
           <div role="region" aria-labelledby="summary-heading">
-            <div className="flex justify-between items-center mt-6 border-t pt-4 border-slate-700">
-              <h3 id="summary-heading" className="text-xl font-bold">Summary</h3>
+            <div className="flex justify-between items-center mt-6 border-t pt-4 border-slate-200 dark:border-slate-700">
+              <h3 id="summary-heading" className="text-xl font-bold text-slate-900 dark:text-white">Summary</h3>
               <button
                 onClick={handleCopy}
-                className="px-3 py-1.5 text-sm font-semibold text-gray-200 bg-slate-700 rounded-md hover:bg-slate-600 transition-colors"
+                className="px-3 py-1.5 text-sm font-semibold text-slate-800 dark:text-gray-200 bg-slate-200 dark:bg-slate-700 rounded-md hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors shadow-sm"
                 aria-label="Copy summary to clipboard"
               >
                 {copied ? 'Copied!' : 'Copy Summary'}
               </button>
             </div>
-            <div className="mt-2 p-4 bg-slate-800/50 rounded-md whitespace-pre-wrap">
+            <div className="mt-2 p-4 bg-slate-100 dark:bg-slate-800/50 rounded-md whitespace-pre-wrap shadow-inner">
               {summary}
             </div>
           </div>

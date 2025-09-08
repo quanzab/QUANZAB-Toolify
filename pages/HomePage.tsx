@@ -47,7 +47,7 @@ const HomePage: React.FC = () => {
                 <div className="absolute -inset-px bg-gradient-to-r from-[var(--accent-color)] to-primary rounded-2xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
                 <div className="relative z-10">
                   <div className="flex justify-between items-start">
-                    <div className="p-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg inline-block">
+                    <div className="p-3 bg-slate-100 dark:bg-slate-800 border border-transparent dark:border-slate-700 rounded-lg inline-block shadow-sm dark:shadow-none">
                       <Icon className="h-10 w-10 text-[var(--accent-color)]" />
                     </div>
                     {tags?.map(tag => (
@@ -86,7 +86,7 @@ const HomePage: React.FC = () => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search for a tool..."
-                        className="block w-full bg-white dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-full py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                        className="block w-full bg-slate-50 dark:bg-slate-800/50 border border-transparent dark:border-slate-700 rounded-full py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
                     />
                 </div>
             </div>

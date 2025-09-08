@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import ToolPageLayout from '../components/ToolPageLayout';
 import { useTaskManager } from '../hooks/useTaskManager';
@@ -98,14 +99,14 @@ const TaskManagerPage: React.FC = () => {
             value={newTaskText}
             onChange={(e) => setNewTaskText(e.target.value)}
             placeholder="Add a new task..."
-            className="flex-grow w-full px-4 py-2 border border-slate-600 rounded-lg bg-slate-700 focus:ring-2 focus:ring-primary transition-colors"
+            className="flex-grow w-full px-4 py-2 border rounded-lg bg-slate-100 dark:bg-slate-700 border-transparent dark:border-slate-600 focus:ring-2 focus:ring-primary transition-colors shadow-sm dark:shadow-none"
             aria-label="New task input"
           />
           <input
             type="date"
             value={newDueDate}
             onChange={(e) => setNewDueDate(e.target.value)}
-            className="px-4 py-2 border border-slate-600 rounded-lg bg-slate-700 focus:ring-2 focus:ring-primary transition-colors"
+            className="px-4 py-2 border rounded-lg bg-slate-100 dark:bg-slate-700 border-transparent dark:border-slate-600 focus:ring-2 focus:ring-primary transition-colors shadow-sm dark:shadow-none"
             aria-label="New task due date"
           />
           <button
@@ -137,14 +138,14 @@ const TaskManagerPage: React.FC = () => {
         )}
 
         <div className="space-y-4">
-            <div className="flex justify-between items-center border-b border-slate-700 pb-2 flex-wrap gap-2">
-                <h3 className="text-xl font-bold font-heading text-white">
+            <div className="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-2 flex-wrap gap-2">
+                <h3 className="text-xl font-bold font-heading text-slate-900 dark:text-white">
                     To Do ({pendingTasks.length})
                 </h3>
                 <button
                     onClick={handleSummarizeTasks}
                     disabled={tasks.length === 0 || isSummarizing}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-primary bg-slate-800 border-2 border-primary/50 rounded-lg hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-primary bg-white dark:bg-slate-800 border-2 border-primary/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm dark:shadow-none"
                 >
                     <WandIcon className="w-4 h-4" />
                     Summarize with AI
@@ -157,13 +158,13 @@ const TaskManagerPage: React.FC = () => {
                     ))}
                 </ul>
             ) : (
-                <p className="text-slate-400 text-center py-4">Nothing to do. Add a task to get started!</p>
+                <p className="text-slate-500 dark:text-slate-400 text-center py-4">Nothing to do. Add a task to get started!</p>
             )}
         </div>
 
         {completedTasks.length > 0 && (
              <div className="space-y-4">
-                <h3 className="text-xl font-bold font-heading text-white border-b border-slate-700 pb-2">
+                <h3 className="text-xl font-bold font-heading text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-2">
                     Completed ({completedTasks.length})
                 </h3>
                 <ul className="space-y-3">

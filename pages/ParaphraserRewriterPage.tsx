@@ -47,19 +47,19 @@ const ParaphraserRewriterPage: React.FC = () => {
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="input-text" className="block font-semibold mb-2">Original Text</label>
+            <label htmlFor="input-text" className="block font-semibold mb-2 text-slate-800 dark:text-gray-200">Original Text</label>
             <textarea
               id="input-text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               rows={12}
-              className="w-full p-3 border rounded-md bg-slate-800 border-slate-600"
+              className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
               placeholder="Enter your text here..."
             ></textarea>
           </div>
           <div>
-            <label htmlFor="output-text" className="block font-semibold mb-2">Rewritten Text</label>
-            <div className="w-full h-full p-3 border rounded-md bg-slate-800/50 border-slate-600 whitespace-pre-wrap">
+            <label htmlFor="output-text" className="block font-semibold mb-2 text-slate-800 dark:text-gray-200">Rewritten Text</label>
+            <div className="w-full h-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800/50 border-transparent dark:border-slate-600 whitespace-pre-wrap shadow-inner">
               {isLoading ? <Loader message="AI is rewriting..." /> : outputText}
             </div>
           </div>
@@ -67,12 +67,12 @@ const ParaphraserRewriterPage: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-4">
           <div className="flex items-center gap-2">
-            <label htmlFor="tone-select" className="font-semibold">Tone:</label>
+            <label htmlFor="tone-select" className="font-semibold text-slate-800 dark:text-gray-200">Tone:</label>
             <select
               id="tone-select"
               value={tone}
               onChange={(e) => setTone(e.target.value as Tone)}
-              className="p-2 border rounded-md bg-slate-700 border-slate-600"
+              className="p-2 border rounded-md bg-white dark:bg-slate-700 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
             >
               {tones.map(t => <option key={t} value={t}>{t}</option>)}
             </select>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useDropzone, FileRejection, Accept } from 'react-dropzone';
 
@@ -21,7 +22,7 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onDrop, accept, multiple = 
       className={`p-10 border-2 border-dashed rounded-xl text-center cursor-pointer transition-colors duration-300 ${
         isDragActive
           ? 'border-primary bg-primary/10'
-          : 'border-slate-300 dark:border-slate-600 hover:border-primary/70 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+          : 'border-transparent dark:border-slate-600 bg-slate-100 dark:bg-transparent shadow-inner hover:border-primary/70 hover:bg-slate-200 dark:hover:bg-slate-800/50'
       }`}
     >
       <input {...getInputProps()} />

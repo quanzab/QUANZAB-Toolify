@@ -125,24 +125,24 @@ const PdfConverterPage: React.FC = () => {
             />
           ) : (
              <div className="text-center">
-                <div className="p-4 bg-slate-800 rounded-lg inline-flex items-center gap-4">
-                  <span className="font-medium text-gray-300">{file.name}</span>
-                  <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl leading-none px-2 rounded-full hover:bg-red-900/50 transition-colors">&times;</button>
+                <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg inline-flex items-center gap-4 shadow-sm dark:shadow-none">
+                  <span className="font-medium text-slate-800 dark:text-gray-300">{file.name}</span>
+                  <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl leading-none px-2 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors">&times;</button>
                 </div>
             </div>
           )}
           
           {file && (
-            <div className="my-6 p-6 border border-slate-700 rounded-lg">
-                <h3 className="text-lg font-semibold text-gray-200 mb-4">Conversion Options</h3>
+            <div className="my-6 p-6 border border-transparent dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-transparent shadow-md dark:shadow-none">
+                <h3 className="text-lg font-semibold text-slate-800 dark:text-gray-200 mb-4">Conversion Options</h3>
                 <div className="space-y-6">
                     <div className="flex items-center gap-4">
-                        <label htmlFor="format" className="font-semibold text-gray-200">Convert to:</label>
+                        <label htmlFor="format" className="font-semibold text-slate-800 dark:text-gray-200">Convert to:</label>
                         <select 
                             id="format"
                             value={outputFormat}
                             onChange={(e) => setOutputFormat(e.target.value as OutputFormat)}
-                            className="bg-slate-700 border border-slate-600 rounded-md px-3 py-2 focus:ring-2 focus:ring-primary"
+                            className="bg-white dark:bg-slate-700 border border-transparent dark:border-slate-600 rounded-md px-3 py-2 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
                         >
                             <option value="jpg">JPG</option>
                             <option value="png">PNG</option>
@@ -153,15 +153,15 @@ const PdfConverterPage: React.FC = () => {
                         <label htmlFor="ocr-toggle" className="flex items-center cursor-pointer">
                             <div className="relative">
                                 <input id="ocr-toggle" type="checkbox" className="sr-only" checked={enableOcr} onChange={() => setEnableOcr(!enableOcr)} />
-                                <div className={`block w-14 h-8 rounded-full transition-colors ${enableOcr ? 'bg-accent' : 'bg-slate-600'}`}></div>
+                                <div className={`block w-14 h-8 rounded-full transition-colors ${enableOcr ? 'bg-accent' : 'bg-slate-300 dark:bg-slate-600'}`}></div>
                                 <div className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform ${enableOcr ? 'translate-x-6' : 'translate-x-0'}`}></div>
                             </div>
                             <div className="ml-4">
-                                <span className="font-semibold text-gray-200">
+                                <span className="font-semibold text-slate-800 dark:text-gray-200">
                                 Enable OCR (Extract Text)
                                 <span className="ml-2 text-xs font-bold text-slate-900 bg-primary rounded-full px-2 py-1 align-middle">AI</span>
                                 </span>
-                                <p className="text-sm text-slate-400">Creates searchable text files for each page.</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Creates searchable text files for each page.</p>
                             </div>
                         </label>
                     </div>

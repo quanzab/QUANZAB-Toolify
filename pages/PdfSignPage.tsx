@@ -1,5 +1,4 @@
 
-
 import React, { useState, useCallback, useRef, useEffect, useImperativeHandle } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -13,7 +12,7 @@ import ConfirmationModal from '../components/ConfirmationModal';
 const SignaturePad = React.forwardRef<
   { clear: () => void; undo: () => void; getSignatureDataUrl: () => string | null },
   { strokeColor?: string; strokeWidth?: number }
->(({ strokeColor = '#000000', strokeWidth = 2 }, ref) => {
+>(({ strokeColor = '#0000FF', strokeWidth = 2 }, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [paths, setPaths] = useState<[number, number][][]>([]);
@@ -129,7 +128,7 @@ const SignaturePad = React.forwardRef<
       ref={canvasRef}
       width={400}
       height={200}
-      className="bg-slate-100 rounded-lg cursor-crosshair touch-none"
+      className="bg-slate-100 dark:bg-slate-700 rounded-lg cursor-crosshair touch-none"
       onMouseDown={startDrawing}
       onMouseMove={draw}
       onMouseUp={endDrawing}
@@ -424,26 +423,26 @@ const PdfSignPage: React.FC = () => {
 
     return (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-            <div className="bg-slate-800 p-6 rounded-xl shadow-2xl border border-slate-700 w-full max-w-lg">
-                <h3 className="text-xl font-bold text-white mb-4">Draw Your Signature</h3>
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-2xl border border-transparent dark:border-slate-700 w-full max-w-lg">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Draw Your Signature</h3>
                 <SignaturePad ref={signaturePadRef} strokeColor={signatureColor} strokeWidth={signatureWidth} />
                 <div className="my-4 grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">Color</label>
-                        <div className="flex gap-2">{colors.map(color => (<button key={color.name} onClick={() => setSignatureColor(color.value)} className={`w-8 h-8 rounded-full transition-transform transform hover:scale-110 ${signatureColor === color.value ? 'ring-2 ring-offset-2 ring-offset-slate-800 ring-primary' : ''}`} style={{ backgroundColor: color.value }} aria-label={`Set color to ${color.name}`}></button>))}</div>
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-gray-300 mb-2">Color</label>
+                        <div className="flex gap-2">{colors.map(color => (<button key={color.name} onClick={() => setSignatureColor(color.value)} className={`w-8 h-8 rounded-full transition-transform transform hover:scale-110 ${signatureColor === color.value ? 'ring-2 ring-offset-2 ring-offset-white dark:ring-offset-slate-800 ring-primary' : ''}`} style={{ backgroundColor: color.value }} aria-label={`Set color to ${color.name}`}></button>))}</div>
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-2">Line Width</label>
-                         <div className="flex gap-2">{widths.map(width => (<button key={width.name} onClick={() => setSignatureWidth(width.value)} className={`px-3 py-1 text-sm rounded-md transition-colors ${signatureWidth === width.value ? 'bg-primary text-slate-900 font-bold' : 'bg-slate-700 hover:bg-slate-600'}`}>{width.name}</button>))}</div>
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-gray-300 mb-2">Line Width</label>
+                         <div className="flex gap-2">{widths.map(width => (<button key={width.name} onClick={() => setSignatureWidth(width.value)} className={`px-3 py-1 text-sm rounded-md transition-colors ${signatureWidth === width.value ? 'bg-primary text-slate-900 font-bold' : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-gray-200 hover:bg-slate-300 dark:hover:bg-slate-600'}`}>{width.name}</button>))}</div>
                     </div>
                 </div>
                 <div className="flex justify-between items-center mt-4">
                     <div>
-                         <button onClick={() => signaturePadRef.current?.undo()} className="px-4 py-2 text-sm text-gray-300 bg-slate-700 rounded-md hover:bg-slate-600 inline-flex items-center gap-2"><UndoIcon className="w-4 h-4" /> Undo</button>
-                         <button onClick={() => signaturePadRef.current?.clear()} className="ml-2 px-4 py-2 text-sm text-gray-300 bg-slate-700 rounded-md hover:bg-slate-600">Clear</button>
+                         <button onClick={() => signaturePadRef.current?.undo()} className="px-4 py-2 text-sm text-slate-800 dark:text-gray-300 bg-slate-200 dark:bg-slate-700 rounded-md hover:bg-slate-300 dark:hover:bg-slate-600 inline-flex items-center gap-2"><UndoIcon className="w-4 h-4" /> Undo</button>
+                         <button onClick={() => signaturePadRef.current?.clear()} className="ml-2 px-4 py-2 text-sm text-slate-800 dark:text-gray-300 bg-slate-200 dark:bg-slate-700 rounded-md hover:bg-slate-300 dark:hover:bg-slate-600">Clear</button>
                     </div>
                     <div>
-                        <button onClick={() => setIsDrawModalOpen(false)} className="px-4 py-2 text-sm font-semibold text-gray-300 rounded-md hover:bg-slate-700">Cancel</button>
+                        <button onClick={() => setIsDrawModalOpen(false)} className="px-4 py-2 text-sm font-semibold text-slate-800 dark:text-gray-300 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700">Cancel</button>
                         <button onClick={handleSaveDrawnSignature} className="ml-2 px-6 py-2 text-sm font-semibold text-slate-900 bg-primary rounded-md hover:bg-opacity-90">Save</button>
                     </div>
                 </div>
@@ -460,15 +459,15 @@ const PdfSignPage: React.FC = () => {
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Caveat&family=Dancing+Script&family=Pacifico&display=swap');
             `}</style>
-            <div className="bg-slate-800 p-6 rounded-xl shadow-2xl border border-slate-700 w-full max-w-lg">
-                <h3 className="text-xl font-bold text-white mb-4">Type Your Signature</h3>
-                <input type="text" value={typedText} onChange={e => setTypedText(e.target.value)} className="w-full p-3 border rounded-md bg-slate-700 border-slate-600 text-3xl text-center" style={{ fontFamily: `"${selectedFont}", cursive` }}/>
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-2xl border border-transparent dark:border-slate-700 w-full max-w-lg">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Type Your Signature</h3>
+                <input type="text" value={typedText} onChange={e => setTypedText(e.target.value)} className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-700 border-transparent dark:border-slate-600 text-3xl text-center text-slate-800 dark:text-white" style={{ fontFamily: `"${selectedFont}", cursive` }}/>
                 <div className="my-4">
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Choose Style</label>
-                    <div className="flex gap-2">{fonts.map(font => (<button key={font} onClick={() => setSelectedFont(font)} className={`px-4 py-2 rounded-md transition-colors text-lg ${selectedFont === font ? 'bg-primary text-slate-900' : 'bg-slate-700 hover:bg-slate-600'}`} style={{ fontFamily: `"${font}", cursive` }}>{font}</button>))}</div>
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-gray-300 mb-2">Choose Style</label>
+                    <div className="flex gap-2">{fonts.map(font => (<button key={font} onClick={() => setSelectedFont(font)} className={`px-4 py-2 rounded-md transition-colors text-lg text-slate-800 dark:text-gray-200 ${selectedFont === font ? 'bg-primary text-slate-900' : 'bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600'}`} style={{ fontFamily: `"${font}", cursive` }}>{font}</button>))}</div>
                 </div>
                 <div className="flex justify-end items-center mt-6">
-                    <button onClick={() => setIsTypeModalOpen(false)} className="px-4 py-2 text-sm font-semibold text-gray-300 rounded-md hover:bg-slate-700">Cancel</button>
+                    <button onClick={() => setIsTypeModalOpen(false)} className="px-4 py-2 text-sm font-semibold text-slate-800 dark:text-gray-300 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700">Cancel</button>
                     <button onClick={handleSaveTypedSignature} className="ml-2 px-6 py-2 text-sm font-semibold text-slate-900 bg-primary rounded-md hover:bg-opacity-90">Save</button>
                 </div>
             </div>
@@ -482,31 +481,31 @@ const PdfSignPage: React.FC = () => {
       {renderTypeModal()}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1 space-y-4">
-          <h3 className="font-bold text-lg">1. Add Signature</h3>
+          <h3 className="font-bold text-lg text-slate-900 dark:text-white">1. Add Signature</h3>
           <div className="space-y-2">
               <FileDropzone onDrop={handleSignatureDrop} accept={{ 'image/png': ['.png'], 'image/jpeg': ['.jpg', '.jpeg'] }} multiple={false} instructions="Drop signature image"/>
-              <div className="flex items-center gap-2 text-slate-400 text-sm">
-                  <hr className="flex-grow border-slate-600" /><span>OR</span><hr className="flex-grow border-slate-600" />
+              <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+                  <hr className="flex-grow border-slate-300 dark:border-slate-600" /><span>OR</span><hr className="flex-grow border-slate-300 dark:border-slate-600" />
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <button onClick={() => setIsDrawModalOpen(true)} className="w-full justify-center inline-flex items-center gap-2 px-4 py-2 text-center font-semibold text-primary bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-700"><PencilIcon className="w-5 h-5"/> Draw</button>
-                <button onClick={() => setIsTypeModalOpen(true)} className="w-full justify-center inline-flex items-center gap-2 px-4 py-2 text-center font-semibold text-primary bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-700"><TypeIcon className="w-5 h-5"/> Type</button>
+                <button onClick={() => setIsDrawModalOpen(true)} className="w-full justify-center inline-flex items-center gap-2 px-4 py-2 text-center font-semibold text-primary bg-white dark:bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 shadow-sm dark:shadow-none"><PencilIcon className="w-5 h-5"/> Draw</button>
+                <button onClick={() => setIsTypeModalOpen(true)} className="w-full justify-center inline-flex items-center gap-2 px-4 py-2 text-center font-semibold text-primary bg-white dark:bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 shadow-sm dark:shadow-none"><TypeIcon className="w-5 h-5"/> Type</button>
               </div>
           </div>
           {signaturePreview && (
             <div>
-              <p className="font-semibold text-sm mb-2">Signature Preview:</p>
-              <div className="p-2 bg-slate-800 rounded-lg border border-slate-700 relative">
-                <img src={signaturePreview} alt="Signature" className="max-h-24 mx-auto" style={{ filter: signatureImage?.type.includes('image') ? 'invert(1) grayscale(1) contrast(3)' : '' }}/>
-                <button onClick={() => { setSignatureImage(null); setSignaturePreview(null); setPlacement(null); }} className="absolute top-1 right-1 text-red-500 font-bold text-lg leading-none px-1 rounded-full hover:bg-red-900/50">&times;</button>
+              <p className="font-semibold text-sm mb-2 text-slate-700 dark:text-gray-200">Signature Preview:</p>
+              <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg border border-transparent dark:border-slate-700 relative shadow-sm dark:shadow-none">
+                <img src={signaturePreview} alt="Signature" className="max-h-24 mx-auto" style={{ filter: signatureImage?.type.includes('image') ? 'dark:invert(1) dark:grayscale(1) dark:contrast(3)' : '' }}/>
+                <button onClick={() => { setSignatureImage(null); setSignaturePreview(null); setPlacement(null); }} className="absolute top-1 right-1 text-red-500 font-bold text-lg leading-none px-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50">&times;</button>
               </div>
             </div>
           )}
         </div>
         <div className="lg:col-span-2">
-           <h3 className="font-bold text-lg">2. Place Signature</h3>
-           <p className="text-slate-400 text-sm mb-2">{placement ? 'Drag to move or use the handle to resize.' : 'Click on the document where you want the signature.'}</p>
-           <div className="max-h-[60vh] overflow-y-auto p-4 bg-slate-950 border border-slate-700 rounded-lg space-y-4">
+           <h3 className="font-bold text-lg text-slate-900 dark:text-white">2. Place Signature</h3>
+           <p className="text-slate-500 dark:text-slate-400 text-sm mb-2">{placement ? 'Drag to move or use the handle to resize.' : 'Click on the document where you want the signature.'}</p>
+           <div className="max-h-[60vh] overflow-y-auto p-4 bg-slate-100 dark:bg-slate-950 border border-transparent dark:border-slate-700 rounded-lg space-y-4 shadow-inner">
             {pagePreviews.map((src, index) => (
               <div key={index} ref={el => { pageRefs.current[index] = el; }} onClick={(e) => handlePageClick(index, e)} className="relative cursor-pointer shadow-lg mx-auto" style={{ width: '100%' }}>
                 <img src={src} alt={`Page ${index + 1}`} className="w-full h-auto" />
@@ -522,11 +521,11 @@ const PdfSignPage: React.FC = () => {
         </div>
       </div>
       {error && <p className="text-red-500 text-center my-4 font-semibold">{error}</p>}
-      <div className="mt-6 pt-6 border-t border-slate-700 text-center space-y-4">
-        <h3 className="font-bold text-lg">3. Finalize & Download</h3>
+      <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700 text-center space-y-4">
+        <h3 className="font-bold text-lg text-slate-900 dark:text-white">3. Finalize & Download</h3>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button onClick={handleSign} disabled={!placement || isLoading} className="w-full sm:w-auto px-12 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg hover:bg-opacity-90 disabled:bg-slate-600"><PencilIcon className="inline-block w-5 h-5 mr-2" /> Sign & Download</button>
-            <button onClick={handleResetClick} className="font-semibold text-slate-400 hover:text-primary">Start Over</button>
+            <button onClick={handleResetClick} className="font-semibold text-slate-500 dark:text-slate-400 hover:text-primary">Start Over</button>
         </div>
       </div>
        <ConfirmationModal

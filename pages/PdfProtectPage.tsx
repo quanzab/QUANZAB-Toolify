@@ -75,9 +75,9 @@ const PdfProtectPage: React.FC = () => {
                 />
             ) : (
                 <div className="text-center">
-                    <div className="p-4 bg-slate-800 rounded-lg inline-flex items-center gap-4">
-                        <span className="font-medium text-gray-300">{file.name}</span>
-                        <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl leading-none px-2 rounded-full hover:bg-red-900/50 transition-colors">&times;</button>
+                    <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg inline-flex items-center gap-4 shadow-sm dark:shadow-none">
+                        <span className="font-medium text-slate-800 dark:text-gray-300">{file.name}</span>
+                        <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl leading-none px-2 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors">&times;</button>
                     </div>
                 </div>
             )}
@@ -85,23 +85,23 @@ const PdfProtectPage: React.FC = () => {
             {file && (
                 <div className="max-w-sm mx-auto space-y-4">
                      <div>
-                        <label htmlFor="password-input" className="block font-semibold mb-1">Set Password</label>
+                        <label htmlFor="password-input" className="block font-semibold mb-1 text-slate-800 dark:text-gray-200">Set Password</label>
                         <input
                             id="password-input"
                             type="password"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
-                            className="w-full p-2 border rounded-md bg-slate-800 border-slate-600"
+                            className="w-full p-2 border rounded-md bg-slate-100 dark:bg-slate-800 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
                     <div>
-                        <label htmlFor="confirm-password-input" className="block font-semibold mb-1">Confirm Password</label>
+                        <label htmlFor="confirm-password-input" className="block font-semibold mb-1 text-slate-800 dark:text-gray-200">Confirm Password</label>
                         <input
                             id="confirm-password-input"
                             type="password"
                             value={confirmPassword}
                             onChange={e => setConfirmPassword(e.target.value)}
-                            className="w-full p-2 border rounded-md bg-slate-800 border-slate-600"
+                            className="w-full p-2 border rounded-md bg-slate-100 dark:bg-slate-800 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
                 </div>

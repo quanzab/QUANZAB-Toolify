@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import { PDFDocument, rgb, degrees } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -63,7 +64,7 @@ const PdfWatermarkPage: React.FC = () => {
                         x: width / 2 - (text.length * fontSize / 4),
                         y: height / 2 - fontSize / 2,
                         size: fontSize,
-                        color: rgb(0, 0, 0),
+                        color: rgb(0.5, 0.5, 0.5), // Gray color for watermark
                         opacity: opacity,
                         rotate: degrees(-45),
                     });
@@ -94,41 +95,41 @@ const PdfWatermarkPage: React.FC = () => {
     };
 
     const renderOptions = () => (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 p-6 bg-slate-100 dark:bg-slate-800/50 rounded-lg shadow-md dark:shadow-none">
             <div>
-                <h3 className="font-semibold mb-2">Watermark Type</h3>
+                <h3 className="font-semibold mb-2 text-slate-800 dark:text-gray-200">Watermark Type</h3>
                 <div className="flex gap-2">
-                    <button onClick={() => setWatermarkType('text')} className={`px-4 py-2 rounded-md ${watermarkType === 'text' ? 'bg-primary text-slate-900' : 'bg-slate-700'}`}>Text</button>
-                    <button onClick={() => setWatermarkType('image')} className={`px-4 py-2 rounded-md ${watermarkType === 'image' ? 'bg-primary text-slate-900' : 'bg-slate-700'}`}>Image</button>
+                    <button onClick={() => setWatermarkType('text')} className={`px-4 py-2 rounded-md font-semibold ${watermarkType === 'text' ? 'bg-primary text-slate-900' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-gray-200 hover:bg-slate-300 dark:hover:bg-slate-600 shadow-sm'}`}>Text</button>
+                    <button onClick={() => setWatermarkType('image')} className={`px-4 py-2 rounded-md font-semibold ${watermarkType === 'image' ? 'bg-primary text-slate-900' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-gray-200 hover:bg-slate-300 dark:hover:bg-slate-600 shadow-sm'}`}>Image</button>
                 </div>
             </div>
             <div>
-                <label className="block font-semibold mb-1">Opacity ({Math.round(opacity * 100)}%)</label>
+                <label className="block font-semibold mb-1 text-slate-800 dark:text-gray-200">Opacity ({Math.round(opacity * 100)}%)</label>
                 <input type="range" min="0.1" max="1" step="0.1" value={opacity} onChange={e => setOpacity(parseFloat(e.target.value))} className="w-full" />
             </div>
 
             {watermarkType === 'text' && (
                 <>
                     <div>
-                        <label className="block font-semibold mb-1">Text</label>
-                        <input type="text" value={text} onChange={e => setText(e.target.value)} className="w-full p-2 border rounded-md bg-slate-800 border-slate-600" />
+                        <label className="block font-semibold mb-1 text-slate-800 dark:text-gray-200">Text</label>
+                        <input type="text" value={text} onChange={e => setText(e.target.value)} className="w-full p-2 border rounded-md bg-white dark:bg-slate-800 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary" />
                     </div>
                      <div>
-                        <label className="block font-semibold mb-1">Font Size</label>
-                        <input type="number" value={fontSize} onChange={e => setFontSize(parseInt(e.target.value))} className="w-full p-2 border rounded-md bg-slate-800 border-slate-600" />
+                        <label className="block font-semibold mb-1 text-slate-800 dark:text-gray-200">Font Size</label>
+                        <input type="number" value={fontSize} onChange={e => setFontSize(parseInt(e.target.value))} className="w-full p-2 border rounded-md bg-white dark:bg-slate-800 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary" />
                     </div>
                 </>
             )}
 
             {watermarkType === 'image' && (
                 <div className="md:col-span-2">
-                    <label className="block font-semibold mb-1">Watermark Image</label>
+                    <label className="block font-semibold mb-1 text-slate-800 dark:text-gray-200">Watermark Image</label>
                     {!imageFile ? (
                         <FileDropzone onDrop={handleImageDrop} accept={{'image/*': ['.png', '.jpg']}} multiple={false} instructions="Drop watermark image" />
                     ) : (
                          <div className="flex items-center gap-4">
-                            <img src={imagePreview!} alt="Watermark preview" className="h-16 w-16 object-contain bg-white p-1 rounded-md" />
-                            <span>{imageFile.name}</span>
+                            <img src={imagePreview!} alt="Watermark preview" className="h-16 w-16 object-contain bg-white p-1 rounded-md shadow-sm" />
+                            <span className="text-slate-800 dark:text-gray-200">{imageFile.name}</span>
                             <button onClick={() => {setImageFile(null); setImagePreview(null)}} className="text-red-500 font-bold">&times;</button>
                         </div>
                     )}
@@ -145,8 +146,8 @@ const PdfWatermarkPage: React.FC = () => {
                         <FileDropzone onDrop={handlePdfDrop} accept={{ 'application/pdf': ['.pdf'] }} multiple={false} instructions="Drop PDF here to add watermark" />
                     ) : (
                         <div>
-                            <div className="p-4 bg-slate-800 rounded-lg inline-flex items-center gap-4">
-                                <span className="font-medium text-gray-300">{file.name}</span>
+                            <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg inline-flex items-center gap-4 shadow-sm dark:shadow-none">
+                                <span className="font-medium text-slate-800 dark:text-gray-300">{file.name}</span>
                                 <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl">&times;</button>
                             </div>
                             {renderOptions()}

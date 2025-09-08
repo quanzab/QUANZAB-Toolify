@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -32,15 +33,15 @@ const SignUpPage: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && <p className="text-red-500 text-center">{error}</p>}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email address</label>
+            <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-gray-300">Email address</label>
             <div className="mt-1">
-              <input id="email" name="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-3 py-2 border border-slate-600 rounded-md bg-slate-700 focus:ring-1 focus:ring-primary" />
+              <input id="email" name="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-3 py-2 border border-transparent dark:border-slate-600 rounded-md bg-slate-100 dark:bg-slate-700 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none" />
             </div>
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-gray-300">Password</label>
             <div className="mt-1">
-              <input id="password" name="password" type="password" autoComplete="new-password" required value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-3 py-2 border border-slate-600 rounded-md bg-slate-700 focus:ring-1 focus:ring-primary" />
+              <input id="password" name="password" type="password" autoComplete="new-password" required value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-3 py-2 border border-transparent dark:border-slate-600 rounded-md bg-slate-100 dark:bg-slate-700 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none" />
             </div>
           </div>
           <div>
@@ -49,7 +50,7 @@ const SignUpPage: React.FC = () => {
             </button>
           </div>
         </form>
-        <p className="mt-6 text-center text-sm text-gray-400">
+        <p className="mt-6 text-center text-sm text-slate-500 dark:text-gray-400">
           Already have an account?{' '}
           <Link to="/signin" className="font-medium text-primary hover:underline">
             Sign In

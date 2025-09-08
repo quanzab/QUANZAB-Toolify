@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -60,26 +61,26 @@ const LanguageTranslatorPage: React.FC = () => {
             <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label htmlFor="input-text" className="block font-semibold mb-2">Text to Translate</label>
+                        <label htmlFor="input-text" className="block font-semibold mb-2 text-slate-800 dark:text-gray-200">Text to Translate</label>
                         <textarea
                             id="input-text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
                             rows={10}
-                            className="w-full p-3 border rounded-md bg-slate-800 border-slate-600"
+                            className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
                             placeholder="Enter text here..."
                         />
                     </div>
                     <div>
                         <div className="flex justify-between items-center mb-2">
-                           <label htmlFor="output-text" className="block font-semibold">Translated Text</label>
+                           <label htmlFor="output-text" className="block font-semibold text-slate-800 dark:text-gray-200">Translated Text</label>
                            {outputText && (
-                                <button onClick={handleCopy} className="px-3 py-1.5 text-sm font-semibold text-gray-200 bg-slate-700 rounded-md hover:bg-slate-600">
+                                <button onClick={handleCopy} className="px-3 py-1.5 text-sm font-semibold text-slate-800 dark:text-gray-200 bg-slate-200 dark:bg-slate-700 rounded-md hover:bg-slate-300 dark:hover:bg-slate-600 shadow-sm">
                                 {copied ? 'Copied!' : 'Copy'}
                                 </button>
                            )}
                         </div>
-                        <div className="w-full h-full p-3 border rounded-md bg-slate-800/50 border-slate-600 whitespace-pre-wrap min-h-[236px]">
+                        <div className="w-full h-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800/50 border-transparent dark:border-slate-600 whitespace-pre-wrap min-h-[236px] shadow-inner">
                             {isLoading ? <Loader message={`Translating to ${targetLanguage}...`} /> : outputText}
                         </div>
                     </div>
@@ -87,12 +88,12 @@ const LanguageTranslatorPage: React.FC = () => {
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 py-4">
                     <div className="flex items-center gap-2">
-                        <label htmlFor="language-select" className="font-semibold">Translate to:</label>
+                        <label htmlFor="language-select" className="font-semibold text-slate-800 dark:text-gray-200">Translate to:</label>
                         <select
                             id="language-select"
                             value={targetLanguage}
                             onChange={(e) => setTargetLanguage(e.target.value)}
-                            className="p-2 border rounded-md bg-slate-700 border-slate-600"
+                            className="p-2 border rounded-md bg-white dark:bg-slate-700 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
                         >
                             {languages.map(lang => <option key={lang} value={lang}>{lang}</option>)}
                         </select>
