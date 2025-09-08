@@ -1,75 +1,106 @@
-import React, { Suspense, lazy, ComponentType } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { tools } from './data/tools';
-import Loader from './components/Loader';
 import CursorGlow from './components/CursorGlow';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 
-const HomePage = lazy(() => import('./pages/HomePage'));
-const PdfMergePage = lazy(() => import('./pages/PdfMergePage'));
-const PdfConverterPage = lazy(() => import('./pages/PdfConverterPage'));
-const PdfSplitPage = lazy(() => import('./pages/PdfSplitPage'));
-const PdfCompressPage = lazy(() => import('./pages/PdfCompressPage'));
-const PdfSignPage = lazy(() => import('./pages/PdfSignPage'));
-const ToolComingSoonPage = lazy(() => import('./pages/ToolComingSoonPage'));
-const InvoiceGeneratorPage = lazy(() => import('./pages/InvoiceGeneratorPage'));
-const ReceiptScannerPage = lazy(() => import('./pages/ReceiptScannerPage'));
-const TextSummarizerPage = lazy(() => import('./pages/TextSummarizerPage'));
-const AiDocumentAnalyzerPage = lazy(() => import('./pages/AiDocumentAnalyzerPage'));
-const CrewRosterPlannerPage = lazy(() => import('./pages/CrewRosterPlannerPage'));
-const VesselComplianceCheckerPage = lazy(() => import('./pages/VesselComplianceCheckerPage'));
-const ParaphraserRewriterPage = lazy(() => import('./pages/ParaphraserRewriterPage'));
-const TaskManagerPage = lazy(() => import('./pages/TaskManagerPage'));
-const SignInPage = lazy(() => import('./pages/SignInPage'));
-const SignUpPage = lazy(() => import('./pages/SignUpPage'));
+// Import all page components
+import HomePage from './pages/HomePage';
+import SignInPage from './pages/SignInPage';
+import SignUpPage from './pages/SignUpPage';
+import PdfMergePage from './pages/PdfMergePage';
+import PdfSplitPage from './pages/PdfSplitPage';
+import PdfCompressPage from './pages/PdfCompressPage';
+import PdfConverterPage from './pages/PdfConverterPage';
+import ImageToPdfPage from './pages/ImageToPdfPage';
+import PdfSignPage from './pages/PdfSignPage';
+import InvoiceGeneratorPage from './pages/InvoiceGeneratorPage';
+import TextSummarizerPage from './pages/TextSummarizerPage';
+import ParaphraserRewriterPage from './pages/ParaphraserRewriterPage';
+import ReceiptScannerPage from './pages/ReceiptScannerPage';
+import AiDocumentAnalyzerPage from './pages/AiDocumentAnalyzerPage';
+import ImageBackgroundRemoverPage from './pages/ImageBackgroundRemoverPage';
+import ImageEditorPage from './pages/ImageEditorPage';
+import ZipCreatorPage from './pages/ZipCreatorPage';
+import TaskManagerPage from './pages/TaskManagerPage';
+import AiItineraryPlannerPage from './pages/AiItineraryPlannerPage';
+import CrewRosterPlannerPage from './pages/CrewRosterPlannerPage';
+import VesselComplianceCheckerPage from './pages/VesselComplianceCheckerPage';
+import ToolComingSoonPage from './pages/ToolComingSoonPage';
 
+import { tools } from './data/tools';
 
-// A map of implemented tool paths to their components
-// FIX: Changed React.FC to ComponentType to fix type error with React.lazy
-const implementedTools: { [key: string]: React.LazyExoticComponent<ComponentType<any>> } = {
+const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/pdf-merge': PdfMergePage,
-  '/pdf-converter': PdfConverterPage,
   '/pdf-split': PdfSplitPage,
   '/pdf-compress': PdfCompressPage,
+  '/pdf-to-image': PdfConverterPage,
+  '/image-to-pdf': ImageToPdfPage,
   '/pdf-sign': PdfSignPage,
   '/invoice-generator': InvoiceGeneratorPage,
-  '/receipt-scanner': ReceiptScannerPage,
   '/text-summarizer': TextSummarizerPage,
+  '/paraphraser-rewriter': ParaphraserRewriterPage,
+  '/receipt-scanner': ReceiptScannerPage,
   '/ai-document-analyzer': AiDocumentAnalyzerPage,
+  '/image-background-remover': ImageBackgroundRemoverPage,
+  '/image-editor': ImageEditorPage,
+  '/zip-creator': ZipCreatorPage,
+  '/task-manager': TaskManagerPage,
+  '/ai-itinerary-planner': AiItineraryPlannerPage,
   '/crew-roster-planner': CrewRosterPlannerPage,
   '/vessel-compliance-checker': VesselComplianceCheckerPage,
-  '/paraphraser-rewriter': ParaphraserRewriterPage,
-  '/task-manager': TaskManagerPage,
 };
 
-
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="bg-slate-950 text-gray-200 font-sans min-h-screen flex flex-col">
       <CursorGlow />
       <Header />
-      <main>
-        <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader message="Loading page..." /></div>}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/signin" element={<SignInPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            {tools.map(tool => {
-              const ToolComponent = implementedTools[tool.path];
-              if (ToolComponent) {
-                return <Route key={tool.path} path={tool.path} element={<ToolComponent />} />;
-              }
-              return <Route key={tool.path} path={tool.path} element={<ToolComingSoonPage tool={tool} />} />;
-            })}
-          </Routes>
-        {/* FIX: Corrected typo in Suspense closing tag. JSX components must be capitalized. */}
-        </Suspense>
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signin" element={<SignInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+
+          {tools.map(tool => {
+            const Component = componentMap[tool.path];
+            if (Component) {
+              const routeElement = <Component />;
+              return (
+                <Route
+                  key={tool.path}
+                  path={tool.path}
+                  element={
+                    tool.premium ? (
+                      <ProtectedRoute toolName={tool.name}>
+                        {routeElement}
+                      </ProtectedRoute>
+                    ) : (
+                      routeElement
+                    )
+                  }
+                />
+              );
+            }
+            if (tool.path.startsWith('/coming-soon')) {
+                 return (
+                    <Route 
+                        key={tool.path}
+                        path={tool.path}
+                        element={<ToolComingSoonPage tool={tool} />}
+                    />
+                 )
+            }
+            return null;
+          })}
+
+        </Routes>
       </main>
       <Footer />
     </div>
   );
-}
+};
 
 export default App;

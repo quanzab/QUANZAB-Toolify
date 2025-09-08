@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import ToolPageLayout from '../components/ToolPageLayout';
 
@@ -9,6 +9,9 @@ const SignInPage: React.FC = () => {
   const [error, setError] = useState('');
   const { signIn } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const fromState = location.state as { from?: Location; toolName?: string } | null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,14 +21,21 @@ const SignInPage: React.FC = () => {
       return;
     }
     // Mock sign-in logic
+    const from = fromState?.from?.pathname || '/';
     signIn(email);
-    navigate('/');
+    navigate(from, { replace: true });
   };
 
   return (
     <ToolPageLayout title="Sign In" description="Access your QUANZAB Toolkit account.">
       <div className="max-w-md mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {fromState?.toolName && (
+            <div className="mb-4 p-4 bg-primary/10 border-l-4 border-primary text-primary/80 rounded-r-lg">
+              <p className="font-bold">Access Premium Feature</p>
+              <p>Please sign in to use the "{fromState.toolName}" tool.</p>
+            </div>
+          )}
           {error && <p className="text-red-500 text-center">{error}</p>}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email address</label>

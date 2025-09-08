@@ -1,7 +1,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
-import { saveAs } from 'file-saver';
+import saveAs from 'file-saver';
 import { useDropzone, FileRejection } from 'react-dropzone';
 import JSZip from 'jszip';
 import ToolPageLayout from '../components/ToolPageLayout';

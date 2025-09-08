@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { saveAs } from 'file-saver';
+import saveAs from 'file-saver';
 import ToolPageLayout from '../components/ToolPageLayout';
 
 interface Item {

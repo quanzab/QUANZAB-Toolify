@@ -171,3 +171,24 @@ export const UserIcon: React.FC<{ className?: string }> = (props) => (
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
     </Icon>
 );
+
+export const WandIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.121 2.879a3 3 0 014.242 4.242l-2.828 2.829-4.243-4.243L14.12 2.88z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.3 5.7L2.88 14.12a3 3 0 004.243 4.243l8.418-8.418" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.222 18.364L3.515 19.07M6.343 16.243l-1.06 1.06M2.1 12l.707.707M12 2.1l-.707.707" />
+  </Icon>
+);
+
+export const ImageIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1-1m6-3v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+  </Icon>
+);
+
+export const TuneIcon: React.FC<{ className?: string }> = (props) => (
+  <Icon {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+  </Icon>
+);

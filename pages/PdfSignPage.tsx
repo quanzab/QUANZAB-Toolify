@@ -1,6 +1,7 @@
+
 import React, { useState, useCallback, useRef, useEffect, useImperativeHandle } from 'react';
 import { PDFDocument } from 'pdf-lib';
-import { saveAs } from 'file-saver';
+import saveAs from 'file-saver';
 import ToolPageLayout from '../components/ToolPageLayout';
 import FileDropzone from '../components/FileDropzone';
 import Loader from '../components/Loader';
