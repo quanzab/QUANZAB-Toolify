@@ -1,4 +1,5 @@
 
+
 import React, { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -203,9 +204,13 @@ const PdfMergePage: React.FC = () => {
       setRenamedOriginalFiles(files);
       setIsRenamePanelOpen(false);
 
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      setError('An error occurred while merging the PDFs. One or more files might be corrupted or protected.');
+      if (e && e.name === 'PDFEncryptedError') {
+          setError('One of the PDFs is encrypted. Please remove the password protection and try again.');
+      } else {
+          setError('An error occurred while merging. One or more files might be corrupted or in an unsupported format.');
+      }
     } finally {
       setIsLoading(false);
     }

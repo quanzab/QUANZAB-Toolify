@@ -47,7 +47,6 @@ const PdfAnnotatorPage: React.FC = () => {
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
                 if(context){
-                    // FIX: The `page.render` method requires a 'canvas' property in its parameters.
                     await page.render({ canvas, canvasContext: context, viewport }).promise;
                     thumbnails.push(canvas.toDataURL());
                 }

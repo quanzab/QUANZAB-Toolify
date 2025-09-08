@@ -193,6 +193,41 @@ export const tools: Tool[] = [
     path: '/video-to-gif',
     tags: ['New'],
   },
+  {
+    name: 'PDF to Word',
+    description: 'Convert PDFs to editable text files using AI-powered OCR, which can be opened in Word.',
+    icon: ConvertIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-to-word',
+    tags: ['AI']
+  },
+  {
+    name: 'PDF Watermarker',
+    description: 'Add a text or image watermark to every page of your PDF document.',
+    icon: WatermarkIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-watermark',
+    tags: ['New'],
+  },
+  {
+    name: 'PDF Protect',
+    description: 'Encrypt and password-protect your PDF documents to secure sensitive information.',
+    icon: LockIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-protect',
+    tags: ['New'],
+  },
+  {
+    name: 'Video Editor',
+    description: 'Trim, merge, and add captions to video files. Feature under development.',
+    icon: VideoIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/video-editor',
+  },
   // Business Productivity
   {
     name: 'Invoice Generator',
@@ -259,39 +294,5 @@ export const tools: Tool[] = [
     category: Category.MARITIME,
     premium: true,
     path: '/vessel-compliance-checker',
-  },
-  {
-    name: 'PDF to Word',
-    description: 'Convert PDFs to editable text files using AI-powered OCR, which can be opened in Word.',
-    icon: ConvertIcon,
-    category: Category.DOCUMENTS,
-    premium: true,
-    path: '/pdf-to-word',
-    tags: ['AI']
-  },
-  // New Placeholders
-  {
-    name: 'PDF Watermarker',
-    description: 'Add text or image watermarks to your PDF files. Feature under development.',
-    icon: WatermarkIcon,
-    category: Category.DOCUMENTS,
-    premium: true,
-    path: '/pdf-watermark',
-  },
-  {
-    name: 'PDF Protect',
-    description: 'Encrypt and password-protect your PDF documents. Feature under development.',
-    icon: LockIcon,
-    category: Category.DOCUMENTS,
-    premium: true,
-    path: '/pdf-protect',
-  },
-  {
-    name: 'Video Editor',
-    description: 'Trim, merge, and add captions to video files. Feature under development.',
-    icon: VideoIcon,
-    category: Category.DOCUMENTS,
-    premium: true,
-    path: '/video-editor',
   },
 ];

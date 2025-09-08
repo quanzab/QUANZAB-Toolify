@@ -39,6 +39,9 @@ import AiAudioTranscriberPage from './pages/AiAudioTranscriberPage';
 import VideoToGifConverterPage from './pages/VideoToGifConverterPage';
 import LanguageTranslatorPage from './pages/LanguageTranslatorPage';
 import ProjectPlannerPage from './pages/ProjectPlannerPage';
+import PdfWatermarkPage from './pages/PdfWatermarkPage';
+import PdfProtectPage from './pages/PdfProtectPage';
+import VideoEditorPage from './pages/VideoEditorPage';
 
 import { tools } from './data/tools';
 
@@ -71,6 +74,9 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/video-to-gif': VideoToGifConverterPage,
   '/language-translator': LanguageTranslatorPage,
   '/project-planner': ProjectPlannerPage,
+  '/pdf-watermark': PdfWatermarkPage,
+  '/pdf-protect': PdfProtectPage,
+  '/video-editor': VideoEditorPage,
 };
 
 const App: React.FC = () => {

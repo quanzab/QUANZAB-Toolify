@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import saveAs from 'file-saver';
 import JSZip from 'jszip';
@@ -51,7 +52,6 @@ const PdfConverterPage: React.FC = () => {
       const zip = new JSZip();
       
       let fullText = `--- OCR Results for ${file.name} ---\n\n`;
-      // FIX: Initialize ai here to be available in the whole try block scope
       const ai = enableOcr ? new GoogleGenAI({ apiKey: process.env.API_KEY }) : null;
 
       for (let i = 1; i <= pdf.numPages; i++) {
@@ -64,7 +64,6 @@ const PdfConverterPage: React.FC = () => {
         canvas.width = viewport.width;
 
         if (context) {
-          // FIX: The type definitions for this version of pdfjs-dist require the 'canvas' property in render parameters.
           await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
           const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, `image/${outputFormat}`, 0.95));
           if (blob) {
@@ -73,7 +72,6 @@ const PdfConverterPage: React.FC = () => {
             if (enableOcr && ai) {
               setProgress(`Performing OCR on page ${i} of ${pdf.numPages}...`);
               const base64Data = await blobToBase64(blob);
-              // FIX: ai is now in scope
               const response = await ai.models.generateContent({
                   model: 'gemini-2.5-flash',
                   contents: { parts: [{ inlineData: { mimeType: `image/${outputFormat}`, data: base64Data } }, { text: "Extract all text from this image." }] },
