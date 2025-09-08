@@ -128,7 +128,7 @@ const SignaturePad = React.forwardRef<
       ref={canvasRef}
       width={400}
       height={200}
-      className="bg-slate-100 dark:bg-slate-700 rounded-lg cursor-crosshair touch-none"
+      className="bg-slate-100 dark:bg-slate-700 rounded-lg cursor-crosshair touch-none border border-slate-200 dark:border-slate-600"
       onMouseDown={startDrawing}
       onMouseMove={draw}
       onMouseUp={endDrawing}
@@ -206,8 +206,8 @@ const PdfSignPage: React.FC = () => {
         canvas.width = viewport.width;
         
         if (context) {
-          // FIX: The 'render' method requires the 'canvas' property in its parameters.
-          await page.render({ canvas: canvas, canvasContext: context, viewport: viewport }).promise;
+          // FIX: The 'render' method does not accept a 'canvas' property in its parameters.
+          await page.render({ canvasContext: context, viewport: viewport }).promise;
           thumbnails.push(canvas.toDataURL());
         }
       }
@@ -423,7 +423,7 @@ const PdfSignPage: React.FC = () => {
 
     return (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-2xl border border-transparent dark:border-slate-700 w-full max-w-lg">
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 w-full max-w-lg">
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Draw Your Signature</h3>
                 <SignaturePad ref={signaturePadRef} strokeColor={signatureColor} strokeWidth={signatureWidth} />
                 <div className="my-4 grid grid-cols-2 gap-4">
@@ -459,9 +459,9 @@ const PdfSignPage: React.FC = () => {
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Caveat&family=Dancing+Script&family=Pacifico&display=swap');
             `}</style>
-            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-2xl border border-transparent dark:border-slate-700 w-full max-w-lg">
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 w-full max-w-lg">
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Type Your Signature</h3>
-                <input type="text" value={typedText} onChange={e => setTypedText(e.target.value)} className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-700 border-transparent dark:border-slate-600 text-3xl text-center text-slate-800 dark:text-white" style={{ fontFamily: `"${selectedFont}", cursive` }}/>
+                <input type="text" value={typedText} onChange={e => setTypedText(e.target.value)} className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-3xl text-center text-slate-800 dark:text-white" style={{ fontFamily: `"${selectedFont}", cursive` }}/>
                 <div className="my-4">
                     <label className="block text-sm font-semibold text-slate-700 dark:text-gray-300 mb-2">Choose Style</label>
                     <div className="flex gap-2">{fonts.map(font => (<button key={font} onClick={() => setSelectedFont(font)} className={`px-4 py-2 rounded-md transition-colors text-lg text-slate-800 dark:text-gray-200 ${selectedFont === font ? 'bg-primary text-slate-900' : 'bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600'}`} style={{ fontFamily: `"${font}", cursive` }}>{font}</button>))}</div>
@@ -495,7 +495,7 @@ const PdfSignPage: React.FC = () => {
           {signaturePreview && (
             <div>
               <p className="font-semibold text-sm mb-2 text-slate-700 dark:text-gray-200">Signature Preview:</p>
-              <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg border border-transparent dark:border-slate-700 relative shadow-sm dark:shadow-none">
+              <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 relative shadow-sm dark:shadow-none">
                 <img src={signaturePreview} alt="Signature" className="max-h-24 mx-auto" style={{ filter: signatureImage?.type.includes('image') ? 'dark:invert(1) dark:grayscale(1) dark:contrast(3)' : '' }}/>
                 <button onClick={() => { setSignatureImage(null); setSignaturePreview(null); setPlacement(null); }} className="absolute top-1 right-1 text-red-500 font-bold text-lg leading-none px-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50">&times;</button>
               </div>
@@ -505,7 +505,7 @@ const PdfSignPage: React.FC = () => {
         <div className="lg:col-span-2">
            <h3 className="font-bold text-lg text-slate-900 dark:text-white">2. Place Signature</h3>
            <p className="text-slate-500 dark:text-slate-400 text-sm mb-2">{placement ? 'Drag to move or use the handle to resize.' : 'Click on the document where you want the signature.'}</p>
-           <div className="max-h-[60vh] overflow-y-auto p-4 bg-slate-100 dark:bg-slate-950 border border-transparent dark:border-slate-700 rounded-lg space-y-4 shadow-inner">
+           <div className="max-h-[60vh] overflow-y-auto p-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg space-y-4 shadow-inner">
             {pagePreviews.map((src, index) => (
               <div key={index} ref={el => { pageRefs.current[index] = el; }} onClick={(e) => handlePageClick(index, e)} className="relative cursor-pointer shadow-lg mx-auto" style={{ width: '100%' }}>
                 <img src={src} alt={`Page ${index + 1}`} className="w-full h-auto" />

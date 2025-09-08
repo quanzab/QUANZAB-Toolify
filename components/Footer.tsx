@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-slate-200 dark:bg-slate-900 border-t border-transparent dark:border-slate-800">
+    <footer className="bg-slate-200 dark:bg-slate-900 border-t border-slate-300 dark:border-slate-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-1 mb-8 md:mb-0">
@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="mt-16 pt-8 border-t border-transparent dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center">
+        <div className="mt-16 pt-8 border-t border-slate-300 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-slate-600 dark:text-gray-400">&copy; {new Date().getFullYear()} QUANZAB Toolkit. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 sm:mt-0">
             {/* Social Icons Placeholder */}

@@ -42,6 +42,8 @@ import ProjectPlannerPage from './pages/ProjectPlannerPage';
 import PdfWatermarkPage from './pages/PdfWatermarkPage';
 import PdfProtectPage from './pages/PdfProtectPage';
 import VideoEditorPage from './pages/VideoEditorPage';
+import PdfUnlockPage from './pages/PdfUnlockPage';
+import PdfRedactPage from './pages/PdfRedactPage';
 
 import { tools } from './data/tools';
 
@@ -77,6 +79,8 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/pdf-watermark': PdfWatermarkPage,
   '/pdf-protect': PdfProtectPage,
   '/video-editor': VideoEditorPage,
+  '/pdf-unlock': PdfUnlockPage,
+  '/pdf-redact': PdfRedactPage,
 };
 
 const App: React.FC = () => {

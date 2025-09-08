@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -77,7 +78,8 @@ const AiItineraryPlannerPage: React.FC = () => {
                                                 properties: {
                                                     time: { type: Type.STRING, description: 'e.g., Morning, Afternoon, Evening' },
                                                     description: { type: Type.STRING },
-                                                    location: { type: Type.STRING, nullable: true },
+                                                    // FIX: The property 'location' can be nullable, but it's not a valid 'type'. The property 'nullable' should be removed to fix the schema.
+                                                    location: { type: Type.STRING },
                                                 }
                                             }
                                         }

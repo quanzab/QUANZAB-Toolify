@@ -53,13 +53,13 @@ const ParaphraserRewriterPage: React.FC = () => {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               rows={12}
-              className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
+              className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
               placeholder="Enter your text here..."
             ></textarea>
           </div>
           <div>
             <label htmlFor="output-text" className="block font-semibold mb-2 text-slate-800 dark:text-gray-200">Rewritten Text</label>
-            <div className="w-full h-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800/50 border-transparent dark:border-slate-600 whitespace-pre-wrap shadow-inner">
+            <div className="w-full h-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-600 whitespace-pre-wrap shadow-inner">
               {isLoading ? <Loader message="AI is rewriting..." /> : outputText}
             </div>
           </div>
@@ -72,7 +72,7 @@ const ParaphraserRewriterPage: React.FC = () => {
               id="tone-select"
               value={tone}
               onChange={(e) => setTone(e.target.value as Tone)}
-              className="p-2 border rounded-md bg-white dark:bg-slate-700 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
+              className="p-2 border rounded-md bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
             >
               {tones.map(t => <option key={t} value={t}>{t}</option>)}
             </select>

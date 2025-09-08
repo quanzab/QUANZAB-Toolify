@@ -48,8 +48,8 @@ const PdfSplitPage: React.FC = () => {
           canvas.width = viewport.width;
           
           if (context) {
-            // FIX: The 'render' method requires the 'canvas' property in its parameters.
-            await page.render({ canvas: canvas, canvasContext: context, viewport: viewport }).promise;
+            // FIX: The 'render' method does not accept a 'canvas' property in its parameters.
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
             thumbnails.push(canvas.toDataURL());
           }
         }
@@ -200,7 +200,7 @@ const PdfSplitPage: React.FC = () => {
     return (
       <div>
         <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
-           <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-2 rounded-lg shadow-sm dark:shadow-none">
+           <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-2 rounded-lg shadow-sm dark:shadow-none border border-slate-200 dark:border-slate-700">
                 <span className="font-semibold text-slate-800 dark:text-gray-300">File:</span>
                 <span className="ml-2 text-slate-500 dark:text-slate-400 truncate max-w-xs">{file.name}</span>
            </div>
@@ -221,7 +221,7 @@ const PdfSplitPage: React.FC = () => {
                     <button onClick={() => setSelectedPages(new Set())} className="text-sm font-semibold text-gray-500 hover:underline">Clear</button>
                 </div>
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 max-h-[400px] overflow-y-auto p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg shadow-inner">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 max-h-[400px] overflow-y-auto p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg shadow-inner border border-slate-200 dark:border-slate-700">
               {pageThumbnails.map((src, index) => (
                 <div key={index} onClick={() => togglePageSelection(index)} className={`relative cursor-pointer rounded-md overflow-hidden border-2 transition-all ${selectedPages.has(index) ? 'border-primary ring-2 ring-primary' : 'border-transparent hover:border-primary/50'}`}>
                   <img src={src} alt={`Page ${index + 1}`} className="w-full h-auto" />
@@ -246,7 +246,7 @@ const PdfSplitPage: React.FC = () => {
               value={range}
               onChange={(e) => setRange(e.target.value)}
               placeholder="e.g., 1-3, 5, 8-10"
-              className="w-full px-4 py-2 border rounded-lg bg-slate-100 dark:bg-slate-700 border-transparent dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
+              className="w-full px-4 py-2 border rounded-lg bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
             />
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Enter page numbers or ranges separated by commas. This document has {pageCount} pages.</p>
           </div>

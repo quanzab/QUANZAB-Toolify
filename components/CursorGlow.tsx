@@ -6,10 +6,10 @@ const useAnimationFrame = (callback: () => void) => {
   // FIX: Provide an initial value of `null` to `useRef` and update the type.
   const requestRef = useRef<number | null>(null);
 
-  const animate = () => {
+  const animate = useCallback(() => {
     callback();
     requestRef.current = requestAnimationFrame(animate);
-  };
+  }, [callback]);
 
   useEffect(() => {
     requestRef.current = requestAnimationFrame(animate);
@@ -18,7 +18,7 @@ const useAnimationFrame = (callback: () => void) => {
         cancelAnimationFrame(requestRef.current);
       }
     };
-  }, [callback]);
+  }, [animate]);
 };
 
 const CursorGlow: React.FC = () => {

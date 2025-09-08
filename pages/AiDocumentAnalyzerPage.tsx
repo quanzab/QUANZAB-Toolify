@@ -83,7 +83,7 @@ const AiDocumentAnalyzerPage: React.FC = () => {
             <button onClick={handleReset} className="px-3 py-1 bg-red-500 text-white text-sm rounded-md">Start Over</button>
           </div>
           
-          <div className="flex-grow p-4 overflow-y-auto bg-white dark:bg-slate-900">
+          <div className="flex-grow p-4 overflow-y-auto bg-white dark:bg-slate-900 border-x border-slate-200 dark:border-slate-700">
             {messages.map((msg, index) => (
               <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
                 <div className={`max-w-prose p-3 rounded-lg ${msg.role === 'user' ? 'bg-primary text-slate-900' : 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-gray-200'}`}>
@@ -110,7 +110,7 @@ const AiDocumentAnalyzerPage: React.FC = () => {
                 onChange={e => setCurrentMessage(e.target.value)}
                 onKeyPress={e => e.key === 'Enter' && !isLoading && handleSendMessage()}
                 placeholder="Ask a question about your document..."
-                className="flex-grow p-2 border rounded-md bg-white dark:bg-slate-700 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
+                className="flex-grow p-2 border rounded-md bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
               />
               <button onClick={handleSendMessage} disabled={isLoading || !currentMessage} className="px-6 py-2 font-semibold text-slate-900 bg-primary rounded-lg disabled:bg-slate-600">Send</button>
             </div>

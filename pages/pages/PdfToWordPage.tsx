@@ -58,6 +58,7 @@ const PdfToWordPage: React.FC = () => {
 
                 if (!context) continue;
 
+                // FIX: The 'render' method does not accept a 'canvas' property in its parameters.
                 await page.render({ canvasContext: context, viewport: viewport }).promise;
                 const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
 

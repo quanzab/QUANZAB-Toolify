@@ -5,6 +5,12 @@ All notable changes to the QUANZAB Toolkit application will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - YYYY-MM-DD
+
+### Added
+- **Image Editor - Watermarking**: Added the ability to apply both text and image watermarks to images, a feature outlined in the project blueprint.
+- **Enhanced Placeholders**: Updated the "Video to GIF" and "Video Editor" pages with more detailed technical explanations, setting clearer user expectations for these deferred features.
+
 ## [1.2.0] - YYYY-MM-DD
 
 ### Added

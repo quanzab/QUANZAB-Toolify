@@ -1,0 +1,118 @@
+import React, { useState, useCallback } from 'react';
+import { PDFDocument } from 'pdf-lib';
+import saveAs from 'file-saver';
+import ToolPageLayout from '../components/ToolPageLayout';
+import FileDropzone from '../components/FileDropzone';
+import Loader from '../components/Loader';
+import { LockOpenIcon } from '../components/Icons';
+
+const PdfUnlockPage: React.FC = () => {
+    const [file, setFile] = useState<File | null>(null);
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleDrop = useCallback((acceptedFiles: File[]) => {
+        if (acceptedFiles.length > 0) {
+            setFile(acceptedFiles[0]);
+            setError(null);
+            setPassword('');
+        }
+    }, []);
+
+    const handleUnlock = async () => {
+        if (!file) {
+            setError('Please upload a PDF file.');
+            return;
+        }
+        if (!password) {
+            setError('Please enter the password to unlock the file.');
+            return;
+        }
+
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const pdfBytes = await file.arrayBuffer();
+            // FIX: The property for providing a password when loading an encrypted PDF is `userPassword`.
+            const pdfDoc = await PDFDocument.load(pdfBytes, {
+                userPassword: password,
+            });
+            
+            // Saving the document without re-encrypting it effectively unlocks it.
+            const unlockedBytes = await pdfDoc.save();
+
+            const blob = new Blob([unlockedBytes], { type: 'application/pdf' });
+            saveAs(blob, `${file.name.replace('.pdf', '')}-unlocked.pdf`);
+            
+            setFile(null);
+            setPassword('');
+
+        } catch (e) {
+            console.error(e);
+            setError('Failed to unlock PDF. Please double-check your password.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const renderUploader = () => (
+        <div className="space-y-6">
+            {!file ? (
+                <FileDropzone
+                    onDrop={handleDrop}
+                    accept={{ 'application/pdf': ['.pdf'] }}
+                    multiple={false}
+                    instructions="Drop a password-protected PDF to unlock"
+                />
+            ) : (
+                <div className="text-center">
+                    <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg inline-flex items-center gap-4 shadow-sm dark:shadow-none">
+                        <span className="font-medium text-slate-800 dark:text-gray-300">{file.name}</span>
+                        <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl leading-none px-2 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors">&times;</button>
+                    </div>
+                </div>
+            )}
+
+            {file && (
+                <div className="max-w-sm mx-auto space-y-4">
+                     <div>
+                        <label htmlFor="password-input" className="block font-semibold mb-1 text-slate-800 dark:text-gray-200">Enter Password</label>
+                        <input
+                            id="password-input"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            className="w-full p-2 border rounded-md bg-slate-100 dark:bg-slate-800 border-transparent dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
+                        />
+                    </div>
+                </div>
+            )}
+            
+            {error && <p className="text-red-500 text-center font-semibold">{error}</p>}
+            
+            <div className="text-center mt-8">
+                <button
+                    onClick={handleUnlock}
+                    disabled={!file || isLoading}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-12 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg disabled:bg-slate-600"
+                >
+                    <LockOpenIcon className="w-6 h-6"/>
+                    Unlock PDF
+                </button>
+            </div>
+        </div>
+    );
+
+    return (
+        <ToolPageLayout
+            title="PDF Unlock"
+            description="Remove password protection from a PDF file if you know the current password."
+        >
+            {isLoading ? <Loader message="Unlocking your PDF..." /> : renderUploader()}
+        </ToolPageLayout>
+    );
+};
+
+export default PdfUnlockPage;

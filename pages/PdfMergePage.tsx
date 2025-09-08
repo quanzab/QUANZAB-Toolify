@@ -33,7 +33,7 @@ const RenamePanel: React.FC<{
           <div>
             <label className="block text-sm font-medium text-slate-600 dark:text-gray-300 mb-1">Add Prefix</label>
             <div className="flex">
-              <input type="text" value={prefix} onChange={(e) => setPrefix(e.target.value)} placeholder="e.g., ProjectA_" className="flex-grow px-3 py-2 border rounded-l-md bg-slate-100 dark:bg-slate-700 border-transparent dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none" />
+              <input type="text" value={prefix} onChange={(e) => setPrefix(e.target.value)} placeholder="e.g., ProjectA_" className="flex-grow px-3 py-2 border rounded-l-md bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none" />
               <button onClick={() => { onRename('prefix', prefix); setPrefix(''); }} disabled={!prefix} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-r-md hover:bg-opacity-90 disabled:bg-gray-400">Apply</button>
             </div>
           </div>
@@ -41,7 +41,7 @@ const RenamePanel: React.FC<{
           <div>
             <label className="block text-sm font-medium text-slate-600 dark:text-gray-300 mb-1">Add Suffix</label>
             <div className="flex">
-              <input type="text" value={suffix} onChange={(e) => setSuffix(e.target.value)} placeholder="e.g., _final" className="flex-grow px-3 py-2 border rounded-l-md bg-slate-100 dark:bg-slate-700 border-transparent dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none" />
+              <input type="text" value={suffix} onChange={(e) => setSuffix(e.target.value)} placeholder="e.g., _final" className="flex-grow px-3 py-2 border rounded-l-md bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none" />
               <button onClick={() => { onRename('suffix', suffix); setSuffix(''); }} disabled={!suffix} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-r-md hover:bg-opacity-90 disabled:bg-gray-400">Apply</button>
             </div>
           </div>
@@ -49,7 +49,7 @@ const RenamePanel: React.FC<{
           <div>
             <label className="block text-sm font-medium text-slate-600 dark:text-gray-300 mb-1">Sequential Rename</label>
             <div className="flex">
-              <input type="text" value={sequentialName} onChange={(e) => setSequentialName(e.target.value)} className="flex-grow px-3 py-2 border rounded-l-md bg-slate-100 dark:bg-slate-700 border-transparent dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none" />
+              <input type="text" value={sequentialName} onChange={(e) => setSequentialName(e.target.value)} className="flex-grow px-3 py-2 border rounded-l-md bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none" />
               <button onClick={() => onRename('sequential', sequentialName)} disabled={!sequentialName} className="px-4 py-2 bg-primary text-slate-900 font-semibold rounded-r-md hover:bg-opacity-90 disabled:bg-gray-400">Apply</button>
             </div>
           </div>
@@ -58,7 +58,7 @@ const RenamePanel: React.FC<{
           </button>
         </div>
         {/* File Preview */}
-        <div className="bg-slate-100 dark:bg-slate-800/50 p-3 rounded-lg border border-transparent dark:border-slate-700 max-h-48 overflow-y-auto shadow-inner">
+        <div className="bg-slate-100 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700 max-h-48 overflow-y-auto shadow-inner">
           <p className="text-sm font-semibold mb-2 text-slate-800 dark:text-gray-200">Filename Preview</p>
           <ul className="text-sm space-y-1">
             {originalFiles.slice(0, 10).map((file, index) => (
@@ -159,8 +159,8 @@ const PdfMergePage: React.FC = () => {
         canvas.width = viewport.width;
 
         if (context) {
-            // FIX: The 'render' method requires the 'canvas' property in its parameters.
-            await page.render({ canvas: canvas, canvasContext: context, viewport: viewport }).promise;
+            // FIX: The 'render' method does not accept a 'canvas' property in its parameters.
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
             thumbnails.push(canvas.toDataURL());
         }
     }
@@ -318,7 +318,7 @@ const PdfMergePage: React.FC = () => {
         className={`p-10 border-2 border-dashed rounded-xl text-center transition-colors duration-300 ${
           isDragActive
             ? 'border-primary bg-primary/10'
-            : 'border-transparent dark:border-slate-600 bg-slate-100 dark:bg-transparent shadow-inner hover:border-primary/70 hover:bg-slate-200 dark:hover:bg-slate-800/50'
+            : 'border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-transparent shadow-inner hover:border-primary/70 hover:bg-slate-200 dark:hover:bg-slate-800/50'
         }`}
       >
         <input {...getInputProps()} />
@@ -363,7 +363,7 @@ const PdfMergePage: React.FC = () => {
           </div>
           <ul className="space-y-3">
             {files.map((file, index) => (
-              <li key={`${file.name}-${index}`} className="flex items-center justify-between p-3 bg-slate-100 dark:bg-slate-800 rounded-lg border border-transparent dark:border-slate-700 shadow-sm dark:shadow-none">
+              <li key={`${file.name}-${index}`} className="flex items-center justify-between p-3 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm dark:shadow-none">
                 <span className="font-medium text-slate-800 dark:text-gray-300 truncate pr-4">{index + 1}. {file.name}</span>
                 <div className="flex-shrink-0 flex items-center gap-2">
                    <button onClick={() => handleMoveFile(index, 'up')} disabled={index === 0} className="p-1 rounded-full text-slate-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed">
@@ -410,7 +410,7 @@ const PdfMergePage: React.FC = () => {
           <h3 className="text-left font-semibold text-slate-800 dark:text-gray-200 mb-2">
             Document Preview ({mergeResult.pageCount} pages total)
           </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg border border-transparent dark:border-slate-700 max-h-96 overflow-y-auto shadow-inner">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 max-h-96 overflow-y-auto shadow-inner">
             {mergeResult.thumbnails.map((src, index) => (
               <div key={index} className="relative rounded-md overflow-hidden shadow-md">
                 <img src={src} alt={`Page ${index + 1}`} className="w-full h-auto" />
@@ -455,7 +455,7 @@ const PdfMergePage: React.FC = () => {
             value={fileName}
             onChange={handleFileNameChange}
             onBlur={handleFileNameBlur}
-            className="w-full px-4 py-2 border rounded-lg bg-slate-100 dark:bg-slate-700 border-transparent dark:border-slate-600 focus:ring-2 focus:ring-primary transition-colors shadow-sm dark:shadow-none"
+            className="w-full px-4 py-2 border rounded-lg bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-primary transition-colors shadow-sm dark:shadow-none"
             aria-label="Customize the filename for the merged PDF"
           />
         </div>

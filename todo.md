@@ -17,13 +17,16 @@ This document tracks planned features, enhancements, and bug fixes for the QUANZ
   - [x] Project Planner (Kanban Board)
   - [x] PDF Watermarker
   - [x] PDF Protect
-  - [ ] Video to GIF Converter (Deferred due to complexity)
-  - [ ] AI Audio Transcriber (Deferred due to complexity)
-  - [ ] Video Editor (Deferred due to complexity)
+  - [x] PDF Unlock
+  - [x] PDF Redact
+  - [x] AI Audio Transcriber
+  - [ ] Video to GIF Converter (Deferred due to complexity; placeholder updated)
+  - [ ] Video Editor (Deferred due to complexity; placeholder updated)
 
 
 ## Medium Priority
 
+- [x] **Enhance Image Editor**: Added Crop, Resize, and Watermarking functionality.
 - [ ] **Refactor PDF Logic**: Abstract common `pdfjs-dist` and `pdf-lib` logic into reusable hooks or utility functions to reduce code duplication across PDF tools.
 - [ ] **Add Unit & Integration Tests**: Implement a testing framework (e.g., Vitest, React Testing Library) and write tests for critical components and hooks.
 - [ ] **Expand PDF Converter**: Add more output options like PDF to Word (`.docx`), Excel, etc. This may require a different library or a backend service.

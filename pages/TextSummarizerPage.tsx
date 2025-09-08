@@ -59,7 +59,7 @@ const TextSummarizerPage: React.FC = () => {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             rows={10}
-            className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-transparent dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
+            className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
             placeholder="Enter a long piece of text here..."
             aria-label="Text input for summarization"
           ></textarea>
@@ -91,7 +91,7 @@ const TextSummarizerPage: React.FC = () => {
                 {copied ? 'Copied!' : 'Copy Summary'}
               </button>
             </div>
-            <div className="mt-2 p-4 bg-slate-100 dark:bg-slate-800/50 rounded-md whitespace-pre-wrap shadow-inner">
+            <div className="mt-2 p-4 bg-slate-100 dark:bg-slate-800/50 rounded-md whitespace-pre-wrap shadow-inner border border-slate-200 dark:border-slate-700">
               {summary}
             </div>
           </div>

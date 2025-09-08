@@ -63,8 +63,8 @@ const PdfConverterPage: React.FC = () => {
         canvas.width = viewport.width;
 
         if (context) {
-          // FIX: The 'render' method requires the 'canvas' property in its parameters.
-          await page.render({ canvas: canvas, canvasContext: context, viewport: viewport }).promise;
+          // FIX: The 'render' method does not accept a 'canvas' property in its parameters.
+          await page.render({ canvasContext: context, viewport: viewport }).promise;
           const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, `image/${outputFormat}`, 0.95));
           if (blob) {
             zip.file(`page_${i}.${outputFormat}`, blob);
@@ -125,7 +125,7 @@ const PdfConverterPage: React.FC = () => {
             />
           ) : (
              <div className="text-center">
-                <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg inline-flex items-center gap-4 shadow-sm dark:shadow-none">
+                <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg inline-flex items-center gap-4 shadow-sm dark:shadow-none border border-slate-200 dark:border-slate-700">
                   <span className="font-medium text-slate-800 dark:text-gray-300">{file.name}</span>
                   <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl leading-none px-2 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors">&times;</button>
                 </div>
@@ -133,7 +133,7 @@ const PdfConverterPage: React.FC = () => {
           )}
           
           {file && (
-            <div className="my-6 p-6 border border-transparent dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-transparent shadow-md dark:shadow-none">
+            <div className="my-6 p-6 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-transparent shadow-md dark:shadow-none">
                 <h3 className="text-lg font-semibold text-slate-800 dark:text-gray-200 mb-4">Conversion Options</h3>
                 <div className="space-y-6">
                     <div className="flex items-center gap-4">
@@ -142,7 +142,7 @@ const PdfConverterPage: React.FC = () => {
                             id="format"
                             value={outputFormat}
                             onChange={(e) => setOutputFormat(e.target.value as OutputFormat)}
-                            className="bg-white dark:bg-slate-700 border border-transparent dark:border-slate-600 rounded-md px-3 py-2 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
+                            className="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md px-3 py-2 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
                         >
                             <option value="jpg">JPG</option>
                             <option value="png">PNG</option>

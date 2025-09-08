@@ -120,7 +120,7 @@ const ReceiptScannerPage: React.FC = () => {
             {isLoading && <Loader message="AI is analyzing your receipt..." />}
             {error && <p className="text-red-500 font-semibold">{error}</p>}
             {data && (
-              <div className="p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg border border-transparent dark:border-slate-700 space-y-3 shadow-sm dark:shadow-none text-slate-800 dark:text-gray-200">
+              <div className="p-4 bg-slate-100 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 space-y-3 shadow-sm dark:shadow-none text-slate-800 dark:text-gray-200">
                 <p><strong>Vendor:</strong> {data.vendor || 'N/A'}</p>
                 <p><strong>Date:</strong> {data.date || 'N/A'}</p>
                 <p><strong>Total:</strong> ${data.total?.toFixed(2) || 'N/A'}</p>

@@ -24,6 +24,8 @@ import {
   LockIcon,
   VideoIcon,
   AudioIcon,
+  LockOpenIcon,
+  DocumentMinusIcon,
 } from '../components/Icons';
 
 export const tools: Tool[] = [
@@ -218,6 +220,24 @@ export const tools: Tool[] = [
     category: Category.DOCUMENTS,
     premium: true,
     path: '/pdf-protect',
+    tags: ['New'],
+  },
+   {
+    name: 'PDF Unlock',
+    description: 'Remove password protection from a PDF file if you know the current password.',
+    icon: LockOpenIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-unlock',
+    tags: ['New'],
+  },
+  {
+    name: 'PDF Redact',
+    description: 'Permanently black out sensitive text or areas in your PDF document.',
+    icon: DocumentMinusIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-redact',
     tags: ['New'],
   },
   {

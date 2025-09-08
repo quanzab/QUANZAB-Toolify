@@ -29,10 +29,10 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool, accentColor }) => {
   return (
     <Link to={path} style={cardStyle} className="block group h-full relative [perspective:1000px]">
        <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--accent-color)] to-primary rounded-xl blur opacity-0 group-hover:opacity-70 transition-all duration-300"></div>
-      <div className="relative bg-white dark:bg-slate-900 p-6 rounded-xl border border-transparent dark:border-slate-700 transition-all duration-300 ease-in-out h-full transform group-hover:-translate-y-1 shadow-md hover:shadow-xl dark:shadow-none">
+      <div className="relative bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-in-out h-full transform group-hover:-translate-y-1 shadow-md hover:shadow-xl dark:shadow-none">
         <div className="flex justify-between items-start mb-4">
             <div className="flex-shrink-0">
-                <div className="relative group p-3 bg-slate-100 dark:bg-slate-800 border border-transparent dark:border-slate-700 rounded-lg inline-block transition-colors duration-300 shadow-sm dark:shadow-none">
+                <div className="relative group p-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg inline-block transition-colors duration-300 shadow-sm dark:shadow-none">
                     <div className="absolute -inset-px bg-[var(--accent-color)] rounded-lg blur opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                     <Icon className="relative h-8 w-8 text-[var(--accent-color)] group-hover:text-white transition-colors duration-300" />
                 </div>

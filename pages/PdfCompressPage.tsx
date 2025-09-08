@@ -72,8 +72,8 @@ const PdfCompressPage: React.FC = () => {
                 context.fillStyle = 'white';
                 context.fillRect(0, 0, canvas.width, canvas.height);
 
-                // FIX: The 'render' method requires the 'canvas' property in its parameters.
-                await page.render({ canvas: canvas, canvasContext: context, viewport }).promise;
+                // FIX: The 'render' method does not accept a 'canvas' property in its parameters.
+                await page.render({ canvasContext: context, viewport }).promise;
 
                 const jpegDataUrl = canvas.toDataURL('image/jpeg', quality);
                 const jpegBytes = await fetch(jpegDataUrl).then(res => res.arrayBuffer());
@@ -144,17 +144,17 @@ const PdfCompressPage: React.FC = () => {
              <div className="text-center">
                 <h3 className="text-2xl font-bold text-accent mb-4">Compression Successful!</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
-                    <div className="p-4 bg-slate-800 rounded-lg">
-                        <p className="text-sm text-slate-400">Original Size</p>
-                        <p className="text-xl font-semibold text-gray-200">{formatBytes(result.originalSize)}</p>
+                    <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Original Size</p>
+                        <p className="text-xl font-semibold text-slate-800 dark:text-gray-200">{formatBytes(result.originalSize)}</p>
                     </div>
-                    <div className="p-4 bg-slate-800 rounded-lg">
-                        <p className="text-sm text-slate-400">Compressed Size</p>
-                        <p className="text-xl font-semibold text-gray-200">{formatBytes(result.compressedSize)}</p>
+                    <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <p className="text-sm text-slate-500 dark:text-slate-400">Compressed Size</p>
+                        <p className="text-xl font-semibold text-slate-800 dark:text-gray-200">{formatBytes(result.compressedSize)}</p>
                     </div>
-                    <div className="p-4 bg-green-900/50 rounded-lg">
-                        <p className="text-sm text-green-300">Reduction</p>
-                        <p className="text-xl font-bold text-green-200">{reduction.toFixed(1)}%</p>
+                    <div className="p-4 bg-green-100 dark:bg-green-900/50 rounded-lg border border-green-200 dark:border-green-800">
+                        <p className="text-sm text-green-600 dark:text-green-300">Reduction</p>
+                        <p className="text-xl font-bold text-green-700 dark:text-green-200">{reduction.toFixed(1)}%</p>
                     </div>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
@@ -166,7 +166,7 @@ const PdfCompressPage: React.FC = () => {
                     </button>
                     <button
                         onClick={handleResetClick}
-                        className="w-full sm:w-auto px-8 py-3 text-lg font-semibold text-primary bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-700 transition-colors duration-300"
+                        className="w-full sm:w-auto px-8 py-3 text-lg font-semibold text-primary bg-slate-200 dark:bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors duration-300"
                     >
                         Compress Another
                     </button>
@@ -196,26 +196,26 @@ const PdfCompressPage: React.FC = () => {
                     />
                 ) : (
                     <div className="text-center">
-                        <div className={`p-4 bg-slate-800 rounded-lg inline-flex items-center gap-4 ${isLoading ? 'animate-pulse' : ''}`}>
-                            <span className="font-medium text-gray-300">{file.name}</span>
-                            <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl leading-none px-2 rounded-full hover:bg-red-900/50 transition-colors">&times;</button>
+                        <div className={`p-4 bg-slate-100 dark:bg-slate-800 rounded-lg inline-flex items-center gap-4 border border-slate-200 dark:border-slate-700 ${isLoading ? 'animate-pulse' : ''}`}>
+                            <span className="font-medium text-slate-800 dark:text-gray-300">{file.name}</span>
+                            <button onClick={() => setFile(null)} className="text-red-500 hover:text-red-700 font-bold text-2xl leading-none px-2 rounded-full hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors">&times;</button>
                         </div>
                     </div>
                 )}
                 
                 <div className="my-8">
-                    <h3 className="text-lg font-semibold text-center text-gray-200 mb-4">Choose Compression Level</h3>
+                    <h3 className="text-lg font-semibold text-center text-slate-800 dark:text-gray-200 mb-4">Choose Compression Level</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {(Object.keys(compressionLevels) as CompressionLevel[]).map(level => (
-                            <div key={level} onClick={() => setCompressionLevel(level)} className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${compressionLevel === level ? 'border-primary bg-primary/10' : 'border-slate-700 hover:border-slate-500'}`}>
-                                <h4 className="font-bold text-gray-100">{compressionLevels[level].label}</h4>
-                                <p className="text-sm text-slate-400 mt-1">{compressionLevels[level].description}</p>
+                            <div key={level} onClick={() => setCompressionLevel(level)} className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${compressionLevel === level ? 'border-primary bg-primary/10' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500'}`}>
+                                <h4 className="font-bold text-slate-800 dark:text-gray-100">{compressionLevels[level].label}</h4>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{compressionLevels[level].description}</p>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="p-4 my-6 bg-yellow-900/30 border-l-4 border-yellow-400 text-yellow-200">
+                <div className="p-4 my-6 bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 text-yellow-800 dark:text-yellow-200">
                     <p><strong>Important:</strong> This process converts each page into an image to reduce file size. As a result, text in the compressed PDF will not be selectable or searchable.</p>
                 </div>
 
