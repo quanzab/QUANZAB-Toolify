@@ -22,6 +22,7 @@ This document tracks planned features, enhancements, and bug fixes for the QUANZ
   - [x] AI Audio Transcriber
   - [ ] Video to GIF Converter (Deferred due to complexity; placeholder updated)
   - [ ] Video Editor (Deferred due to complexity; placeholder updated)
+- [x] **Implement AI Image Generator**: Added a tool to generate images from text prompts as outlined in the blueprint.
 
 
 ## Medium Priority

@@ -68,6 +68,15 @@ export const tools: Tool[] = [
     tags: ['AI', 'New'],
   },
   {
+    name: 'AI Image Generator',
+    description: 'Create stunning visuals from a simple text description using the power of AI.',
+    icon: ImageIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-image-generator',
+    tags: ['AI', 'New'],
+  },
+  {
     name: 'Receipt Scanner',
     description: 'Digitize your paper receipts with AI. Upload an image to automatically extract details.',
     icon: AIIcon,

@@ -31,6 +31,7 @@ import VesselComplianceCheckerPage from './pages/VesselComplianceCheckerPage';
 import ToolComingSoonPage from './pages/ToolComingSoonPage';
 import PdfToWordPage from './pages/PdfToWordPage';
 import AiContentGeneratorPage from './pages/AiContentGeneratorPage';
+import AiImageGeneratorPage from './pages/AiImageGeneratorPage';
 import PlatformFeaturesPage from './pages/PlatformFeaturesPage';
 import AiPresentationGeneratorPage from './pages/AiPresentationGeneratorPage';
 import AiCodeAssistantPage from './pages/AiCodeAssistantPage';
@@ -60,6 +61,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/receipt-scanner': ReceiptScannerPage,
   '/ai-document-analyzer': AiDocumentAnalyzerPage,
   '/ai-content-generator': AiContentGeneratorPage,
+  '/ai-image-generator': AiImageGeneratorPage,
   '/image-background-remover': ImageBackgroundRemoverPage,
   '/image-editor': ImageEditorPage,
   '/zip-creator': ZipCreatorPage,
