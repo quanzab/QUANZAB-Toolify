@@ -1,4 +1,5 @@
 
+
 import React, { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -71,7 +72,8 @@ const PdfCompressPage: React.FC = () => {
                 context.fillStyle = 'white';
                 context.fillRect(0, 0, canvas.width, canvas.height);
 
-                await page.render({ canvas, canvasContext: context, viewport }).promise;
+                // FIX: The 'render' method requires the 'canvas' property in its parameters.
+                await page.render({ canvas: canvas, canvasContext: context, viewport }).promise;
 
                 const jpegDataUrl = canvas.toDataURL('image/jpeg', quality);
                 const jpegBytes = await fetch(jpegDataUrl).then(res => res.arrayBuffer());

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useCallback } from 'react';
 
 // Custom hook for running a callback on each animation frame

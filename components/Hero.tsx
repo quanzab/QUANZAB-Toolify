@@ -14,16 +14,16 @@ const Hero: React.FC = () => {
 
       {/* Paper animation */}
       <div className="paper-animation-wrapper" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+        <span>pdf</span>
+        <span>docx</span>
+        <span>png</span>
+        <span>jpg</span>
+        <span>xlsx</span>
+        <span>key</span>
+        <span>ppt</span>
+        <span>mov</span>
+        <span>mp3</span>
+        <span>zip</span>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

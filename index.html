@@ -60,23 +60,31 @@
       .paper-animation-wrapper span {
         position: absolute;
         bottom: -180px;
-        height: 50px;
-        width: 50px;
+        height: 90px;
+        width: 60px;
         animation: paper-animate 15s linear infinite;
         background-color: rgba(255, 255, 255, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        color: rgba(15, 23, 42, 0.7); /* slate-900 with opacity */
+        border-radius: 4px;
       }
 
       .paper-animation-wrapper span:nth-child(1){
         left: 60px;
         animation-delay: 0.6s;
-        height: 90px;
-        width: 90px;
+        height: 110px;
+        width: 80px;
         background-color: rgba(34, 211, 238, 0.5);
       }
       .paper-animation-wrapper span:nth-child(2){
         left: 10%;
         animation-delay: 3s;
-        width: 60px;
+        width: 90px;
         height: 60px;
         background-color: rgba(168, 85, 247, 0.5);
       }
@@ -89,7 +97,7 @@
         left: 30%;
         animation-delay: 5s;
         width: 80px;
-        height: 80px;
+        height: 120px;
         background-color: rgba(34, 211, 238, 0.4);
       }
       .paper-animation-wrapper span:nth-child(5){
@@ -100,13 +108,15 @@
       .paper-animation-wrapper span:nth-child(6){
         left: 50%;
         animation-delay: 7s;
+        width: 70px;
+        height: 100px;
         background-color: rgba(255, 255, 255, 0.5);
       }
       .paper-animation-wrapper span:nth-child(7){
         left: 60%;
         animation-delay: 6s;
         width: 100px;
-        height: 100px;
+        height: 140px;
         background-color: rgba(34, 211, 238, 0.5);
       }
       .paper-animation-wrapper span:nth-child(8){
@@ -117,8 +127,8 @@
       .paper-animation-wrapper span:nth-child(9){
         left: 80%;
         animation-delay: 6s;
-        width: 90px;
-        height: 90px;
+        width: 80px;
+        height: 80px; /* Keep one square for variety */
         background-color: rgba(255, 255, 255, 0.4);
       }
       .paper-animation-wrapper span:nth-child(10){
@@ -131,7 +141,7 @@
         0% {
           transform: translateY(0) rotate(0deg);
           opacity: 1;
-          border-radius: 0;
+          border-radius: 4px;
         }
         100% {
           transform: translateY(-120vh) rotate(720deg);

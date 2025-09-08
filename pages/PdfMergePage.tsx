@@ -1,4 +1,5 @@
 
+
 import React, { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -160,7 +161,7 @@ const PdfMergePage: React.FC = () => {
 
         if (context) {
             // FIX: The 'render' method requires the 'canvas' property in its parameters.
-            await page.render({ canvas, canvasContext: context, viewport: viewport }).promise;
+            await page.render({ canvas: canvas, canvasContext: context, viewport: viewport }).promise;
             thumbnails.push(canvas.toDataURL());
         }
     }

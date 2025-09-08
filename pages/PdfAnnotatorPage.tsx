@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useRef } from 'react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -48,7 +49,7 @@ const PdfAnnotatorPage: React.FC = () => {
                 canvas.width = viewport.width;
                 if(context){
                     // FIX: The 'render' method requires the 'canvas' property in its parameters.
-                    await page.render({ canvas, canvasContext: context, viewport }).promise;
+                    await page.render({ canvas: canvas, canvasContext: context, viewport }).promise;
                     thumbnails.push(canvas.toDataURL());
                 }
             }
