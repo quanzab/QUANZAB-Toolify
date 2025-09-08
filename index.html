@@ -13,19 +13,21 @@
       body {
         background-size: 32px;
       }
-      /* Title / Heading */
+      /* Title / Heading Outline */
       .hero-title {
         font-size: 4rem;
         font-weight: 800;
-        color: rgba(255, 255, 255, 0.85); /* soft white */
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.6); /* ensures readability */
+        color: transparent; /* fully transparent fill */
+        -webkit-text-stroke: 2px #ffffff; /* white outline */
+        text-shadow: none; /* optional, you can remove or adjust */
       }
-      /* Subtitle */
+      /* Subtitle Outline */
       .hero-subtitle {
         font-size: 1.2rem;
         font-weight: 400;
-        color: rgba(255, 255, 255, 0.75);
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        color: transparent;
+        -webkit-text-stroke: 1px #ffffff;
+        text-shadow: none;
       }
     </style>
     <script>
