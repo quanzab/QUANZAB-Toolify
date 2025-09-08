@@ -16,28 +16,17 @@ const Hero: React.FC = () => {
 
       {/* Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20 sm:py-32">
-        <h1 
-          className="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-heading text-white tracking-tight drop-shadow-lg opacity-0 animate-fade-in-up"
-          style={{ animationDelay: '200ms' }}
-        >
-          Your All-in-One{' '}
-          <span className="bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
-            AI Productivity Suite
-          </span>
+        <h1 className="text-4xl sm:text-6xl lg:text-8xl font-extrabold font-heading text-white tracking-tight drop-shadow-lg">
+          Your All-in-One
+          <span className="block bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text mt-2 sm:mt-4">AI Productivity Suite</span>
         </h1>
-        <p 
-          className="mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-gray-200 drop-shadow-md opacity-0 animate-fade-in-up"
-          style={{ animationDelay: '400ms' }}
-        >
+        <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-200 drop-shadow-md">
          From complex document analysis to creative text generation, accomplish more with our intelligent, integrated toolkit.
         </p>
-        <div 
-          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-in-up"
-          style={{ animationDelay: '600ms' }}
-        >
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href="#tools"
-            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-primary to-secondary rounded-lg shadow-lg shadow-primary/30 hover:shadow-2xl hover:shadow-secondary/30 transition-all duration-300 transform hover:-translate-y-1"
+            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105"
           >
             Explore AI Tools
           </a>
