@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo } from 'react';
 import { Tool, Category } from '../types';
 import ToolCard from './ToolCard';
@@ -59,7 +60,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({ tools, searchQuery }) => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredTools.length > 0 ? filteredTools.map(tool => (
           <ToolCard key={tool.name} tool={tool} accentColor={categoryColorMap[tool.category]} />
         )) : (

@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
@@ -36,7 +37,7 @@ const HomePage: React.FC = () => {
             Get started with our most powerful and popular AI-driven solutions.
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {featuredTools.map(tool => {
             const { name, description, icon: Icon, path, tags } = tool;
             const accentColor = categoryColorMap[tool.category];
