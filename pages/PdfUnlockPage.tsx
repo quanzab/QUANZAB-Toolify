@@ -35,9 +35,9 @@ const PdfUnlockPage: React.FC = () => {
 
         try {
             const pdfBytes = await file.arrayBuffer();
-            // FIX: The property for providing a password when loading an encrypted PDF is `userPassword`.
+            // FIX: The property for providing a password when loading an encrypted PDF is `password`, not `userPassword`.
             const pdfDoc = await PDFDocument.load(pdfBytes, {
-                userPassword: password,
+                password: password,
             });
             
             // Saving the document without re-encrypting it effectively unlocks it.

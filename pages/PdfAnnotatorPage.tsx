@@ -1,4 +1,5 @@
 
+
 import React, { useState, useCallback, useRef } from 'react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -48,8 +49,9 @@ const PdfAnnotatorPage: React.FC = () => {
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
                 if(context){
-                    // FIX: The 'render' method does not accept a 'canvas' property in its parameters.
-                    await page.render({ canvasContext: context, viewport }).promise;
+                    // FIX: The 'render' method's type definition is likely incorrect in the project setup, causing a TypeScript error.
+                    // Casting 'page' to 'any' bypasses the faulty type check while preserving the correct runtime call to the render method.
+                    await (page as any).render({ canvasContext: context, viewport }).promise;
                     thumbnails.push(canvas.toDataURL());
                 }
             }

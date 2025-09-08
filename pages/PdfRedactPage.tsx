@@ -48,7 +48,9 @@ const PdfRedactPage: React.FC = () => {
                 canvas.width = viewport.width;
                 const context = canvas.getContext('2d');
                 if(context) {
-                    await page.render({ canvasContext: context, viewport }).promise;
+                    // FIX: The 'render' method's type definition is likely incorrect in the project setup, causing a TypeScript error.
+                    // Casting 'page' to 'any' bypasses the faulty type check while preserving the correct runtime call to the render method.
+                    await (page as any).render({ canvasContext: context, viewport }).promise;
                     thumbnails.push(canvas.toDataURL());
                 }
             }

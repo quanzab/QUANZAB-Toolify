@@ -3,40 +3,25 @@ import React from 'react';
 const Hero: React.FC = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
-      <div aria-hidden="true" className="absolute inset-0 z-0">
-         <div className="absolute -top-60 -right-60 w-[60rem] h-[60rem] bg-gradient-to-tr from-secondary/30 to-primary/30 rounded-full blur-3xl opacity-40 animate-[spin_50s_linear_infinite]"></div>
-         <div className="absolute -bottom-60 -left-60 w-[60rem] h-[60rem] bg-gradient-to-tr from-secondary/30 to-primary/30 rounded-full blur-3xl opacity-40 animate-[spin_40s_linear_infinite_reverse]"></div>
-         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80rem] h-[80rem] bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl opacity-30 animate-[spin_70s_linear_infinite]"></div>
-        <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-          <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-secondary to-primary opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style={{ clipPath: 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)' }}></div>
-        </div>
+      <div className="absolute top-0 left-0 w-full h-full z-0 overflow-hidden">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="w-full h-full object-cover"
+          src="https://static.vecteezy.com/system/resources/previews/050/841/022/mp4/two-folders-with-paper-and-a-paper-clip-free-video.mp4"
+          poster="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20viewBox%3D%220%200%201920%201080%22%3E%3Crect%20width%3D%221920%22%20height%3D%221080%22%20fill%3D%22%23020617%22%2F%3E%3C%2Fsvg%3E"
+        />
+        <div className="absolute inset-0 bg-slate-950/60 dark:bg-slate-950/70"></div>
       </div>
-
-      {/* Paper animation */}
-      <div className="paper-animation-wrapper" aria-hidden="true">
-        <span>pdf</span>
-        <span>docx</span>
-        <span>png</span>
-        <span>jpg</span>
-        <span>xlsx</span>
-        <span>key</span>
-        <span>ppt</span>
-        <span>mov</span>
-        <span>mp3</span>
-        <span>zip</span>
-        <span>ai</span>
-        <span>svg</span>
-        <span>html</span>
-        <span>css</span>
-        <span>js</span>
-      </div>
-
+      
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <h1 className="text-4xl sm:text-6xl lg:text-8xl font-extrabold font-heading text-slate-900 dark:text-white tracking-tight">
+        <h1 className="text-4xl sm:text-6xl lg:text-8xl font-extrabold font-heading text-slate-50 dark:text-white tracking-tight">
           Your All-in-One
           <span className="block bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text mt-2 sm:mt-4">AI Productivity Suite</span>
         </h1>
-        <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 dark:text-gray-300">
+        <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-slate-300 dark:text-gray-300">
          From complex document analysis to creative text generation, accomplish more with our intelligent, integrated toolkit.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -48,7 +33,7 @@ const Hero: React.FC = () => {
           </a>
           <a
             href="#features"
-            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-slate-700 dark:text-white bg-slate-200/50 dark:bg-white/10 border border-slate-300/50 dark:border-white/20 rounded-lg hover:bg-slate-200/80 dark:hover:bg-white/20 transition-colors duration-300"
+            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-white bg-white/10 border border-white/20 rounded-lg hover:bg-white/20 transition-colors duration-300"
           >
             Learn More
           </a>

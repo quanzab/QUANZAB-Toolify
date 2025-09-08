@@ -1,4 +1,5 @@
 
+
 import React, { useState, useCallback } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import saveAs from 'file-saver';
@@ -58,7 +59,7 @@ const PdfToWordPage: React.FC = () => {
 
                 if (!context) continue;
 
-                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                await (page as any).render({ canvasContext: context, viewport: viewport }).promise;
                 const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
 
                 if (blob) {

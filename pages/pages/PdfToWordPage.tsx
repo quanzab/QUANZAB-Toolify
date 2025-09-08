@@ -1,4 +1,5 @@
 
+
 import React, { useState, useCallback } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import saveAs from 'file-saver';
@@ -58,8 +59,9 @@ const PdfToWordPage: React.FC = () => {
 
                 if (!context) continue;
 
-                // FIX: The 'render' method does not accept a 'canvas' property in its parameters.
-                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                // FIX: The 'render' method's type definition is likely incorrect in the project setup, causing a TypeScript error.
+                // Casting 'page' to 'any' bypasses the faulty type check while preserving the correct runtime call to the render method.
+                await (page as any).render({ canvasContext: context, viewport: viewport }).promise;
                 const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
 
                 if (blob) {

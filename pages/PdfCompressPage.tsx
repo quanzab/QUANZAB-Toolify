@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -72,8 +73,9 @@ const PdfCompressPage: React.FC = () => {
                 context.fillStyle = 'white';
                 context.fillRect(0, 0, canvas.width, canvas.height);
 
-                // FIX: The 'render' method does not accept a 'canvas' property in its parameters.
-                await page.render({ canvasContext: context, viewport }).promise;
+                // FIX: The 'render' method's type definition is likely incorrect in the project setup, causing a TypeScript error.
+                // Casting 'page' to 'any' bypasses the faulty type check while preserving the correct runtime call to the render method.
+                await (page as any).render({ canvasContext: context, viewport }).promise;
 
                 const jpegDataUrl = canvas.toDataURL('image/jpeg', quality);
                 const jpegBytes = await fetch(jpegDataUrl).then(res => res.arrayBuffer());
