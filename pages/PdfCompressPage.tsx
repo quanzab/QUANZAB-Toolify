@@ -101,9 +101,13 @@ const PdfCompressPage: React.FC = () => {
 
             setFile(null);
 
-        } catch (e) {
+        } catch (e: any) {
             console.error(e);
-            setError('An error occurred during compression. The PDF might be corrupted or protected.');
+            if (e && e.name === 'PasswordException') {
+                setError('Could not compress the PDF. The file appears to be password-protected.');
+            } else {
+                setError('An error occurred during compression. The PDF might be corrupted or in an unsupported format.');
+            }
         } finally {
             setIsLoading(false);
             setProgress('');

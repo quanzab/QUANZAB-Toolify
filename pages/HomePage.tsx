@@ -71,7 +71,7 @@ const HomePage: React.FC = () => {
                 Everything you need to enhance productivity and streamline your workflows.
             </p>
         </div>
-        <div className="bg-slate-50/60 dark:bg-slate-950/60 backdrop-blur-sm p-4 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl">
+        <div className="bg-white dark:bg-slate-900/50 backdrop-blur-sm p-4 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl">
             {/* Search Bar */}
             <div className="max-w-xl mx-auto mb-8">
                 <div className="relative">

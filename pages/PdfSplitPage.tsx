@@ -154,9 +154,13 @@ const PdfSplitPage: React.FC = () => {
 
       // Reset state
       performReset();
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      setError('An error occurred while splitting the PDF.');
+      if (e && e.name === 'PDFEncryptedError') {
+           setError('Could not split the PDF. The file may be password-protected. Please remove protection and try again.');
+      } else {
+           setError(e.message || 'An error occurred while splitting the PDF.');
+      }
     } finally {
       setIsLoading(false);
       setLoadingMessage('');

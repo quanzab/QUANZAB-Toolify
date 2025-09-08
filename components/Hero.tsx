@@ -22,13 +22,13 @@ const Hero: React.FC = () => {
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href="#tools"
-            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 animate-pulse-slow"
+            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105"
           >
             Explore AI Tools
           </a>
           <a
             href="#features"
-            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-slate-700 dark:text-white bg-slate-500/10 dark:bg-white/10 border-2 border-slate-500/20 dark:border-white/20 rounded-lg hover:bg-slate-500/20 dark:hover:bg-white/20 transition-colors duration-300"
+            className="w-full sm:w-auto inline-block px-8 py-4 text-lg font-semibold text-slate-700 dark:text-white bg-slate-200/50 dark:bg-white/10 border border-slate-300/50 dark:border-white/20 rounded-lg hover:bg-slate-200/80 dark:hover:bg-white/20 transition-colors duration-300"
           >
             Learn More
           </a>
