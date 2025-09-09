@@ -30,7 +30,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
       <div className="absolute left-0 bottom-0 w-full h-[300px] bg-[radial-gradient(ellipse_at_bottom,_rgba(99,102,241,0.15)_0%,_transparent_70%)] -z-10"></div>
       
       {/* Hero Image - positioned absolutely, with mask on the container */}
-      <div className="absolute top-0 right-0 h-full w-full lg:w-[70%] -z-10 [mask-image:linear-gradient(to_right,transparent,black_20%)] lg:[mask-image:linear-gradient(to_right,transparent_10%,black_50%)]">
+      <div className="absolute top-0 right-0 h-full w-full lg:w-3/5 -z-10 [mask-image:linear-gradient(to_right,transparent,black_20%)] lg:[mask-image:linear-gradient(to_right,transparent_10%,black_50%)]">
         <img
           src="https://ik.imagekit.io/2sk0geeer/hero1.png?updatedAt=1757397204870"
           alt="Person with a laptop representing productivity and AI"
@@ -40,7 +40,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
 
       <div className="container mx-auto">
         {/* Text Content - constrained to the left side */}
-        <div className="text-left z-10 py-24 lg:w-1/2">
+        <div className="text-left z-10 py-24 lg:w-5/12">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading tracking-tighter text-white">
             Unlock Limitless
             <br />
