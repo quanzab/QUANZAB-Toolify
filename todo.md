@@ -30,6 +30,7 @@ This document tracks planned features, enhancements, and bug fixes for the QUANZ
 
 ## Medium Priority
 
+- [x] **Implement AI Business Plan Generator**: Added a tool to generate a business plan from prompts.
 - [x] **Implement AI Audio Enhancer**: Added a tool to analyze audio quality and clean up transcripts.
 - [x] **Implement AI Auto-Tagger**: Added a tool to categorize text with AI-generated tags, fulfilling a feature from the blueprint.
 - [x] **Implement AI Data Extractor**: Added a tool to extract structured data (tables, lists) from text.

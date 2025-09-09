@@ -5,6 +5,11 @@ All notable changes to the QUANZAB Toolkit application will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - YYYY-MM-DD
+
+### Added
+- **AI Business Plan Generator**: Implemented a new premium business tool based on the project blueprint's "Templates & Design Tools" section. This tool uses AI to generate a structured business plan from a user's business idea and key details.
+
 ## [2.4.0] - YYYY-MM-DD
 
 ### Added

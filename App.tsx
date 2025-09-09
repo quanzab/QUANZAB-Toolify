@@ -55,6 +55,7 @@ import AiImageClassifierPage from './pages/AiImageClassifierPage';
 import AiVideoGeneratorPage from './pages/AiVideoGeneratorPage';
 import AiDataExtractorPage from './pages/AiDataExtractorPage';
 import AiAudioEnhancerPage from './pages/AiAudioEnhancerPage';
+import AiBusinessPlanGeneratorPage from './pages/AiBusinessPlanGeneratorPage';
 
 import { tools } from './data/tools';
 
@@ -103,6 +104,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/pdf-metadata-viewer': PdfMetadataViewerPage,
   '/ai-image-classifier': AiImageClassifierPage,
   '/ai-data-extractor': AiDataExtractorPage,
+  '/ai-business-plan-generator': AiBusinessPlanGeneratorPage,
 };
 
 const App: React.FC = () => {

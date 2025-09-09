@@ -30,6 +30,7 @@ import {
   TagIcon,
   ProofreadIcon,
   TableCellsIcon,
+  DocumentTextIcon,
 } from '../components/Icons';
 
 export const tools: Tool[] = [
@@ -394,6 +395,15 @@ export const tools: Tool[] = [
     premium: true,
     path: '/project-planner',
     tags: ['New'],
+  },
+  {
+    name: 'AI Business Plan Generator',
+    description: 'Generate a structured business plan from a few key details about your idea using AI.',
+    icon: DocumentTextIcon,
+    category: Category.BUSINESS,
+    premium: true,
+    path: '/ai-business-plan-generator',
+    tags: ['AI', 'New'],
   },
   {
     name: 'Platform Features',
