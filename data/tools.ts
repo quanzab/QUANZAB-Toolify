@@ -29,6 +29,7 @@ import {
   ResearchIcon,
   TagIcon,
   ProofreadIcon,
+  TableCellsIcon,
 } from '../components/Icons';
 
 export const tools: Tool[] = [
@@ -98,6 +99,15 @@ export const tools: Tool[] = [
     tags: ['AI', 'New'],
   },
   {
+    name: 'AI Data Extractor',
+    description: 'Extract structured data like tables, lists, or key-value pairs from unstructured text using AI.',
+    icon: TableCellsIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-data-extractor',
+    tags: ['AI', 'New'],
+  },
+  {
     name: 'AI Content Generator',
     description: 'Generate blog posts, emails, and more from a simple text prompt. Choose your tone and style.',
     icon: WandIcon,
@@ -157,6 +167,15 @@ export const tools: Tool[] = [
     category: Category.AI,
     premium: true,
     path: '/ai-audio-transcriber',
+    tags: ['AI', 'New'],
+  },
+  {
+    name: 'AI Audio Enhancer',
+    description: 'Analyze audio, clean up transcripts by removing filler words, and suggest quality improvements.',
+    icon: WandIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-audio-enhancer',
     tags: ['AI', 'New'],
   },
   {

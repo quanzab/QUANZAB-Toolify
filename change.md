@@ -5,6 +5,16 @@ All notable changes to the QUANZAB Toolkit application will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - YYYY-MM-DD
+
+### Added
+- **AI Audio Enhancer**: Implemented a new premium AI tool based on the blueprint's "Media Enhancement" section. This tool analyzes audio quality and generates a cleaned-up, enhanced transcript by removing filler words and stutters.
+
+## [2.3.0] - YYYY-MM-DD
+
+### Added
+- **AI Data Extractor**: Implemented a new premium AI tool based on the blueprint's "Content Intelligence" section. This tool can extract structured information like tables, lists, or key-value pairs from a block of unstructured text based on a user's query.
+
 ## [2.2.0] - YYYY-MM-DD
 
 ### Added

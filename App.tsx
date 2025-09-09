@@ -53,6 +53,8 @@ import AiProofreaderPage from './pages/AiProofreaderPage';
 import PdfMetadataViewerPage from './pages/PdfMetadataViewerPage';
 import AiImageClassifierPage from './pages/AiImageClassifierPage';
 import AiVideoGeneratorPage from './pages/AiVideoGeneratorPage';
+import AiDataExtractorPage from './pages/AiDataExtractorPage';
+import AiAudioEnhancerPage from './pages/AiAudioEnhancerPage';
 
 import { tools } from './data/tools';
 
@@ -84,6 +86,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/ai-code-assistant': AiCodeAssistantPage,
   '/pdf-annotator': PdfAnnotatorPage,
   '/ai-audio-transcriber': AiAudioTranscriberPage,
+  '/ai-audio-enhancer': AiAudioEnhancerPage,
   '/video-to-gif': VideoToGifConverterPage,
   '/language-translator': LanguageTranslatorPage,
   '/project-planner': ProjectPlannerPage,
@@ -99,6 +102,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/ai-proofreader': AiProofreaderPage,
   '/pdf-metadata-viewer': PdfMetadataViewerPage,
   '/ai-image-classifier': AiImageClassifierPage,
+  '/ai-data-extractor': AiDataExtractorPage,
 };
 
 const App: React.FC = () => {
