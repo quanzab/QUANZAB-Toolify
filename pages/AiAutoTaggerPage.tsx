@@ -24,7 +24,7 @@ const AiAutoTaggerPage: React.FC = () => {
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: `Analyze the following text and generate a list of relevant category tags. These tags should describe the text's subject matter (e.g., 'Technology', 'Healthcare', 'Legal Document').\n\nText: "${inputText}"`,
+                contents: [{ parts: [{ text: `Analyze the following text and generate a list of relevant category tags. These tags should describe the text's subject matter (e.g., 'Technology', 'Healthcare', 'Legal Document').\n\nText: "${inputText}"` }] }],
                 config: {
                     responseMimeType: "application/json",
                     responseSchema: {

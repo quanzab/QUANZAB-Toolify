@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -33,7 +32,7 @@ const LanguageTranslatorPage: React.FC = () => {
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: prompt,
+                contents: [{ parts: [{ text: prompt }] }],
             });
             setOutputText(response.text.trim());
         } catch (e) {

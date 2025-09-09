@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -26,7 +25,7 @@ const ParaphraserRewriterPage: React.FC = () => {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: `Paraphrase and rewrite the following text in a ${tone.toLowerCase()} tone:\n\n${inputText}`,
+        contents: [{ parts: [{ text: `Paraphrase and rewrite the following text in a ${tone.toLowerCase()} tone:\n\n${inputText}` }] }],
       });
       setOutputText(response.text);
     } catch (e) {

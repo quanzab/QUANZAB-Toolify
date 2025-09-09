@@ -32,7 +32,7 @@ ${sourceText}
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: prompt,
+                contents: [{ parts: [{ text: prompt }] }],
             });
             setExtractedData(response.text.trim());
         } catch (e) {

@@ -24,7 +24,7 @@ const AiKeywordExtractorPage: React.FC = () => {
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: `Extract the most relevant keywords from the following text:\n\n${inputText}`,
+                contents: [{ parts: [{ text: `Extract the most relevant keywords from the following text:\n\n${inputText}` }] }],
                 config: {
                     responseMimeType: "application/json",
                     responseSchema: {

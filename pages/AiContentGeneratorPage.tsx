@@ -34,7 +34,7 @@ const AiContentGeneratorPage: React.FC = () => {
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: fullPrompt,
+                contents: [{ parts: [{ text: fullPrompt }] }],
             });
             setGeneratedContent(response.text.trim());
         } catch (e) {

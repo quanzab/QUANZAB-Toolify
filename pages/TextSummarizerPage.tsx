@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -24,7 +23,7 @@ const TextSummarizerPage: React.FC = () => {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: `Summarize the following text:\n\n${inputText}`,
+        contents: [{ parts: [{ text: `Summarize the following text:\n\n${inputText}` }] }],
       });
       setSummary(response.text);
     } catch (e) {
