@@ -29,18 +29,10 @@ const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
       <div className="absolute inset-0 bg-slate-950 -z-20"></div>
       <div className="absolute left-0 bottom-0 w-full h-[300px] bg-[radial-gradient(ellipse_at_bottom,_rgba(99,102,241,0.15)_0%,_transparent_70%)] -z-10"></div>
       
-      {/* Hero Image - positioned absolutely, with mask on the container */}
-      <div className="absolute top-0 right-0 h-full w-full lg:w-3/5 -z-10 [mask-image:linear-gradient(to_right,transparent,black_20%)] lg:[mask-image:linear-gradient(to_right,transparent,black_40%)]">
-        <img
-          src="https://ik.imagekit.io/2sk0geeer/hero1.png?updatedAt=1757397204870"
-          alt="Person with a laptop representing productivity and AI"
-          className="w-full h-full object-contain object-right"
-        />
-      </div>
-
-      <div className="container mx-auto">
-        {/* Text Content - constrained to the left side */}
-        <div className="text-left z-10 py-24 lg:w-1/2">
+      <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center justify-center lg:justify-between gap-12 w-full pt-24 pb-12 lg:pt-0 lg:pb-0">
+        
+        {/* Text Content */}
+        <div className="text-center lg:text-left z-10 lg:w-1/2 flex-shrink-0">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading tracking-tighter text-white">
             Unlock Limitless
             <br />
@@ -48,7 +40,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
               Productivity
             </span>
           </h1>
-          <div className="flex flex-wrap gap-3 mt-8">
+          <div className="flex flex-wrap gap-3 mt-8 justify-center lg:justify-start">
             {tags.map((tag) => (
               <a
                 key={tag}
@@ -60,6 +52,15 @@ const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
               </a>
             ))}
           </div>
+        </div>
+        
+        {/* Image container */}
+        <div className="lg:w-1/2 flex justify-center lg:justify-end">
+            <img
+              src="https://ik.imagekit.io/2sk0geeer/hero1.png?updatedAt=1757397204870"
+              alt="Person with a laptop representing productivity and AI"
+              className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-none"
+            />
         </div>
       </div>
     </section>
