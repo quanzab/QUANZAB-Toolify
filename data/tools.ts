@@ -27,6 +27,7 @@ import {
   LockOpenIcon,
   DocumentMinusIcon,
   ResearchIcon,
+  TagIcon,
 } from '../components/Icons';
 
 export const tools: Tool[] = [
@@ -67,6 +68,15 @@ export const tools: Tool[] = [
     premium: false,
     path: '/paraphraser-rewriter',
     tags: ['AI'],
+  },
+  {
+    name: 'AI Keyword Extractor',
+    description: 'Automatically identify and extract the most relevant keywords and topics from your text.',
+    icon: TagIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-keyword-extractor',
+    tags: ['AI', 'New'],
   },
   {
     name: 'AI Content Generator',
@@ -136,6 +146,15 @@ export const tools: Tool[] = [
     category: Category.DOCUMENTS,
     premium: false,
     path: '/pdf-split',
+  },
+  {
+    name: 'PDF Page Manager',
+    description: 'Visually reorder, rotate, and delete pages within your PDF document.',
+    icon: TuneIcon,
+    category: Category.DOCUMENTS,
+    premium: true,
+    path: '/pdf-page-manager',
+    tags: ['New', 'Popular'],
   },
   {
     name: 'PDF Compressor',

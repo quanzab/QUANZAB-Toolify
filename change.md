@@ -5,6 +5,16 @@ All notable changes to the QUANZAB Toolkit application will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - YYYY-MM-DD
+
+### Added
+- **PDF Page Manager**: Implemented a new premium tool based on the project blueprint that allows users to visually reorder, rotate, and delete pages from a PDF document.
+
+## [1.5.0] - YYYY-MM-DD
+
+### Added
+- **AI Keyword Extractor**: Implemented a new premium tool based on the project blueprint that extracts relevant keywords from a block of text using AI.
+
 ## [1.4.0] - YYYY-MM-DD
 
 ### Added

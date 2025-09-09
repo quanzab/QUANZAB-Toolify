@@ -23,6 +23,8 @@ This document tracks planned features, enhancements, and bug fixes for the QUANZ
   - [ ] Video to GIF Converter (Deferred due to complexity; placeholder updated)
   - [ ] Video Editor (Deferred due to complexity; placeholder updated)
 - [x] **Implement AI Image Generator**: Added a tool to generate images from text prompts as outlined in the blueprint.
+- [x] **Implement AI Keyword Extractor**: Added a tool to extract keywords from text as outlined in the blueprint.
+- [x] **Implement PDF Page Manager**: Added a tool to reorder, rotate, and delete PDF pages.
 
 
 ## Medium Priority

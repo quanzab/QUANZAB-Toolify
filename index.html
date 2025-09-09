@@ -9,29 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-      body {
-        background-size: 20px 20px;
-      }
-      /* Hero Text Common Styles */
-      .hero-title, .hero-subtitle {
-        color: #ff0000; /* Red fill */
-      }
-      /* Title / Heading Styles */
-      .hero-title {
-        font-size: 4rem;
-        font-weight: 800;
-        text-shadow: 0 0 10px rgba(255, 255, 0, 0.8),
-                     0 0 20px rgba(255, 255, 0, 0.6);
-      }
-      /* Subtitle Styles */
-      .hero-subtitle {
-        font-size: 1.5rem;
-        font-weight: 700;
-        text-shadow: 0 0 8px rgba(255, 255, 0, 0.8),
-                     0 0 15px rgba(255, 255, 0, 0.6);
-      }
-    </style>
     <script>
       // On page load or when changing themes, best to add inline in `head` to avoid FOUC
       if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -50,20 +27,17 @@
               heading: ['Poppins', 'sans-serif'],
             },
             colors: {
-              primary: '#22d3ee', // Cyan
+              primary: '#6366f1', // Indigo 500
               secondary: '#a855f7', // Purple
               accent: '#43A047', // Green for success
               slate: {
                 700: '#334155',
                 800: '#1e293b',
                 900: '#0f172a',
-                950: '#020617'
+                950: '#0A0A1A'
               },
             },
-            backgroundImage: {
-              'light-grid': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='%23f1f5f9'%3E%3Cpath d='M0 .5 L32 .5 M.5 0 L.5 32'/%3E%3C/svg%3E\")", // slate-100
-              'dark-grid': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='%231e293b'%3E%3Cpath d='M0 .5 L32 .5 M.5 0 L.5 32'/%3E%3C/svg%3E\")", // slate-800
-            },
+            backgroundImage: {},
             animation: {
               'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             },
@@ -91,7 +65,7 @@
 }
 </script>
 </head>
-  <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-gray-300 font-sans transition-colors duration-300 bg-light-grid dark:bg-dark-grid">
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-gray-300 font-sans transition-colors duration-300">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

@@ -46,6 +46,8 @@ import VideoEditorPage from './pages/VideoEditorPage';
 import PdfUnlockPage from './pages/PdfUnlockPage';
 import PdfRedactPage from './pages/PdfRedactPage';
 import AiResearchAssistantPage from './pages/AiResearchAssistantPage';
+import AiKeywordExtractorPage from './pages/AiKeywordExtractorPage';
+import PdfPageManagerPage from './pages/PdfPageManagerPage';
 
 import { tools } from './data/tools';
 
@@ -85,6 +87,8 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/pdf-unlock': PdfUnlockPage,
   '/pdf-redact': PdfRedactPage,
   '/ai-research-assistant': AiResearchAssistantPage,
+  '/ai-keyword-extractor': AiKeywordExtractorPage,
+  '/pdf-page-manager': PdfPageManagerPage,
 };
 
 const App: React.FC = () => {

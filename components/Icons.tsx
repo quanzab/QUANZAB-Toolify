@@ -266,3 +266,10 @@ export const ResearchIcon: React.FC<{ className?: string }> = (props) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-3.5-3.5M14 10a4 4 0 11-8 0 4 4 0 018 0z" />
   </Icon>
 );
+
+export const TagIcon: React.FC<{ className?: string }> = (props) => (
+    <Icon {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12.586 2.586a2 2 0 00-2.828 0L2.172 10.172a2 2 0 000 2.828l7.586 7.586a2 2 0 002.828 0l7.586-7.586a2 2 0 000-2.828L12.586 2.586z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 13a1 1 0 11-2 0 1 1 0 012 0z" />
+    </Icon>
+);
