@@ -27,8 +27,13 @@ const AiDocumentAnalyzerPage: React.FC = () => {
       const currentFile = acceptedFiles[0];
       setFile(currentFile);
       setError(null);
+
+      if (!process.env.API_KEY) {
+        setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+        setMessages([{ role: 'model', text: 'AI Analyzer is offline due to a configuration issue.' }]);
+        return;
+      }
       
-      // FIX: Use process.env.API_KEY as per guidelines.
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const newChat = ai.chats.create({
         model: 'gemini-2.5-flash',
@@ -111,8 +116,9 @@ const AiDocumentAnalyzerPage: React.FC = () => {
                 onKeyPress={e => e.key === 'Enter' && !isLoading && handleSendMessage()}
                 placeholder="Ask a question about your document..."
                 className="flex-grow p-2 border rounded-md bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 shadow-sm dark:shadow-none focus:ring-2 focus:ring-primary"
+                disabled={!chat}
               />
-              <button onClick={handleSendMessage} disabled={isLoading || !currentMessage} className="px-6 py-2 font-semibold text-slate-900 bg-primary rounded-lg disabled:bg-slate-600">Send</button>
+              <button onClick={handleSendMessage} disabled={isLoading || !currentMessage || !chat} className="px-6 py-2 font-semibold text-slate-900 bg-primary rounded-lg disabled:bg-slate-600">Send</button>
             </div>
           </div>
         </div>

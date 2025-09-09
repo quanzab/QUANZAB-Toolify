@@ -37,6 +37,11 @@ const PdfConverterPage: React.FC = () => {
       return;
     }
     
+    if (enableOcr && !process.env.API_KEY) {
+        setError('The API_KEY environment variable is not set. OCR feature is currently unavailable.');
+        return;
+    }
+
     setIsLoading(true);
     setError(null);
     setProgress('Initializing converter...');
@@ -50,7 +55,6 @@ const PdfConverterPage: React.FC = () => {
       const zip = new JSZip();
       
       let fullText = `--- OCR Results for ${file.name} ---\n\n`;
-      // FIX: Use process.env.API_KEY as per guidelines.
       const ai = enableOcr ? new GoogleGenAI({ apiKey: process.env.API_KEY }) : null;
 
       for (let i = 1; i <= pdf.numPages; i++) {

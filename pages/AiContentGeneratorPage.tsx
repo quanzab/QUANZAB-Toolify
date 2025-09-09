@@ -24,6 +24,12 @@ const AiContentGeneratorPage: React.FC = () => {
             setError('Please enter a topic or prompt.');
             return;
         }
+
+        if (!process.env.API_KEY) {
+            setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
         setGeneratedContent('');
@@ -31,7 +37,6 @@ const AiContentGeneratorPage: React.FC = () => {
         const fullPrompt = `Generate a "${contentType}" with a "${tone}" tone about the following topic: ${prompt}.`;
 
         try {
-            // FIX: Use process.env.API_KEY as per guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',

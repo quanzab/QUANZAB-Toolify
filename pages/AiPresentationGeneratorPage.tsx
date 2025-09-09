@@ -27,6 +27,12 @@ const AiPresentationGeneratorPage: React.FC = () => {
             setError('Please enter a topic for your presentation.');
             return;
         }
+
+        if (!process.env.API_KEY) {
+            setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
         setResult(null);
@@ -34,7 +40,6 @@ const AiPresentationGeneratorPage: React.FC = () => {
         const fullPrompt = `Generate a ${slideCount}-slide presentation about "${prompt}". Provide a main title for the presentation. For each slide, provide a concise title and a list of key bullet points (as an array of strings).`;
 
         try {
-            // FIX: Use process.env.API_KEY as per guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',

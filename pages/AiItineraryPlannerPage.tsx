@@ -40,6 +40,12 @@ const AiItineraryPlannerPage: React.FC = () => {
             setError('Please enter a destination.');
             return;
         }
+
+        if (!process.env.API_KEY) {
+            setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
         setResult(null);
@@ -53,7 +59,6 @@ const AiItineraryPlannerPage: React.FC = () => {
         Generate a day-by-day plan. For each day, provide a thematic title and suggest activities for the morning, afternoon, and evening, including potential locations if applicable.`;
 
         try {
-            // FIX: Use process.env.API_KEY as per guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',

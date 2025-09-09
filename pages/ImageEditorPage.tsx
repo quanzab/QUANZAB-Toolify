@@ -226,12 +226,17 @@ const ImageEditorPage: React.FC = () => {
     
     const handleAiEnhance = async () => {
         if (!canvasRef.current) return;
+
+        if (!process.env.API_KEY) {
+            setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+            return;
+        }
+
         setIsLoading(true);
         setLoadingMessage('AI is enhancing your image...');
         setError(null);
     
         try {
-            // FIX: Use process.env.API_KEY as per guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const base64Data = canvasRef.current.toDataURL('image/jpeg').split(',')[1];
     

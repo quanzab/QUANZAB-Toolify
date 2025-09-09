@@ -31,6 +31,11 @@ const PdfToWordPage: React.FC = () => {
             return;
         }
 
+        if (!process.env.API_KEY) {
+            setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
         setProgress('Initializing PDF engine...');
@@ -39,7 +44,6 @@ const PdfToWordPage: React.FC = () => {
             const { getDocument, GlobalWorkerOptions } = await import('pdfjs-dist');
             GlobalWorkerOptions.workerSrc = `https://aistudiocdn.com/pdfjs-dist@4.5.136/build/pdf.worker.min.mjs`;
 
-            // FIX: Use process.env.API_KEY as per guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             
             const loadingTask = getDocument(URL.createObjectURL(file));

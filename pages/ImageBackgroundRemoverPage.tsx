@@ -35,12 +35,17 @@ const ImageBackgroundRemoverPage: React.FC = () => {
             setError('Please upload an image first.');
             return;
         }
+
+        if (!process.env.API_KEY) {
+            setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
         setResult(null);
 
         try {
-            // FIX: Use process.env.API_KEY as per guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const base64Data = await blobToBase64(file);
 

@@ -50,6 +50,12 @@ const TaskManagerPage: React.FC = () => {
     setSummary(null);
     setSummaryError(null);
 
+    if (!process.env.API_KEY) {
+        setSummaryError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+        setIsSummarizing(false);
+        return;
+    }
+
     try {
         const pendingList = pendingTasks.map(t => `- ${t.text}${t.dueDate ? ` (Due: ${new Date(t.dueDate).toLocaleDateString()})` : ''}`).join('\n');
         const completedList = completedTasks.map(t => `- ${t.text}`).join('\n');
@@ -70,7 +76,6 @@ const TaskManagerPage: React.FC = () => {
         ${completedList || 'No completed tasks yet.'}
         `;
 
-        // FIX: Use process.env.API_KEY as per guidelines.
         const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',

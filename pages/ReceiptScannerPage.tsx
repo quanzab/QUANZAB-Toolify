@@ -31,12 +31,17 @@ const ReceiptScannerPage: React.FC = () => {
 
   const handleScan = async () => {
     if (!file) return;
+
+    if (!process.env.API_KEY) {
+        setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+        return;
+    }
+
     setIsLoading(true);
     setError(null);
     setData(null);
 
     try {
-      // FIX: Use process.env.API_KEY as per guidelines.
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const imagePart = await fileToGenerativePart(file);
       

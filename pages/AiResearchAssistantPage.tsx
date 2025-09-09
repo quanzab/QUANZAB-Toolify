@@ -24,13 +24,16 @@ const AiResearchAssistantPage: React.FC = () => {
             setError('Please enter a question to research.');
             return;
         }
+        if (!process.env.API_KEY) {
+            setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+            return;
+        }
         setIsLoading(true);
         setError(null);
         setResult(null);
         setSources([]);
 
         try {
-            // FIX: Use process.env.API_KEY as per guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
