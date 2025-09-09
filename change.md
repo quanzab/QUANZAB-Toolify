@@ -5,6 +5,11 @@ All notable changes to the QUANZAB Toolkit application will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - YYYY-MM-DD
+
+### Added
+- **AI Proofreader**: Implemented a new premium tool based on the project blueprint that checks text for grammatical, spelling, and style errors, providing AI-powered suggestions for improvement.
+
 ## [1.6.0] - YYYY-MM-DD
 
 ### Added

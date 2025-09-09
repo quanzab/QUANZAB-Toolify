@@ -28,6 +28,7 @@ import {
   DocumentMinusIcon,
   ResearchIcon,
   TagIcon,
+  ProofreadIcon,
 } from '../components/Icons';
 
 export const tools: Tool[] = [
@@ -68,6 +69,15 @@ export const tools: Tool[] = [
     premium: false,
     path: '/paraphraser-rewriter',
     tags: ['AI'],
+  },
+  {
+    name: 'AI Proofreader',
+    description: 'Check your text for grammar, spelling, and style errors. Get AI-powered suggestions for improvement.',
+    icon: ProofreadIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-proofreader',
+    tags: ['AI', 'New'],
   },
   {
     name: 'AI Keyword Extractor',

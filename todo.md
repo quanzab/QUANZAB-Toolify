@@ -25,6 +25,7 @@ This document tracks planned features, enhancements, and bug fixes for the QUANZ
 - [x] **Implement AI Image Generator**: Added a tool to generate images from text prompts as outlined in the blueprint.
 - [x] **Implement AI Keyword Extractor**: Added a tool to extract keywords from text as outlined in the blueprint.
 - [x] **Implement PDF Page Manager**: Added a tool to reorder, rotate, and delete PDF pages.
+- [x] **Implement AI Proofreader**: Added a tool to check text for errors and suggest improvements.
 
 
 ## Medium Priority

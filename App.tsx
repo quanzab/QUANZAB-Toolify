@@ -48,6 +48,7 @@ import PdfRedactPage from './pages/PdfRedactPage';
 import AiResearchAssistantPage from './pages/AiResearchAssistantPage';
 import AiKeywordExtractorPage from './pages/AiKeywordExtractorPage';
 import PdfPageManagerPage from './pages/PdfPageManagerPage';
+import AiProofreaderPage from './pages/AiProofreaderPage';
 
 import { tools } from './data/tools';
 
@@ -89,6 +90,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/ai-research-assistant': AiResearchAssistantPage,
   '/ai-keyword-extractor': AiKeywordExtractorPage,
   '/pdf-page-manager': PdfPageManagerPage,
+  '/ai-proofreader': AiProofreaderPage,
 };
 
 const App: React.FC = () => {

@@ -5,13 +5,22 @@ const Hero: React.FC = () => {
 
   return (
     <section className="relative min-h-screen flex items-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Background elements */}
       <div className="absolute inset-0 bg-slate-950 -z-20"></div>
-      {/* The wavy background glow */}
       <div className="absolute left-0 bottom-0 w-full h-[300px] bg-[radial-gradient(ellipse_at_bottom,_rgba(99,102,241,0.15)_0%,_transparent_70%)] -z-10"></div>
       
-      <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
-        {/* Left Column: Text Content */}
-        <div className="text-left z-10 py-24">
+      {/* New Hero Image - positioned absolutely */}
+      <div className="absolute top-0 right-0 h-full w-full lg:w-3/5 -z-10">
+        <img
+          src="https://i.ibb.co/Yc53L1R/hero-background-2.png"
+          alt="Abstract background representing productivity"
+          className="w-full h-full object-cover [mask-image:linear-gradient(to_right,transparent,black_20%)] lg:[mask-image:linear-gradient(to_right,transparent,black_40%)]"
+        />
+      </div>
+
+      <div className="container mx-auto">
+        {/* Text Content - constrained to the left side */}
+        <div className="text-left z-10 py-24 lg:w-1/2">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading tracking-tighter text-white">
             Unlock Limitless
             <br />
@@ -26,15 +35,6 @@ const Hero: React.FC = () => {
               </span>
             ))}
           </div>
-        </div>
-
-        {/* Right Column: Image */}
-        <div className="hidden lg:flex justify-center items-center z-10">
-          <img
-            src="https://i.ibb.co/xtmR1cz8/Chat-GPT-Image-Sep-8-2025-09-59-23-PM.png"
-            alt="Productivity tools showcase"
-            className="rounded-2xl max-w-lg w-full shadow-2xl shadow-primary/10"
-          />
         </div>
       </div>
     </section>
