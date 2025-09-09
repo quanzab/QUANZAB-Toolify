@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Hero: React.FC = () => {
   const tags = ["PDF Tools", "AI Assistant", "eSign Documents", "Business Tools", "Content Creation"];
@@ -35,6 +36,22 @@ const Hero: React.FC = () => {
               </span>
             ))}
           </div>
+
+          <div className="mt-12 flex items-center gap-4">
+            <Link
+              to="/signup"
+              className="px-8 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg shadow-primary/20 transition-all duration-300 transform hover:scale-105"
+            >
+              Get Started Free
+            </Link>
+            <a
+              href="#tools"
+              className="px-8 py-3 text-slate-200 font-semibold rounded-lg border-2 border-slate-700 hover:bg-slate-800 hover:border-slate-600 transition-colors duration-300"
+            >
+              Explore Tools
+            </a>
+          </div>
+
         </div>
       </div>
     </section>
