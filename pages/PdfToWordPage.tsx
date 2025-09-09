@@ -39,6 +39,7 @@ const PdfToWordPage: React.FC = () => {
             const { getDocument, GlobalWorkerOptions } = await import('pdfjs-dist');
             GlobalWorkerOptions.workerSrc = `https://aistudiocdn.com/pdfjs-dist@4.5.136/build/pdf.worker.min.mjs`;
 
+            // FIX: Use process.env.API_KEY as per the coding guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             
             const loadingTask = getDocument(URL.createObjectURL(file));

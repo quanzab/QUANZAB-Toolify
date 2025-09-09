@@ -50,6 +50,7 @@ const PdfConverterPage: React.FC = () => {
       const zip = new JSZip();
       
       let fullText = `--- OCR Results for ${file.name} ---\n\n`;
+      // FIX: Use process.env.API_KEY as per the coding guidelines.
       const ai = enableOcr ? new GoogleGenAI({ apiKey: process.env.API_KEY }) : null;
 
       for (let i = 1; i <= pdf.numPages; i++) {

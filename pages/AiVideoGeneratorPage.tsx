@@ -38,6 +38,7 @@ const AiVideoGeneratorPage: React.FC = () => {
         }, 8000);
 
         try {
+            // FIX: Use process.env.API_KEY as per the coding guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             let operation = await ai.models.generateVideos({
                 model: 'veo-2.0-generate-001',
@@ -59,6 +60,7 @@ const AiVideoGeneratorPage: React.FC = () => {
             }
 
             // The API key is required to fetch the video from the download URI
+            // FIX: Use process.env.API_KEY as per the coding guidelines.
             const response = await fetch(`${downloadLink}&key=${process.env.API_KEY}`);
             if (!response.ok) {
                 throw new Error(`Failed to download video. Status: ${response.statusText}`);

@@ -31,6 +31,7 @@ const AiContentGeneratorPage: React.FC = () => {
         const fullPrompt = `Generate a "${contentType}" with a "${tone}" tone about the following topic: ${prompt}.`;
 
         try {
+            // FIX: Use process.env.API_KEY as per the coding guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',

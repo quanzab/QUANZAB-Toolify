@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { GoogleGenAI, Chat } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -29,6 +28,7 @@ const AiDocumentAnalyzerPage: React.FC = () => {
       setFile(currentFile);
       setError(null);
       
+      // FIX: Use process.env.API_KEY as per the coding guidelines.
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const newChat = ai.chats.create({
         model: 'gemini-2.5-flash',
