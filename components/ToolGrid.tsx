@@ -1,12 +1,12 @@
-
-
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Tool, Category } from '../types';
 import ToolCard from './ToolCard';
 
 interface ToolGridProps {
   tools: Tool[];
   searchQuery: string;
+  activeCategory: Category | 'all';
+  setActiveCategory: (category: Category | 'all') => void;
 }
 
 const categoryColorMap: Record<Category, string> = {
@@ -16,9 +16,7 @@ const categoryColorMap: Record<Category, string> = {
   [Category.MARITIME]: '#22d3ee', // cyan-400
 };
 
-const ToolGrid: React.FC<ToolGridProps> = ({ tools, searchQuery }) => {
-  const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
-
+const ToolGrid: React.FC<ToolGridProps> = ({ tools, searchQuery, activeCategory, setActiveCategory }) => {
   const filteredTools = useMemo(() => {
     const categoryFiltered = activeCategory === 'all'
       ? tools

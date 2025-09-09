@@ -1,8 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Category } from '../types';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  setActiveCategory: (category: Category | 'all') => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
   const tags = ["PDF Tools", "AI Assistant", "eSign Documents", "Business Tools", "Content Creation"];
+
+  const tagToCategoryMap: { [key: string]: Category } = {
+    "PDF Tools": Category.DOCUMENTS,
+    "AI Assistant": Category.AI,
+    "eSign Documents": Category.DOCUMENTS,
+    "Business Tools": Category.BUSINESS,
+    "Content Creation": Category.AI,
+  };
+
+  const handleTagClick = (tag: string) => {
+    const category = tagToCategoryMap[tag];
+    if (category) {
+      setActiveCategory(category);
+    }
+  };
 
   return (
     <section className="relative min-h-screen flex items-center px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -31,27 +50,16 @@ const Hero: React.FC = () => {
           </h1>
           <div className="flex flex-wrap gap-3 mt-8">
             {tags.map((tag) => (
-              <span key={tag} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-slate-300 backdrop-blur-sm">
+              <a
+                key={tag}
+                href="#tools"
+                onClick={() => handleTagClick(tag)}
+                className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-slate-300 backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-colors duration-200"
+              >
                 {tag}
-              </span>
+              </a>
             ))}
           </div>
-
-          <div className="mt-12 flex items-center gap-4">
-            <Link
-              to="/signup"
-              className="px-8 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg shadow-primary/20 transition-all duration-300 transform hover:scale-105"
-            >
-              Get Started Free
-            </Link>
-            <a
-              href="#tools"
-              className="px-8 py-3 text-slate-200 font-semibold rounded-lg border-2 border-slate-700 hover:bg-slate-800 hover:border-slate-600 transition-colors duration-300"
-            >
-              Explore Tools
-            </a>
-          </div>
-
         </div>
       </div>
     </section>

@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
@@ -19,12 +17,13 @@ const categoryColorMap: Record<Category, string> = {
 
 const HomePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
   const featuredTools = tools.filter(t => t.featured);
   const nonFeaturedTools = tools.filter(t => !t.featured);
 
   return (
     <>
-      <Hero />
+      <Hero setActiveCategory={setActiveCategory} />
       <TrustSection />
 
       {/* Featured Tools Section */}
@@ -91,7 +90,12 @@ const HomePage: React.FC = () => {
                     />
                 </div>
             </div>
-            <ToolGrid tools={nonFeaturedTools} searchQuery={searchQuery} />
+            <ToolGrid
+              tools={nonFeaturedTools}
+              searchQuery={searchQuery}
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+            />
         </div>
       </main>
 
