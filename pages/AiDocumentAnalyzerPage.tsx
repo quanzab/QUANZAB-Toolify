@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { GoogleGenAI, Chat } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -28,14 +29,16 @@ const AiDocumentAnalyzerPage: React.FC = () => {
       setFile(currentFile);
       setError(null);
 
+      // FIX: Use process.env.API_KEY per coding guidelines.
       if (!process.env.API_KEY) {
-        const errorMessage = "AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.";
+        const errorMessage = "AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.";
         setError(errorMessage);
         setMessages([{ role: 'model', text: errorMessage }]);
         return;
       }
       
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      // FIX: Use process.env.API_KEY per coding guidelines.
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
       const newChat = ai.chats.create({
         model: 'gemini-2.5-flash',
         config: {

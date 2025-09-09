@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -25,8 +26,9 @@ const AiContentGeneratorPage: React.FC = () => {
             return;
         }
 
+        // FIX: Use process.env.API_KEY per coding guidelines.
         if (!process.env.API_KEY) {
-            setError("AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.");
+            setError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
             return;
         }
 
@@ -37,7 +39,8 @@ const AiContentGeneratorPage: React.FC = () => {
         const fullPrompt = `Generate a "${contentType}" with a "${tone}" tone about the following topic: ${prompt}.`;
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            // FIX: Use process.env.API_KEY per coding guidelines.
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
                 contents: [{ parts: [{ text: fullPrompt }] }],

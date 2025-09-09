@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -32,8 +33,9 @@ const ReceiptScannerPage: React.FC = () => {
   const handleScan = async () => {
     if (!file) return;
 
+    // FIX: Use process.env.API_KEY per coding guidelines.
     if (!process.env.API_KEY) {
-        setError("AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.");
+        setError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
         return;
     }
 
@@ -42,7 +44,8 @@ const ReceiptScannerPage: React.FC = () => {
     setData(null);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      // FIX: Use process.env.API_KEY per coding guidelines.
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
       const imagePart = await fileToGenerativePart(file);
       
       const response = await ai.models.generateContent({

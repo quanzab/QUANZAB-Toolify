@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -22,8 +23,9 @@ const AiProofreaderPage: React.FC = () => {
             setError('Please enter some text to proofread.');
             return;
         }
+        // FIX: Use process.env.API_KEY per coding guidelines.
         if (!process.env.API_KEY) {
-            setError("AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.");
+            setError("AI features are disabled. Please set the `API_KEY` environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
             return;
         }
         setIsLoading(true);
@@ -36,7 +38,8 @@ Text to proofread:
 "${inputText}"`;
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            // FIX: Use process.env.API_KEY per coding guidelines.
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
                 contents: [{ parts: [{ text: prompt }] }],

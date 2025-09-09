@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -17,8 +18,9 @@ const AiDataExtractorPage: React.FC = () => {
             setError('Please provide both source text and an extraction query.');
             return;
         }
+        // FIX: Use process.env.API_KEY per coding guidelines.
         if (!process.env.API_KEY) {
-            setError("AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.");
+            setError("AI features are disabled. Please set the `API_KEY` environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
             return;
         }
         setIsLoading(true);
@@ -33,7 +35,8 @@ ${sourceText}
 ---`;
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            // FIX: Use process.env.API_KEY per coding guidelines.
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
                 contents: [{ parts: [{ text: prompt }] }],
@@ -87,7 +90,7 @@ ${sourceText}
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm"
-                            placeholder="e.g., a table of employees and their roles"
+                            placeholder="e.g., all email addresses, a table of products and prices"
                         />
                     </div>
                     <button
@@ -98,26 +101,25 @@ ${sourceText}
                         <WandIcon className="w-6 h-6" />
                         {isLoading ? 'Extracting...' : 'Extract Data'}
                     </button>
+                    {error && <p className="text-red-500 text-center font-semibold mt-2">{error}</p>}
                 </div>
 
                 {/* Output */}
-                <div className="space-y-2">
-                    <div className="flex justify-between items-center">
+                <div>
+                    <div className="flex justify-between items-center mb-2">
                         <h3 className="text-lg font-semibold text-slate-800 dark:text-gray-200">Extracted Data</h3>
                         {extractedData && (
-                             <button onClick={handleCopy} className="px-3 py-1.5 text-sm font-semibold text-slate-800 dark:text-gray-200 bg-slate-200 dark:bg-slate-700 rounded-md hover:bg-slate-300 dark:hover:bg-slate-600 shadow-sm">
+                            <button
+                                onClick={handleCopy}
+                                className="px-3 py-1.5 text-sm font-semibold text-slate-800 dark:text-gray-200 bg-slate-200 dark:bg-slate-700 rounded-md hover:bg-slate-300 dark:hover:bg-slate-600"
+                            >
                                 {copied ? 'Copied!' : 'Copy'}
                             </button>
                         )}
                     </div>
-                    <div className="w-full h-[32rem] p-3 border rounded-md bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 shadow-inner overflow-y-auto">
-                        {isLoading ? <Loader message="AI is extracting data..." /> : (
-                            <pre className="whitespace-pre-wrap font-sans text-slate-800 dark:text-gray-200">
-                                {extractedData || "Results will appear here..."}
-                            </pre>
-                        )}
+                    <div className="w-full h-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 whitespace-pre-wrap min-h-[400px]">
+                        {isLoading ? <Loader message="AI is extracting data..." /> : extractedData}
                     </div>
-                     {error && <p className="text-red-500 text-center font-semibold mt-2">{error}</p>}
                 </div>
             </div>
         </ToolPageLayout>

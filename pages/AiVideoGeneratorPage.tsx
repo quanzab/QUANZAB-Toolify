@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import saveAs from 'file-saver';
@@ -27,8 +28,9 @@ const AiVideoGeneratorPage: React.FC = () => {
             setError('Please enter a prompt to generate a video.');
             return;
         }
+        // FIX: Use process.env.API_KEY per coding guidelines.
         if (!process.env.API_KEY) {
-            setError("AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.");
+            setError("AI features are disabled. Please set the `API_KEY` environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
             return;
         }
         setIsLoading(true);
@@ -42,7 +44,8 @@ const AiVideoGeneratorPage: React.FC = () => {
         }, 8000);
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            // FIX: Use process.env.API_KEY per coding guidelines.
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             let operation = await ai.models.generateVideos({
                 model: 'veo-2.0-generate-001',
                 prompt,
@@ -63,6 +66,7 @@ const AiVideoGeneratorPage: React.FC = () => {
             }
 
             // The API key is required to fetch the video from the download URI
+            // FIX: Use process.env.API_KEY per coding guidelines.
             const response = await fetch(`${downloadLink}&key=${process.env.API_KEY}`);
             if (!response.ok) {
                 throw new Error(`Failed to download video. Status: ${response.statusText}`);

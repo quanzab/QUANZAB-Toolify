@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -24,17 +25,20 @@ const AiResearchAssistantPage: React.FC = () => {
             setError('Please enter a question to research.');
             return;
         }
+        // FIX: Use process.env.API_KEY per coding guidelines.
         if (!process.env.API_KEY) {
-            setError("AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.");
+            setError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
             return;
         }
+
         setIsLoading(true);
         setError(null);
         setResult(null);
         setSources([]);
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            // FIX: Use process.env.API_KEY per coding guidelines.
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
                 contents: query,
@@ -51,7 +55,7 @@ const AiResearchAssistantPage: React.FC = () => {
 
         } catch (e) {
             console.error(e);
-            setError('An AI error occurred. Please try again or refine your query.');
+            setError('An AI error occurred. The search may be unavailable or your query could not be processed.');
         } finally {
             setIsLoading(false);
         }
@@ -60,64 +64,52 @@ const AiResearchAssistantPage: React.FC = () => {
     return (
         <ToolPageLayout
             title="AI Research Assistant"
-            description="Get AI-powered answers grounded in real-time Google Search results for up-to-date information."
+            description="Ask questions about current events or topics requiring up-to-date information. Get AI-powered answers grounded in Google Search results."
         >
             <div className="space-y-6">
-                <div>
-                    <label htmlFor="query-input" className="block font-semibold mb-2 text-slate-800 dark:text-gray-200">
-                        Your Question
-                    </label>
-                    <textarea
-                        id="query-input"
+                <div className="flex gap-2">
+                    <input
+                        id="query"
+                        type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        rows={3}
-                        className="w-full p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
-                        placeholder="e.g., Who won the latest Formula 1 race and what were the key moments?"
+                        className="flex-grow p-3 border rounded-md bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-primary shadow-sm dark:shadow-none"
+                        placeholder="e.g., Who won the latest F1 Grand Prix?"
+                        onKeyPress={e => e.key === 'Enter' && !isLoading && handleResearch()}
                     />
-                </div>
-
-                <div className="text-center">
                     <button
                         onClick={handleResearch}
                         disabled={isLoading || !query}
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-12 py-4 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg shadow-primary/20 hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 disabled:bg-slate-600 disabled:cursor-not-allowed disabled:scale-100"
+                        className="inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-slate-900 bg-primary rounded-lg shadow-lg hover:bg-opacity-90 disabled:bg-slate-600"
                     >
-                        <ResearchIcon className="w-6 h-6" />
-                        {isLoading ? 'Researching...' : 'Get Answer'}
+                        <ResearchIcon className="w-5 h-5" />
+                        {isLoading ? 'Researching...' : 'Research'}
                     </button>
                 </div>
 
-                {error && <p className="text-red-500 text-center font-semibold" role="alert">{error}</p>}
+                {error && <p className="text-red-500 text-center font-semibold">{error}</p>}
                 
-                {isLoading && <Loader message="Searching the web and synthesizing an answer..." />}
+                {isLoading && <Loader message="AI is searching the web for answers..." />}
 
                 {result && (
-                    <div className="mt-6 border-t pt-6 border-slate-200 dark:border-slate-700">
-                        <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white">Answer</h3>
-                        <div className="p-4 bg-slate-100 dark:bg-slate-800/50 rounded-md whitespace-pre-wrap text-slate-800 dark:text-gray-300 shadow-inner border border-slate-200 dark:border-slate-700">
-                            {result}
+                    <div className="mt-6 border-t pt-6 border-slate-200 dark:border-slate-700 space-y-4">
+                        <div>
+                            <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white">Answer</h3>
+                            <p className="whitespace-pre-wrap p-4 bg-slate-100 dark:bg-slate-800/50 rounded-md border border-slate-200 dark:border-slate-700">{result}</p>
                         </div>
-                        
                         {sources.length > 0 && (
-                            <div className="mt-6">
-                                <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Sources</h4>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    {/* FIX: Add a guard to ensure source.web.uri exists before rendering the link. */}
+                            <div>
+                                <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-white">Sources</h3>
+                                <ul className="space-y-2">
                                     {sources.map((source, index) => (
-                                        source.web.uri &&
-                                        <a
-                                            key={index}
-                                            href={source.web.uri}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="block p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 hover:border-primary transition-colors shadow-sm dark:shadow-none"
-                                        >
-                                            <p className="font-semibold text-primary truncate">{source.web.title || "Untitled Source"}</p>
+                                        <li key={index} className="p-3 bg-slate-100 dark:bg-slate-800/50 rounded-md border border-slate-200 dark:border-slate-700">
+                                            <a href={source.web.uri} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-semibold break-all">
+                                                {source.web.title || source.web.uri}
+                                            </a>
                                             <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{source.web.uri}</p>
-                                        </a>
+                                        </li>
                                     ))}
-                                </div>
+                                </ul>
                             </div>
                         )}
                     </div>

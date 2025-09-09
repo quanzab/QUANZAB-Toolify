@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -28,8 +29,9 @@ const AiPresentationGeneratorPage: React.FC = () => {
             return;
         }
 
+        // FIX: Use process.env.API_KEY per coding guidelines.
         if (!process.env.API_KEY) {
-            setError("AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.");
+            setError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
             return;
         }
 
@@ -40,7 +42,8 @@ const AiPresentationGeneratorPage: React.FC = () => {
         const fullPrompt = `Generate a ${slideCount}-slide presentation about "${prompt}". Provide a main title for the presentation. For each slide, provide a concise title and a list of key bullet points (as an array of strings).`;
 
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            // FIX: Use process.env.API_KEY per coding guidelines.
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
                 contents: [{ parts: [{ text: fullPrompt }] }],
