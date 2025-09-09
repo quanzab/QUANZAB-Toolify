@@ -1,5 +1,3 @@
-
-
 import React, { useState, useCallback, useRef, useEffect, useImperativeHandle } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import saveAs from 'file-saver';
@@ -190,7 +188,7 @@ const PdfSignPage: React.FC = () => {
 
     try {
       const { getDocument, GlobalWorkerOptions } = await import('pdfjs-dist');
-      GlobalWorkerOptions.workerSrc = `https://aistudiocdn.com/pdfjs-dist@^4.5.136/build/pdf.worker.min.mjs`;
+      GlobalWorkerOptions.workerSrc = `https://aistudiocdn.com/pdfjs-dist@4.5.136/build/pdf.worker.min.mjs`;
 
       const arrayBuffer = await droppedFile.arrayBuffer();
       const loadingTask = getDocument(arrayBuffer);

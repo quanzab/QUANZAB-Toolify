@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -63,23 +62,22 @@ const AiItineraryPlannerPage: React.FC = () => {
                     responseSchema: {
                         type: Type.OBJECT,
                         properties: {
-                            tripTitle: { type: Type.STRING },
+                            tripTitle: { type: Type.STRING, description: "A creative title for the trip itinerary." },
                             itinerary: {
                                 type: Type.ARRAY,
                                 items: {
                                     type: Type.OBJECT,
                                     properties: {
-                                        day: { type: Type.NUMBER },
-                                        title: { type: Type.STRING },
+                                        day: { type: Type.NUMBER, description: "The day number of the itinerary." },
+                                        title: { type: Type.STRING, description: "A thematic title for the day's activities." },
                                         activities: {
                                             type: Type.ARRAY,
                                             items: {
                                                 type: Type.OBJECT,
                                                 properties: {
                                                     time: { type: Type.STRING, description: 'e.g., Morning, Afternoon, Evening' },
-                                                    description: { type: Type.STRING },
-                                                    // FIX: The property 'location' can be nullable, but it's not a valid 'type'. The property 'nullable' should be removed to fix the schema.
-                                                    location: { type: Type.STRING },
+                                                    description: { type: Type.STRING, description: "A description of the activity." },
+                                                    location: { type: Type.STRING, description: "The specific location of the activity. Can be an empty string if not applicable." },
                                                 }
                                             }
                                         }

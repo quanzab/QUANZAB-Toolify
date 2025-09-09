@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -44,14 +43,14 @@ const AiPresentationGeneratorPage: React.FC = () => {
                     responseSchema: {
                         type: Type.OBJECT,
                         properties: {
-                            mainTitle: { type: Type.STRING },
+                            mainTitle: { type: Type.STRING, description: "The main title of the entire presentation." },
                             slides: {
                                 type: Type.ARRAY,
                                 items: {
                                     type: Type.OBJECT,
                                     properties: {
-                                        title: { type: Type.STRING },
-                                        content: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                        title: { type: Type.STRING, description: "The title of the slide." },
+                                        content: { type: Type.ARRAY, items: { type: Type.STRING }, description: "An array of bullet points for the slide content." },
                                     },
                                 },
                             },
