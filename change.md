@@ -5,6 +5,16 @@ All notable changes to the QUANZAB Toolkit application will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - YYYY-MM-DD
+
+### Added
+- **AI Video Generator**: Implemented a new premium, featured tool based on the project blueprint's AI capabilities. This tool allows users to generate high-quality videos from text prompts using the Gemini API (Veo model). It includes a robust polling mechanism and user-friendly loading messages to handle the long processing time.
+
+## [1.9.0] - YYYY-MM-DD
+
+### Added
+- **AI Image Classifier**: Implemented a new premium tool based on the project blueprint's "Media Management" module. This tool allows users to upload an image and receive AI-powered classifications of its content, fulfilling the "auto-categorization" feature.
+
 ## [1.8.0] - YYYY-MM-DD
 
 ### Added

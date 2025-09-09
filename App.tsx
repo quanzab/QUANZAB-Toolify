@@ -50,6 +50,8 @@ import AiKeywordExtractorPage from './pages/AiKeywordExtractorPage';
 import PdfPageManagerPage from './pages/PdfPageManagerPage';
 import AiProofreaderPage from './pages/AiProofreaderPage';
 import PdfMetadataViewerPage from './pages/PdfMetadataViewerPage';
+import AiImageClassifierPage from './pages/AiImageClassifierPage';
+import AiVideoGeneratorPage from './pages/AiVideoGeneratorPage';
 
 import { tools } from './data/tools';
 
@@ -66,6 +68,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/receipt-scanner': ReceiptScannerPage,
   '/ai-document-analyzer': AiDocumentAnalyzerPage,
   '/ai-content-generator': AiContentGeneratorPage,
+  '/ai-video-generator': AiVideoGeneratorPage,
   '/ai-image-generator': AiImageGeneratorPage,
   '/image-background-remover': ImageBackgroundRemoverPage,
   '/image-editor': ImageEditorPage,
@@ -93,14 +96,15 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/pdf-page-manager': PdfPageManagerPage,
   '/ai-proofreader': AiProofreaderPage,
   '/pdf-metadata-viewer': PdfMetadataViewerPage,
+  '/ai-image-classifier': AiImageClassifierPage,
 };
 
 const App: React.FC = () => {
   return (
-    <div className="bg-transparent text-slate-800 dark:text-gray-200 font-sans min-h-screen flex flex-col">
+    <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-gray-200 font-sans min-h-screen flex flex-col">
       <CursorGlow />
       <Header />
-      <main className="flex-grow">
+      <main className="flex-1">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignInPage />} />
