@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto mt-24">
-        <h1 className="hero-title font-heading tracking-tight leading-tight mb-4 lg:text-7xl md:text-6xl text-5xl">
+        <h1 className="hero-title font-heading tracking-tight leading-tight mb-4 lg:text-7xl md:text-6xl text-5xl whitespace-nowrap">
           Unlock Limitless Productivity
         </h1>
         <p className="hero-subtitle max-w-2xl mx-auto lg:text-2xl md:text-xl text-lg">
