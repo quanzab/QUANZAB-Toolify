@@ -29,16 +29,14 @@ const AiDocumentAnalyzerPage: React.FC = () => {
       setFile(currentFile);
       setError(null);
 
-      // FIX: Use process.env.API_KEY per coding guidelines.
-      if (!process.env.API_KEY) {
-        const errorMessage = "AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.";
+      if (!import.meta.env.VITE_API_KEY) {
+        const errorMessage = "AI features are disabled. Add VITE_API_KEY in Vercel settings.";
         setError(errorMessage);
         setMessages([{ role: 'model', text: errorMessage }]);
         return;
       }
       
-      // FIX: Use process.env.API_KEY per coding guidelines.
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY as string });
       const newChat = ai.chats.create({
         model: 'gemini-2.5-flash',
         config: {

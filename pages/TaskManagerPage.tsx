@@ -51,9 +51,8 @@ const TaskManagerPage: React.FC = () => {
     setSummary(null);
     setSummaryError(null);
 
-    // FIX: Use process.env.API_KEY per coding guidelines.
-    if (!process.env.API_KEY) {
-        setSummaryError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
+    if (!import.meta.env.VITE_API_KEY) {
+        setSummaryError("AI features are disabled. Add VITE_API_KEY in Vercel settings.");
         setIsSummarizing(false);
         return;
     }
@@ -78,8 +77,7 @@ const TaskManagerPage: React.FC = () => {
         ${completedList || 'No completed tasks yet.'}
         `;
 
-        // FIX: Use process.env.API_KEY per coding guidelines.
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+        const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY as string });
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: prompt,

@@ -206,191 +206,197 @@ const ImageEditorPage: React.FC = () => {
         } else if (watermarkMode === 'image' && watermarkImage) {
             const scale = watermarkScale;
             const imgWidth = watermarkImage.width * scale;
-            const imgHeight = watermarkImage.height * scale;
-    
-            if (watermarkPosition === 'center') {
-                ctx.drawImage(watermarkImage, (tempCanvas.width - imgWidth) / 2, (tempCanvas.height - imgHeight) / 2, imgWidth, imgHeight);
-            } else if (watermarkPosition === 'bottom-right') {
-                ctx.drawImage(watermarkImage, tempCanvas.width - imgWidth - 20, tempCanvas.height - imgHeight - 20, imgWidth, imgHeight);
-            } else if (watermarkPosition === 'tile') {
-                for (let y = 0; y < tempCanvas.height; y += imgHeight + 50) {
-                    for (let x = 0; x < tempCanvas.width; x += imgWidth + 50) {
-                        ctx.drawImage(watermarkImage, x, y, imgWidth, imgHeight);
-                    }
-                }
-            }
-        }
-    
-        updateImageFromCanvas(tempCanvas);
-        setAdjustments(defaultAdjustments);
-    };
-    
-    const handleAiEnhance = async () => {
-        if (!canvasRef.current) return;
+            const imgHeight = watermark--- START OF FILE pages/AiItineraryPlannerPage.tsx ---
 
-        // FIX: Use process.env.API_KEY per coding guidelines.
-        if (!process.env.API_KEY) {
-            setError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
+import React, { useState } from 'react';
+import { GoogleGenAI, Type } from "@google/genai";
+import ToolPageLayout from '../components/ToolPageLayout';
+import Loader from '../components/Loader';
+import { ChevronDownIcon } from '../components/Icons';
+
+type TravelStyle = 'Relaxation' | 'Adventure' | 'Cultural' | 'Family-friendly' | 'Foodie';
+type Budget = 'Budget' | 'Mid-range' | 'Luxury';
+
+interface Activity {
+    time: string;
+    description: string;
+    location?: string;
+}
+
+interface ItineraryDay {
+    day: number;
+    title: string;
+    activities: Activity[];
+}
+
+interface ItineraryResult {
+    tripTitle: string;
+    itinerary: ItineraryDay[];
+}
+
+const AiItineraryPlannerPage: React.FC = () => {
+    const [destination, setDestination] = useState('');
+    const [duration, setDuration] = useState(7);
+    const [style, setStyle] = useState<TravelStyle>('Relaxation');
+    const [budget, setBudget] = useState<Budget>('Mid-range');
+    const [notes, setNotes] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [result, setResult] = useState<ItineraryResult | null>(null);
+    const [openDay, setOpenDay] = useState<number | null>(0);
+
+    const handleGenerate = async () => {
+        if (!destination.trim()) {
+            setError('Please enter a destination.');
+            return;
+        }
+
+        if (!import.meta.env.VITE_API_KEY) {
+            setError("AI features are disabled. Add VITE_API_KEY in Vercel settings.");
             return;
         }
 
         setIsLoading(true);
-        setLoadingMessage('AI is enhancing your image...');
         setError(null);
-    
+        setResult(null);
+
+        const prompt = `Create a travel itinerary for a trip to ${destination}.
+        - Duration: ${duration} days.
+        - Travel Style: ${style}.
+        - Budget: ${budget}.
+        - Additional Notes: ${notes || 'None'}.
+        
+        Generate a day-by-day plan. For each day, provide a thematic title and suggest activities for the morning, afternoon, and evening, including potential locations if applicable.`;
+
         try {
-            // FIX: Use process.env.API_KEY per coding guidelines.
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-            const base64Data = canvasRef.current.toDataURL('image/jpeg').split(',')[1];
-    
+            const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY as string });
             const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash-image-preview',
-                contents: {
-                    parts: [
-                        { inlineData: { data: base64Data, mimeType: 'image/jpeg' } },
-                        { text: 'Slightly enhance this image. Improve brightness, contrast, and color balance for a natural, professional look. Do not crop or add any elements.' },
-                    ],
-                },
+                model: 'gemini-2.5-flash',
+                contents: [{ parts: [{ text: prompt }] }],
                 config: {
-                    responseModalities: [Modality.IMAGE, Modality.TEXT],
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: Type.OBJECT,
+                        properties: {
+                            tripTitle: { type: Type.STRING, description: "A creative title for the trip itinerary." },
+                            itinerary: {
+                                type: Type.ARRAY,
+                                items: {
+                                    type: Type.OBJECT,
+                                    properties: {
+                                        day: { type: Type.NUMBER, description: "The day number of the itinerary." },
+                                        title: { type: Type.STRING, description: "A thematic title for the day's activities." },
+                                        activities: {
+                                            type: Type.ARRAY,
+                                            items: {
+                                                type: Type.OBJECT,
+                                                properties: {
+                                                    time: { type: Type.STRING, description: 'e.g., Morning, Afternoon, Evening' },
+                                                    description: { type: Type.STRING, description: "A description of the activity." },
+                                                    location: { type: Type.STRING, description: "The specific location of the activity. Can be an empty string if not applicable." },
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                 },
             });
-            
-            const imagePart = response.candidates?.[0]?.content?.parts.find(part => part.inlineData);
-            if (imagePart?.inlineData) {
-                const resultBase64 = imagePart.inlineData.data;
-                const enhancedImage = new Image();
-                enhancedImage.onload = () => {
-                    setOriginalImage(enhancedImage);
-                    setAdjustments(defaultAdjustments);
-                };
-                enhancedImage.src = `data:image/png;base64,${resultBase64}`;
-            } else {
-                throw new Error("The AI could not enhance the image. Please try again.");
-            }
-        } catch (e: any) {
-            setError(e.message || 'An unexpected error occurred during AI enhancement.');
+
+            const parsedData: ItineraryResult = JSON.parse(response.text);
+            setResult(parsedData);
+            setOpenDay(0);
+
+        } catch (e) {
+            console.error(e);
+            setError('An AI error occurred. Please check your request or try again later.');
         } finally {
             setIsLoading(false);
         }
     };
-    
-    const handleDownload = () => {
-        const canvas = canvasRef.current;
-        if (canvas && file) {
-            canvas.toBlob((blob) => {
-                if(blob) {
-                    const fileName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-                    saveAs(blob, `${fileName}-edited.png`);
-                }
-            }, 'image/png');
-        }
-    };
-
-    const handleReset = () => {
-        setFile(null);
-        setOriginalImage(null);
-        setAdjustments(defaultAdjustments);
-        setError(null);
-        setIsCropping(false);
-    };
-
-    const renderEditor = () => (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-slate-950 p-4 border border-slate-700 rounded-lg flex items-center justify-center min-h-[50vh] relative">
-            <canvas ref={canvasRef} className="max-w-full max-h-[70vh] object-contain" />
-            {isCropping && (
-                <div 
-                    className="absolute border-2 border-dashed border-primary bg-primary/20 cursor-move"
-                    style={{ left: cropBox.x, top: cropBox.y, width: cropBox.width, height: cropBox.height }}
-                >
-                </div>
-            )}
-          </div>
-          <div className="lg:col-span-1 space-y-4">
-              <div>
-                  <h3 className="font-bold text-lg mb-2">Transform</h3>
-                  <div className="grid grid-cols-2 gap-2 mb-4">
-                    <button onClick={() => handleAdjustmentChange('rotation', (adjustments.rotation + 90) % 360)} className="p-2 bg-slate-700 rounded-md hover:bg-slate-600">Rotate 90°</button>
-                    <button onClick={() => handleAdjustmentChange('flipH', !adjustments.flipH)} className="p-2 bg-slate-700 rounded-md hover:bg-slate-600">Flip H</button>
-                    <button onClick={() => setIsCropping(!isCropping)} className={`p-2 rounded-md ${isCropping ? 'bg-primary text-slate-900' : 'bg-slate-700 hover:bg-slate-600'}`}>Crop</button>
-                    <button onClick={() => handleAdjustmentChange('flipV', !adjustments.flipV)} className="p-2 bg-slate-700 rounded-md hover:bg-slate-600">Flip V</button>
-                  </div>
-                  {isCropping && <button onClick={handleApplyCrop} className="w-full p-2 bg-accent text-white rounded-md">Apply Crop</button>}
-                  <div className="space-y-2">
-                    <div className="flex gap-2 items-center">
-                        <input type="number" value={resizeWidth} onChange={e => setResizeWidth(parseInt(e.target.value))} className="w-full p-1 bg-slate-800 border border-slate-600 rounded-md" />
-                        <span>x</span>
-                        <input type="number" value={resizeHeight} onChange={e => setResizeHeight(parseInt(e.target.value))} className="w-full p-1 bg-slate-800 border border-slate-600 rounded-md" />
-                    </div>
-                    <button onClick={handleApplyResize} className="w-full p-2 bg-slate-700 rounded-md hover:bg-slate-600">Apply Resize</button>
-                  </div>
-              </div>
-              <div>
-                  <h3 className="font-bold text-lg mb-2">Adjustments</h3>
-                  <div className="space-y-2">
-                    <label className="block text-sm">Brightness: <input type="range" min="0" max="200" value={adjustments.brightness} onChange={e => handleAdjustmentChange('brightness', parseInt(e.target.value))} className="w-full" /></label>
-                    <label className="block text-sm">Contrast: <input type="range" min="0" max="200" value={adjustments.contrast} onChange={e => handleAdjustmentChange('contrast', parseInt(e.target.value))} className="w-full" /></label>
-                    <label className="block text-sm">Saturation: <input type="range" min="0" max="200" value={adjustments.saturate} onChange={e => handleAdjustmentChange('saturate', parseInt(e.target.value))} className="w-full" /></label>
-                  </div>
-              </div>
-              
-              {/* Watermark Section */}
-              <div>
-                <h3 className="font-bold text-lg mb-2 flex items-center gap-2"><WatermarkIcon className="w-5 h-5"/>Watermark</h3>
-                <div className="p-2 bg-slate-800/50 rounded-md space-y-3">
-                    <div className="flex gap-1 bg-slate-700 p-1 rounded-md">
-                        <button onClick={() => setWatermarkMode('text')} className={`w-1/2 p-1 rounded-sm text-sm font-semibold ${watermarkMode === 'text' ? 'bg-primary text-slate-900' : 'hover:bg-slate-600'}`}>Text</button>
-                        <button onClick={() => setWatermarkMode('image')} className={`w-1/2 p-1 rounded-sm text-sm font-semibold ${watermarkMode === 'image' ? 'bg-primary text-slate-900' : 'hover:bg-slate-600'}`}>Image</button>
-                    </div>
-                    {watermarkMode === 'text' ? (
-                        <div className="space-y-2">
-                            <input type="text" value={watermarkText} onChange={e => setWatermarkText(e.target.value)} placeholder="Watermark Text" className="w-full p-1 bg-slate-800 border border-slate-600 rounded-md" />
-                            <div className="flex gap-2">
-                                <input type="number" value={watermarkFontSize} onChange={e => setWatermarkFontSize(parseInt(e.target.value))} className="w-1/2 p-1 bg-slate-800 border border-slate-600 rounded-md" placeholder="Size"/>
-                                <input type="color" value={watermarkColor} onChange={e => setWatermarkColor(e.target.value)} className="w-1/2 p-1 bg-slate-800 border border-slate-600 rounded-md" />
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="space-y-2">
-                            {!watermarkImage && <FileDropzone onDrop={handleWatermarkImageDrop} accept={{ 'image/png': ['.png'], 'image/jpeg': ['.jpg', '.jpeg'] }} multiple={false} instructions="Drop logo"/>}
-                            {watermarkImage && <div className="text-center p-2 bg-slate-700 rounded-md"><img src={watermarkImage.src} className="max-h-16 mx-auto" alt="Watermark preview" /></div>}
-                            <label className="block text-xs">Scale: <input type="range" min="0.05" max="1" step="0.05" value={watermarkScale} onChange={e => setWatermarkScale(parseFloat(e.target.value))} className="w-full" /></label>
-                        </div>
-                    )}
-                    <label className="block text-xs">Opacity: <input type="range" min="0.1" max="1" step="0.1" value={watermarkOpacity} onChange={e => setWatermarkOpacity(parseFloat(e.target.value))} className="w-full" /></label>
-                    <select value={watermarkPosition} onChange={e => setWatermarkPosition(e.target.value)} className="w-full p-1 bg-slate-800 border border-slate-600 rounded-md text-sm">
-                        <option value="center">Center</option>
-                        <option value="bottom-right">Bottom Right</option>
-                        <option value="tile">Tile</option>
-                    </select>
-                    <button onClick={handleApplyWatermark} className="w-full p-2 bg-slate-700 rounded-md hover:bg-slate-600 text-sm font-semibold">Apply Watermark</button>
-                </div>
-              </div>
-
-              <div className="space-y-4 pt-4 border-t border-slate-700">
-                  <button onClick={handleAiEnhance} className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-semibold text-slate-900 bg-primary rounded-lg shadow-lg hover:bg-opacity-90"><WandIcon className="w-5 h-5" /> Auto Enhance (AI)</button>
-                  <button onClick={handleDownload} className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-semibold text-primary bg-slate-800 border-2 border-primary rounded-lg hover:bg-slate-700"><DownloadIcon className="w-5 h-5"/> Download</button>
-                  <button onClick={() => setAdjustments(defaultAdjustments)} className="w-full p-2 bg-slate-700 rounded-md hover:bg-slate-600">Reset Adjustments</button>
-                  <button onClick={handleReset} className="w-full font-semibold text-slate-400 hover:text-primary">Change Image</button>
-              </div>
-          </div>
-      </div>
-    );
 
     return (
-        <ToolPageLayout title="AI Image Editor" description="Resize, apply filters, and enhance your images with powerful, easy-to-use AI editing tools.">
-            {isLoading && <Loader message={loadingMessage} />}
-            <div style={{ display: isLoading ? 'none' : 'block' }}>
-                {!file ? (
-                    <FileDropzone onDrop={handleDrop} accept={{ 'image/*': ['.jpeg', '.jpg', '.png', '.webp'] }} multiple={false} instructions="Drop an image file to start editing" />
-                ) : (
-                    renderEditor()
-                )}
-                {error && <p className="text-red-500 text-center mt-4 font-semibold">{error}</p>}
+        <ToolPageLayout
+            title="AI Itinerary Planner"
+            description="Plan your next voyage or business trip with an AI-powered itinerary generator."
+        >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Form Section */}
+                <div className="md:col-span-1 space-y-4">
+                    <h3 className="text-xl font-bold font-heading text-white">Trip Details</h3>
+                    <div>
+                        <label className="block font-semibold mb-1">Destination</label>
+                        <input type="text" value={destination} onChange={e => setDestination(e.target.value)} placeholder="e.g., Paris, France" className="w-full p-2 border rounded-md bg-slate-800 border-slate-600" />
+                    </div>
+                    <div>
+                        <label className="block font-semibold mb-1">Duration (days)</label>
+                        <input type="number" value={duration} onChange={e => setDuration(parseInt(e.target.value, 10))} min="1" max="30" className="w-full p-2 border rounded-md bg-slate-800 border-slate-600" />
+                    </div>
+                    <div>
+                        <label className="block font-semibold mb-1">Travel Style</label>
+                        <select value={style} onChange={e => setStyle(e.target.value as TravelStyle)} className="w-full p-2 border rounded-md bg-slate-800 border-slate-600">
+                            <option>Relaxation</option>
+                            <option>Adventure</option>
+                            <option>Cultural</option>
+                            <option>Family-friendly</option>
+                            <option>Foodie</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block font-semibold mb-1">Budget</label>
+                        <select value={budget} onChange={e => setBudget(e.target.value as Budget)} className="w-full p-2 border rounded-md bg-slate-800 border-slate-600">
+                            <option>Budget</option>
+                            <option>Mid-range</option>
+                            <option>Luxury</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block font-semibold mb-1">Additional Notes</label>
+                        <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3} placeholder="e.g., Must visit the Louvre, prefer vegetarian food" className="w-full p-2 border rounded-md bg-slate-800 border-slate-600"></textarea>
+                    </div>
+                    <button onClick={handleGenerate} disabled={isLoading} className="w-full px-8 py-3 text-lg font-semibold text-slate-900 bg-primary rounded-lg shadow-lg disabled:bg-slate-600">
+                        {isLoading ? 'Generating...' : 'Generate Itinerary'}
+                    </button>
+                    {error && <p className="text-red-500 text-center font-semibold mt-2">{error}</p>}
+                </div>
+
+                {/* Result Section */}
+                <div className="md:col-span-2">
+                    <h3 className="text-xl font-bold font-heading text-white mb-4">Your Custom Itinerary</h3>
+                    <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700 min-h-[60vh]">
+                        {isLoading && <Loader message="AI is crafting your perfect trip..." />}
+                        {!isLoading && !result && <p className="text-slate-400 text-center py-10">Your generated itinerary will appear here.</p>}
+                        {result && (
+                            <div className="space-y-3">
+                                <h2 className="text-2xl font-bold text-primary text-center mb-4">{result.tripTitle}</h2>
+                                {result.itinerary.map((day, index) => (
+                                    <div key={day.day} className="bg-slate-900 rounded-lg border border-slate-700">
+                                        <button onClick={() => setOpenDay(openDay === index ? null : index)} className="w-full flex justify-between items-center p-4 text-left font-semibold">
+                                            <span>Day {day.day}: {day.title}</span>
+                                            <ChevronDownIcon className={`w-5 h-5 transition-transform ${openDay === index ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {openDay === index && (
+                                            <div className="p-4 border-t border-slate-700 space-y-4">
+                                                {day.activities.map(activity => (
+                                                    <div key={activity.time} className="pl-4 border-l-2 border-primary/50">
+                                                        <p className="font-bold text-primary">{activity.time}</p>
+                                                        <p className="text-slate-300">{activity.description}</p>
+                                                        {activity.location && <p className="text-xs text-slate-400">Location: {activity.location}</p>}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
         </ToolPageLayout>
     );
 };
 
-export default ImageEditorPage;
+export default AiItineraryPlannerPage;
