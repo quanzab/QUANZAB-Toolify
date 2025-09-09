@@ -26,7 +26,7 @@ const AiContentGeneratorPage: React.FC = () => {
         }
 
         if (!process.env.API_KEY) {
-            setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+            setError("AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.");
             return;
         }
 

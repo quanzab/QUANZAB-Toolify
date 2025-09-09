@@ -51,7 +51,7 @@ const TaskManagerPage: React.FC = () => {
     setSummaryError(null);
 
     if (!process.env.API_KEY) {
-        setSummaryError('The API_KEY environment variable is not set. This feature is currently unavailable.');
+        setSummaryError("AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.");
         setIsSummarizing(false);
         return;
     }

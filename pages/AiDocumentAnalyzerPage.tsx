@@ -29,8 +29,9 @@ const AiDocumentAnalyzerPage: React.FC = () => {
       setError(null);
 
       if (!process.env.API_KEY) {
-        setError('The API_KEY environment variable is not set. This feature is currently unavailable.');
-        setMessages([{ role: 'model', text: 'AI Analyzer is offline due to a configuration issue.' }]);
+        const errorMessage = "AI features are disabled. The API_KEY environment variable is not set. Please add it to your hosting provider's settings to use this tool.";
+        setError(errorMessage);
+        setMessages([{ role: 'model', text: errorMessage }]);
         return;
       }
       
