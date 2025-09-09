@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
       {/* New Hero Image - positioned absolutely */}
       <div className="absolute top-0 right-0 h-full w-full lg:w-3/5 -z-10">
         <img
-          src="https://i.postimg.cc/mD3g2Z9N/hero-background-3.png"
+          src="https://ik.imagekit.io/2sk0geeer/gemini-generated-image-h8wuxvh8wuxvh8wu-68bfbc98b6475.png?updatedAt=1757396572915"
           alt="Abstract background representing productivity"
           className="w-full h-full object-cover [mask-image:linear-gradient(to_right,transparent,black_20%)] lg:[mask-image:linear-gradient(to_right,transparent,black_40%)]"
         />
