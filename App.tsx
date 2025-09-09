@@ -47,6 +47,7 @@ import PdfUnlockPage from './pages/PdfUnlockPage';
 import PdfRedactPage from './pages/PdfRedactPage';
 import AiResearchAssistantPage from './pages/AiResearchAssistantPage';
 import AiKeywordExtractorPage from './pages/AiKeywordExtractorPage';
+import AiAutoTaggerPage from './pages/AiAutoTaggerPage';
 import PdfPageManagerPage from './pages/PdfPageManagerPage';
 import AiProofreaderPage from './pages/AiProofreaderPage';
 import PdfMetadataViewerPage from './pages/PdfMetadataViewerPage';
@@ -93,6 +94,7 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
   '/pdf-redact': PdfRedactPage,
   '/ai-research-assistant': AiResearchAssistantPage,
   '/ai-keyword-extractor': AiKeywordExtractorPage,
+  '/ai-auto-tagger': AiAutoTaggerPage,
   '/pdf-page-manager': PdfPageManagerPage,
   '/ai-proofreader': AiProofreaderPage,
   '/pdf-metadata-viewer': PdfMetadataViewerPage,

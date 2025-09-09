@@ -30,6 +30,7 @@ This document tracks planned features, enhancements, and bug fixes for the QUANZ
 
 ## Medium Priority
 
+- [x] **Implement AI Auto-Tagger**: Added a tool to categorize text with AI-generated tags, fulfilling a feature from the blueprint.
 - [x] **Enhance Image Editor**: Added Crop, Resize, and Watermarking functionality.
 - [ ] **Refactor PDF Logic**: Abstract common `pdfjs-dist` and `pdf-lib` logic into reusable hooks or utility functions to reduce code duplication across PDF tools.
 - [ ] **Add Unit & Integration Tests**: Implement a testing framework (e.g., Vitest, React Testing Library) and write tests for critical components and hooks.

@@ -89,6 +89,15 @@ export const tools: Tool[] = [
     tags: ['AI', 'New'],
   },
   {
+    name: 'AI Auto-Tagger',
+    description: 'Automatically analyze text and generate relevant category tags to help with organization.',
+    icon: TagIcon,
+    category: Category.AI,
+    premium: true,
+    path: '/ai-auto-tagger',
+    tags: ['AI', 'New'],
+  },
+  {
     name: 'AI Content Generator',
     description: 'Generate blog posts, emails, and more from a simple text prompt. Choose your tone and style.',
     icon: WandIcon,

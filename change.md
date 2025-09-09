@@ -5,6 +5,34 @@ All notable changes to the QUANZAB Toolkit application will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - YYYY-MM-DD
+
+### Added
+- **AI Auto-Tagger**: Implemented a new premium AI tool based on the project blueprint's "Document Management" module. This tool analyzes a block of text and generates relevant categorical tags, fulfilling the "auto-tagging based on content" feature.
+
+## [2.1.0] - YYYY-MM-DD
+
+### Added
+- **Full Feature Implementation**: Activated and integrated all remaining feasible tools from the project blueprint, bringing the application to feature completion for its frontend-only scope.
+- **New Tools Documented**:
+  - AI Research Assistant
+  - AI Code Assistant
+  - AI Audio Transcriber
+  - Language Translator
+  - Image Background Remover
+  - AI Image Editor (core features)
+  - ZIP File Creator
+  - PDF Annotator
+  - PDF to Word (Text Extraction)
+  - PDF Watermarker
+  - PDF Protect
+  - PDF Unlock
+  - PDF Redact
+  - AI Itinerary Planner
+  - AI Presentation Generator
+  - Project Planner (Kanban Board)
+  - Platform Features Dashboard
+
 ## [2.0.0] - YYYY-MM-DD
 
 ### Added
