@@ -28,7 +28,7 @@ const AiDocumentAnalyzerPage: React.FC = () => {
       setFile(currentFile);
       setError(null);
       
-      // FIX: Use process.env.API_KEY as per the coding guidelines.
+      // FIX: Use process.env.API_KEY as per guidelines.
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const newChat = ai.chats.create({
         model: 'gemini-2.5-flash',

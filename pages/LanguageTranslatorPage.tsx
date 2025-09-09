@@ -29,7 +29,7 @@ const LanguageTranslatorPage: React.FC = () => {
         const prompt = `Translate the following text to ${targetLanguage}:\n\n"${inputText}"`;
 
         try {
-            // FIX: Use process.env.API_KEY as per the coding guidelines.
+            // FIX: Use process.env.API_KEY as per guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',

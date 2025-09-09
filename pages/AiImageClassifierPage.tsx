@@ -46,7 +46,7 @@ const AiImageClassifierPage: React.FC = () => {
     setClassifications(null);
 
     try {
-      // FIX: Use process.env.API_KEY as per the coding guidelines.
+      // FIX: Use process.env.API_KEY as per guidelines.
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const imagePart = await fileToGenerativePart(file);
       

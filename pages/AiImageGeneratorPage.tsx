@@ -25,7 +25,7 @@ const AiImageGeneratorPage: React.FC = () => {
         setGeneratedImages([]);
 
         try {
-            // FIX: Use process.env.API_KEY as per the coding guidelines.
+            // FIX: Use process.env.API_KEY as per guidelines.
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateImages({
                 model: 'imagen-4.0-generate-001',
