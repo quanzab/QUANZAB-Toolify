@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { GoogleGenAI, Modality } from "@google/genai";
 import saveAs from 'file-saver';
