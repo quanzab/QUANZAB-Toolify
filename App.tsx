@@ -101,10 +101,10 @@ const componentMap: { [key: string]: React.ComponentType<any> } = {
 
 const App: React.FC = () => {
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-gray-200 font-sans min-h-screen flex flex-col">
+    <div className="flex flex-col min-h-screen">
       <CursorGlow />
       <Header />
-      <main className="flex-1">
+      <main className="flex-grow">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignInPage />} />
