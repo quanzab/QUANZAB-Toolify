@@ -38,8 +38,9 @@ const PdfConverterPage: React.FC = () => {
       return;
     }
     
-    if (enableOcr && !import.meta.env.VITE_API_KEY) {
-        setError("AI features are disabled. Add VITE_API_KEY in Vercel settings.");
+    // FIX: Use process.env.API_KEY per coding guidelines.
+    if (enableOcr && !process.env.API_KEY) {
+        setError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
         return;
     }
 
@@ -56,7 +57,8 @@ const PdfConverterPage: React.FC = () => {
       const zip = new JSZip();
       
       let fullText = `--- OCR Results for ${file.name} ---\n\n`;
-      const ai = enableOcr ? new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY as string }) : null;
+      // FIX: Use process.env.API_KEY per coding guidelines.
+      const ai = enableOcr ? new GoogleGenAI({ apiKey: process.env.API_KEY as string }) : null;
 
       for (let i = 1; i <= pdf.numPages; i++) {
         setProgress(`Processing page ${i} of ${pdf.numPages}...`);

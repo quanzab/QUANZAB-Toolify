@@ -37,8 +37,9 @@ const ImageBackgroundRemoverPage: React.FC = () => {
             return;
         }
 
-        if (!import.meta.env.VITE_API_KEY) {
-            setError("AI features are disabled. Add VITE_API_KEY in Vercel settings.");
+        // FIX: Use process.env.API_KEY per coding guidelines.
+        if (!process.env.API_KEY) {
+            setError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
             return;
         }
 
@@ -47,7 +48,8 @@ const ImageBackgroundRemoverPage: React.FC = () => {
         setResult(null);
 
         try {
-            const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY as string });
+            // FIX: Use process.env.API_KEY per coding guidelines.
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const base64Data = await blobToBase64(file);
 
             const response = await ai.models.generateContent({

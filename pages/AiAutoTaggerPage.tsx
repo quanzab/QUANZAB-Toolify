@@ -17,8 +17,9 @@ const AiAutoTaggerPage: React.FC = () => {
             setError('Please enter some text to analyze.');
             return;
         }
-        if (!import.meta.env.VITE_API_KEY) {
-            setError("AI features are disabled. Add VITE_API_KEY in Vercel settings.");
+        // FIX: Use process.env.API_KEY per coding guidelines.
+        if (!process.env.API_KEY) {
+            setError("AI features are disabled. Please set the `API_KEY` environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
             return;
         }
         setIsLoading(true);
@@ -26,7 +27,8 @@ const AiAutoTaggerPage: React.FC = () => {
         setTags([]);
 
         try {
-            const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY as string });
+            // FIX: Use process.env.API_KEY per coding guidelines.
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
                 contents: [{ parts: [{ text: `Analyze the following text and generate a list of relevant category tags. These tags should describe the text's subject matter (e.g., 'Technology', 'Healthcare', 'Legal Document').\n\nText: "${inputText}"` }] }],
