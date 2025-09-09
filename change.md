@@ -5,6 +5,11 @@ All notable changes to the QUANZAB Toolkit application will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - YYYY-MM-DD
+
+### Added
+- **PDF Metadata Viewer**: Implemented a new tool based on the project blueprint that allows users to view and extract metadata properties (author, creation date, etc.) from a PDF file. This fulfills the "metadata extraction" capability outlined in the blueprint.
+
 ## [1.7.0] - YYYY-MM-DD
 
 ### Added

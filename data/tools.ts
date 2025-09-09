@@ -142,6 +142,15 @@ export const tools: Tool[] = [
   },
   // Document & File Tools
   {
+    name: 'PDF Metadata Viewer',
+    description: 'View and extract metadata properties like author, subject, and creation date from a PDF file.',
+    icon: TagIcon,
+    category: Category.DOCUMENTS,
+    premium: false,
+    path: '/pdf-metadata-viewer',
+    tags: ['New'],
+  },
+  {
     name: 'PDF Merge',
     description: 'Combine multiple PDF files into a single document. Drag and drop to upload and reorder.',
     icon: MergeIcon,
