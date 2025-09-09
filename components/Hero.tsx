@@ -12,9 +12,9 @@ const Hero: React.FC = () => {
       {/* Hero Image - positioned absolutely, with mask on the container */}
       <div className="absolute top-0 right-0 h-full w-full lg:w-3/5 -z-10 [mask-image:linear-gradient(to_right,transparent,black_20%)] lg:[mask-image:linear-gradient(to_right,transparent,black_40%)]">
         <img
-          src="https://ik.imagekit.io/2sk0geeer/gemini-generated-image-h8wuxvh8wuxvh8wu-68bfbc98b6475.png?updatedAt=1757396572915"
-          alt="Abstract background representing productivity"
-          className="w-full h-full object-cover"
+          src="https://ik.imagekit.io/2sk0geeer/hero1.png?updatedAt=1757397204870"
+          alt="Person with a laptop representing productivity and AI"
+          className="w-full h-full object-contain object-right"
         />
       </div>
 
