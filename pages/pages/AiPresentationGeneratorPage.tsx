@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import ToolPageLayout from '../components/ToolPageLayout';
@@ -38,22 +37,21 @@ const AiPresentationGeneratorPage: React.FC = () => {
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: fullPrompt,
+                contents: [{ parts: [{ text: fullPrompt }] }],
                 config: {
                     responseMimeType: "application/json",
                     responseSchema: {
                         type: Type.OBJECT,
                         properties: {
-                            mainTitle: { type: Type.STRING },
+                            mainTitle: { type: Type.STRING, description: "The main title of the entire presentation." },
                             slides: {
                                 type: Type.ARRAY,
                                 items: {
                                     type: Type.OBJECT,
                                     properties: {
-                                        title: { type: Type.STRING },
-                                        content: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                        title: { type: Type.STRING, description: "The title of the slide." },
+                                        content: { type: Type.ARRAY, items: { type: Type.STRING }, description: "An array of bullet points for the slide content." },
                                     },
-                                    // FIX: The property 'required' is not allowed in the response schema. This property must be removed to fix the schema.
                                 },
                             },
                         },

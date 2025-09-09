@@ -35,7 +35,7 @@ Text to proofread:
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: prompt,
+                contents: [{ parts: [{ text: prompt }] }],
                 config: {
                     responseMimeType: "application/json",
                     responseSchema: {
