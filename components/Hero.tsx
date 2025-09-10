@@ -63,9 +63,9 @@ const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
               muted
               playsInline
               className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-none rounded-lg shadow-2xl shadow-primary/20"
-              aria-label="Person with a laptop representing productivity and AI"
+              aria-label="Developer coding on a laptop, representing tech productivity and AI tools."
             >
-              <source src="https://ik.imagekit.io/ikmedia/woman-using-computer-keyboard.mp4" type="video/mp4" />
+              <source src="https://imagekit.io/dashboard/media-library/detail/68c13ef85c7cd75eb860af8d" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
         </div>
