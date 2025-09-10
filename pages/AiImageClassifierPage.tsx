@@ -42,9 +42,8 @@ const AiImageClassifierPage: React.FC = () => {
 
   const handleClassify = async () => {
     if (!file) return;
-    // FIX: Use process.env.API_KEY per coding guidelines.
-    if (!process.env.API_KEY) {
-        setError("AI features are disabled. Please set the `API_KEY` environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
+    if (!import.meta.env.VITE_API_KEY) {
+        setError("VITE_API_KEY is not configured. This AI feature is currently unavailable.");
         return;
     }
     setIsLoading(true);
@@ -52,8 +51,7 @@ const AiImageClassifierPage: React.FC = () => {
     setClassifications(null);
 
     try {
-      // FIX: Use process.env.API_KEY per coding guidelines.
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
       const imagePart = await fileToGenerativePart(file);
       
       const response = await ai.models.generateContent({

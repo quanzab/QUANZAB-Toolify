@@ -23,9 +23,8 @@ const LanguageTranslatorPage: React.FC = () => {
             setError('Please enter text to translate.');
             return;
         }
-        // FIX: Use process.env.API_KEY per coding guidelines.
-        if (!process.env.API_KEY) {
-            setError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
+        if (!import.meta.env.VITE_API_KEY) {
+            setError("VITE_API_KEY is not configured. This AI feature is currently unavailable.");
             return;
         }
         setIsLoading(true);
@@ -35,8 +34,7 @@ const LanguageTranslatorPage: React.FC = () => {
         const prompt = `Translate the following text to ${targetLanguage}:\n\n"${inputText}"`;
 
         try {
-            // FIX: Use process.env.API_KEY per coding guidelines.
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+            const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
                 contents: [{ parts: [{ text: prompt }] }],

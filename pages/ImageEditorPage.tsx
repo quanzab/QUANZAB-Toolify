@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { GoogleGenAI, Modality } from "@google/genai";
 import saveAs from 'file-saver';
@@ -227,9 +228,8 @@ const ImageEditorPage: React.FC = () => {
     const handleAiEnhance = async () => {
         if (!canvasRef.current) return;
 
-        // FIX: Use process.env.API_KEY per coding guidelines.
-        if (!process.env.API_KEY) {
-            setError("AI features are disabled. Please set the API_KEY environment variable in your hosting provider's settings and redeploy the application to enable this tool.");
+        if (!import.meta.env.VITE_API_KEY) {
+            setError("VITE_API_KEY is not configured. This AI feature is currently unavailable.");
             return;
         }
 
@@ -238,8 +238,7 @@ const ImageEditorPage: React.FC = () => {
         setError(null);
     
         try {
-            // FIX: Use process.env.API_KEY per coding guidelines.
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+            const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
             const base64Data = canvasRef.current.toDataURL('image/jpeg').split(',')[1];
     
             const response = await ai.models.generateContent({
