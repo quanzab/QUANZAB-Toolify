@@ -62,7 +62,7 @@ const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
               loop
               muted
               playsInline
-              className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-none rounded-lg shadow-2xl shadow-primary/20"
+              className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-none rounded-lg shadow-2xl shadow-primary/20 mix-blend-screen"
               aria-label="Developer coding on a laptop, representing tech productivity and AI tools."
             >
               <source src="https://ik.imagekit.io/2sk0geeer/quanzabtoolkit.mp4?updatedAt=1757497603559" type="video/mp4" />
