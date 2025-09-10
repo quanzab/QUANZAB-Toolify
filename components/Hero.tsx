@@ -55,13 +55,19 @@ const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
           </div>
         </div>
         
-        {/* Image container */}
-        <div className="lg:w-1/2 flex justify-center lg:justify-end">
-            <img
-              src="https://ik.imagekit.io/2sk0geeer/hero1.png?updatedAt=1757397204870"
-              alt="Person with a laptop representing productivity and AI"
-              className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-none"
-            />
+        {/* Video container */}
+        <div className="lg:w-[55%] flex justify-center lg:justify-end">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-none rounded-lg shadow-2xl shadow-primary/20"
+              aria-label="Person with a laptop representing productivity and AI"
+            >
+              <source src="https://ik.imagekit.io/ikmedia/woman-using-computer-keyboard.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
         </div>
       </div>
     </section>
