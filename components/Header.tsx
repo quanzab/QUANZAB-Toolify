@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 import { useAuth } from '../contexts/AuthContext';
-import { UserIcon } from './Icons';
+import { UserIcon, Cog6ToothIcon, ArrowLeftOnRectangleIcon } from './Icons';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -66,9 +66,16 @@ const Header: React.FC = () => {
                         <p className="text-sm text-gray-200">Signed in as</p>
                         <p className="text-sm font-medium text-gray-300 truncate">{user?.email}</p>
                       </div>
-                      <button onClick={handleSignOut} className="block w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-slate-700" role="menuitem">
-                        Sign out
-                      </button>
+                      <div className="py-1" role="none">
+                        <Link to="/account" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-slate-700" role="menuitem">
+                          <Cog6ToothIcon className="w-5 h-5" />
+                          <span>My Account</span>
+                        </Link>
+                        <button onClick={handleSignOut} className="flex items-center gap-3 w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-slate-700" role="menuitem">
+                          <ArrowLeftOnRectangleIcon className="w-5 h-5" />
+                          <span>Sign out</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -113,8 +120,13 @@ const Header: React.FC = () => {
             {isAuthenticated ? (
                <div className="px-2 space-y-1">
                  <div className="px-3 py-2 text-sm text-gray-400 truncate">{user?.email}</div>
-                 <button onClick={() => { handleSignOut(); setIsMenuOpen(false); }} className="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-200 hover:bg-slate-800">
-                    Sign Out
+                 <Link to="/account" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 rounded-md px-3 py-2 text-base font-medium text-gray-200 hover:bg-slate-800">
+                   <Cog6ToothIcon className="w-5 h-5" />
+                   <span>My Account</span>
+                 </Link>
+                 <button onClick={() => { handleSignOut(); setIsMenuOpen(false); }} className="flex items-center gap-3 w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-200 hover:bg-slate-800">
+                    <ArrowLeftOnRectangleIcon className="w-5 h-5" />
+                    <span>Sign Out</span>
                  </button>
                </div>
             ) : (

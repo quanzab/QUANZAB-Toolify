@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Category } from '../types';
 
@@ -29,11 +30,11 @@ const Hero: React.FC<HeroProps> = ({ setActiveCategory }) => {
       <div className="absolute inset-0 bg-slate-950 -z-20"></div>
       <div className="absolute left-0 bottom-0 w-full h-[300px] bg-[radial-gradient(ellipse_at_bottom,_rgba(99,102,241,0.15)_0%,_transparent_70%)] -z-10"></div>
       
-      <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center justify-center lg:justify-between gap-12 w-full pt-24 pb-12 lg:pt-0 lg:pb-0">
+      <div className="container mx-auto flex flex-col-reverse lg:flex-row items-center justify-center lg:justify-between gap-12 w-full pt-20 pb-16 lg:py-0">
         
         {/* Text Content */}
         <div className="text-center lg:text-left z-10 lg:w-1/2 flex-shrink-0">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading tracking-tighter text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading tracking-tighter text-white">
             Unlock Limitless
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-300 to-slate-500">

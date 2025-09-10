@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import HomePage from './pages/HomePage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
+import AccountPage from './pages/AccountPage';
 import PdfMergePage from './pages/PdfMergePage';
 import PdfSplitPage from './pages/PdfSplitPage';
 import PdfCompressPage from './pages/PdfCompressPage';
@@ -117,6 +118,15 @@ const App: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+
+          <Route 
+            path="/account" 
+            element={
+                <ProtectedRoute toolName="Account Management">
+                    <AccountPage />
+                </ProtectedRoute>
+            } 
+          />
 
           {tools.map(tool => {
             const Component = componentMap[tool.path];
